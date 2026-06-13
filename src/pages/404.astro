@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page introuvable (404)"
+  description="La page demandée n'existe pas ou a été déplacée."
+  noindex={true}
+>
+  <div class="container section" style="text-align:center">
+    <p class="eyebrow">Erreur 404</p>
+    <h1>Cette page est introuvable</h1>
+    <p class="lead">
+      Le lien est peut-être cassé ou la page a été déplacée.
+    </p>
+    <p style="margin-top: var(--space-6)">
+      <a class="btn" href="/">Retour à l'accueil</a>
+      <a class="btn btn-ghost" href="/classements">Voir les classements</a>
+    </p>
+  </div>
+</BaseLayout>

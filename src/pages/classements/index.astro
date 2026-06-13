@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { rankings } from '../../data/rankings';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Classements', path: '/classements' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+---
+
+<BaseLayout
+  title="Tous nos classements de barres de son PC"
+  description="Tous nos classements de barres de son pour PC : meilleur choix global, gaming, petit budget. Comparatifs indépendants et à jour."
+  path="/classements"
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>Nos classements de barres de son PC</h1>
+      <p class="lead">
+        Des sélections par usage et par budget, pensées pour vous orienter
+        rapidement vers le modèle qui correspond à vos besoins.
+      </p>
+    </header>
+
+    <section style="padding-bottom: var(--space-16)">
+      <div class="grid grid-2">
+        {
+          rankings.map((r) => (
+            <a class="ranking-card" href={`/classements/${r.slug}`}>
+              <h2 style="margin-top:0">{r.title}</h2>
+              <p>{r.subtitle}</p>
+              <p class="meta">{r.items.length} modèles · MàJ {r.lastUpdated}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .ranking-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    color: var(--text);
+  }
+  .ranking-card:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+  .ranking-card h2 {
+    font-size: 1.3rem;
+  }
+  .ranking-card p {
+    color: var(--text-muted);
+    margin: 0 0 var(--space-2);
+  }
+  .ranking-card .meta {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+</style>

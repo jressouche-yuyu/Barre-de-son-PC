@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import { soundbars, formatPrice } from '../../data/soundbars';
+import {
+  breadcrumbSchema,
+  productReviewSchema,
+} from '../../lib/schema';
+
+export function getStaticPaths() {
+  return soundbars.map((sb) => ({
+    params: { slug: sb.slug },
+    props: { sb },
+  }));
+}
+
+const { sb } = Astro.props;
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Barres de son', path: '/barres-de-son' },
+  { name: sb.name, path: `/barres-de-son/${sb.slug}` },
+];
+
+const scoreRows: { label: string; value: number }[] = [
+  { label: 'Qualité sonore', value: sb.scores.son },
+  { label: 'Basses', value: sb.scores.basses },
+  { label: 'Ergonomie', value: sb.scores.ergonomie },
+  { label: 'Connectique', value: sb.scores.connectique },
+  { label: 'Rapport qualité-prix', value: sb.scores.rapportQualitePrix },
+];
+
+const specs: { label: string; value: string }[] = [
+  { label: 'Marque', value: sb.brand },
+  { label: 'Prix indicatif', value: formatPrice(sb.price, sb.currency) },
+  { label: 'Puissance', value: `${sb.powerWatts} W` },
+  { label: 'Connectique', value: sb.connectivity.join(', ') },
+  { label: 'Caisson de basses', value: sb.hasSubwoofer ? 'Oui' : 'Non' },
+  { label: 'Microphone', value: sb.hasMicrophone ? 'Oui' : 'Non' },
+  { label: 'Éclairage RGB', value: sb.hasRGB ? 'Oui' : 'Non' },
+  {
+    label: 'Dimensions (L×H×P)',
+    value: `${sb.dimensionsCm.width} × ${sb.dimensionsCm.height} × ${sb.dimensionsCm.depth} cm`,
+  },
+  { label: 'Année', value: String(sb.releaseYear) },
+];
+
+const jsonLd = [breadcrumbSchema(crumbs), productReviewSchema(sb)];
+---
+
+<BaseLayout
+  title={`Test ${sb.name} : avis, prix et fiche technique`}
+  description={sb.verdict}
+  path={`/barres-de-son/${sb.slug}`}
+  ogType="article"
+  modifiedTime={sb.lastUpdated}
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="product-head section" style="padding-bottom: var(--space-6)">
+      <div>
+        <p class="eyebrow">{sb.brand}</p>
+        <h1>{sb.name}</h1>
+        <p class="lead">{sb.verdict}</p>
+        <p class="badge badge-accent">Idéal pour : {sb.bestFor}</p>
+      </div>
+      <div class="score-box">
+        <span class="score-big score">{sb.score.toFixed(1)}</span>
+        <span class="score-out">/ 10</span>
+        <span class="score-price">{formatPrice(sb.price, sb.currency)}</span>
+      </div>
+    </header>
+
+    <h2>Notre avis</h2>
+    <p>{sb.summary}</p>
+
+    <ProsCons pros={sb.pros} cons={sb.cons} />
+
+    <h2>Notes détaillées</h2>
+    <div class="scores">
+      {
+        scoreRows.map((row) => (
+          <div class="score-row">
+            <span class="score-label">{row.label}</span>
+            <span class="score-bar" role="img" aria-label={`${row.value} sur 10`}>
+              <span class="score-fill" style={`width:${row.value * 10}%`} />
+            </span>
+            <span class="score-val">{row.value.toFixed(1)}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2>Fiche technique</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          {
+            specs.map((s) => (
+              <tr>
+                <th scope="row">{s.label}</th>
+                <td>{s.value}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="updated">Fiche vérifiée le {sb.lastUpdated}.</p>
+
+    <p style="margin-top: var(--space-8)">
+      <a class="btn btn-ghost" href="/barres-de-son">← Toutes les barres de son</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .product-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .score-box {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: var(--space-1);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    min-width: 160px;
+  }
+  .score-big {
+    font-size: 3rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .score-out {
+    color: var(--text-muted);
+  }
+  .score-price {
+    margin-top: var(--space-2);
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .scores {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 640px;
+  }
+  .score-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .score-label {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+  .score-bar {
+    display: block;
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .score-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  .score-val {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+  th[scope='row'] {
+    width: 40%;
+  }
+  .updated {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+</style>

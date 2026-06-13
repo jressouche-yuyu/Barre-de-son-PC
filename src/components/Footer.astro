@@ -1,0 +1,63 @@
+---
+import { SITE, NAV } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-brand">🔊 {SITE.name}</p>
+      <p class="footer-tagline">{SITE.tagline}</p>
+    </div>
+    <nav aria-label="Navigation pied de page">
+      <ul>
+        {NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="footer-legal">
+      <p>
+        Site éditorial indépendant. Certains liens peuvent être affiliés ; cela
+        n'influence pas nos classements.
+      </p>
+      <p>© {year} {SITE.name}. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-soft);
+    margin-top: var(--space-16);
+    padding-block: var(--space-12);
+  }
+  .footer-grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+  @media (min-width: 720px) {
+    .footer-grid {
+      grid-template-columns: 1.5fr 1fr 1.5fr;
+    }
+  }
+  .footer-brand {
+    font-weight: 800;
+    margin-bottom: var(--space-1);
+  }
+  .footer-tagline {
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .site-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .site-footer li {
+    margin-bottom: var(--space-2);
+  }
+  .footer-legal p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+</style>

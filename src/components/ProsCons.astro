@@ -1,0 +1,52 @@
+---
+interface Props {
+  pros: string[];
+  cons: string[];
+}
+const { pros, cons } = Astro.props;
+---
+
+<div class="proscons grid grid-2">
+  <div class="pc-block pc-pros">
+    <h3>Points forts</h3>
+    <ul>
+      {pros.map((p) => <li>{p}</li>)}
+    </ul>
+  </div>
+  <div class="pc-block pc-cons">
+    <h3>Points faibles</h3>
+    <ul>
+      {cons.map((c) => <li>{c}</li>)}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .pc-block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+  }
+  .pc-block h3 {
+    margin-top: 0;
+  }
+  .pc-pros {
+    background: rgba(37, 208, 164, 0.06);
+    border-color: rgba(37, 208, 164, 0.3);
+  }
+  .pc-cons {
+    background: rgba(255, 107, 107, 0.06);
+    border-color: rgba(255, 107, 107, 0.3);
+  }
+  .pc-pros li::marker {
+    content: '✓ ';
+    color: var(--accent);
+  }
+  .pc-cons li::marker {
+    content: '✕ ';
+    color: var(--danger);
+  }
+  .pc-block ul {
+    margin: 0;
+  }
+</style>

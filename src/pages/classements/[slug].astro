@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SoundbarCard from '../../components/SoundbarCard.astro';
+import RankingTable from '../../components/RankingTable.astro';
+import Faq from '../../components/Faq.astro';
+import { rankings } from '../../data/rankings';
+import { getSoundbar } from '../../data/soundbars';
+import type { Soundbar } from '../../data/types';
+import {
+  breadcrumbSchema,
+  rankingItemListSchema,
+  faqSchema,
+} from '../../lib/schema';
+
+export function getStaticPaths() {
+  return rankings.map((ranking) => ({
+    params: { slug: ranking.slug },
+    props: { ranking },
+  }));
+}
+
+const { ranking } = Astro.props;
+
+// Résout les produits dans l'ordre du classement.
+const resolved = ranking.items
+  .map((item) => ({ sb: getSoundbar(item.soundbar), why: item.why }))
+  .filter((x): x is { sb: Soundbar; why: string } => Boolean(x.sb));
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Classements', path: '/classements' },
+  { name: ranking.title, path: `/classements/${ranking.slug}` },
+];
+
+const jsonLd = [
+  breadcrumbSchema(crumbs),
+  rankingItemListSchema(ranking, getSoundbar),
+  faqSchema(ranking.faq),
+];
+---
+
+<BaseLayout
+  title={ranking.title}
+  description={ranking.metaDescription}
+  path={`/classements/${ranking.slug}`}
+  ogType="article"
+  modifiedTime={ranking.lastUpdated}
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>{ranking.title}</h1>
+      <p class="lead">{ranking.subtitle}</p>
+      <p class="badge badge-accent">Mis à jour le {ranking.lastUpdated}</p>
+    </header>
+
+    <p>{ranking.intro}</p>
+
+    <h2>Le classement en un coup d'œil</h2>
+    <RankingTable soundbars={resolved.map((r) => r.sb)} />
+
+    <h2>Le détail de notre sélection</h2>
+    <div class="ranking-list">
+      {
+        resolved.map((item, i) => (
+          <div class="ranking-entry">
+            <SoundbarCard soundbar={item.sb} rank={i + 1} />
+            <p class="why">
+              <strong>Pourquoi ce choix&nbsp;:</strong> {item.why}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+
+    <Faq items={ranking.faq} />
+  </div>
+</BaseLayout>
+
+<style>
+  .ranking-list {
+    display: grid;
+    gap: var(--space-8);
+  }
+  .ranking-entry {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .why {
+    color: var(--text-muted);
+    margin: 0;
+  }
+  @media (min-width: 800px) {
+    .ranking-entry {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+</style>

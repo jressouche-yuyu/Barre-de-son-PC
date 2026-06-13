@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../consts';
+import { breadcrumbSchema } from '../lib/schema';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'À propos', path: '/a-propos' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+---
+
+<BaseLayout
+  title="À propos & méthodologie"
+  description="Découvrez notre méthodologie de test des barres de son PC et notre engagement d'indépendance éditoriale."
+  path="/a-propos"
+  jsonLd={jsonLd}
+>
+  <div class="container narrow">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>À propos de {SITE.name}</h1>
+      <p class="lead">
+        Un site éditorial indépendant dédié aux barres de son pour PC.
+      </p>
+    </header>
+
+    <h2>Notre méthodologie</h2>
+    <p>
+      Chaque barre de son est évaluée sur cinq critères pondérés : la qualité
+      sonore globale, la restitution des basses, l'ergonomie sur un bureau, la
+      pertinence de la connectique pour un usage informatique et le rapport
+      qualité-prix. Les notes sont attribuées sur une échelle de 0 à 10.
+    </p>
+
+    <h2>Indépendance éditoriale</h2>
+    <p>
+      Nos classements reposent uniquement sur l'évaluation des produits. Certains
+      liens présents sur le site peuvent être affiliés : nous pouvons percevoir
+      une commission si vous effectuez un achat, sans surcoût pour vous et sans
+      aucune influence sur nos notes ni sur l'ordre de nos classements.
+    </p>
+
+    <h2>Fraîcheur des informations</h2>
+    <p>
+      Les prix, disponibilités et caractéristiques évoluent. Nous indiquons la
+      date de dernière vérification sur chaque fiche produit et chaque
+      classement. En cas d'erreur constatée, n'hésitez pas à nous le signaler.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Une question, une suggestion ou une correction ? Écrivez-nous à
+      <a href="mailto:contact@barresonpc.fr">contact@barresonpc.fr</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 760px;
+  }
+</style>

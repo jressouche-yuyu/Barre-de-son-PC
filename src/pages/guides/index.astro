@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { guides } from '../../data/guides';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Guides', path: '/guides' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+---
+
+<BaseLayout
+  title="Guides d'achat barres de son PC"
+  description="Nos guides pour bien choisir une barre de son PC : critères, connectique, comparaison avec les enceintes et conseils d'installation."
+  path="/guides"
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>Guides d'achat</h1>
+      <p class="lead">
+        Tout ce qu'il faut savoir pour choisir, installer et tirer le meilleur
+        d'une barre de son sur votre PC.
+      </p>
+    </header>
+
+    <section style="padding-bottom: var(--space-16)">
+      <div class="grid grid-2">
+        {
+          guides.map((g) => (
+            <a class="guide-card" href={`/guides/${g.slug}`}>
+              <h2 style="margin-top:0;font-size:1.25rem">{g.title}</h2>
+              <p>{g.description}</p>
+              <p class="meta">{g.readingMinutes} min de lecture · MàJ {g.lastUpdated}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    color: var(--text);
+  }
+  .guide-card:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+  .guide-card p {
+    color: var(--text-muted);
+    margin: 0 0 var(--space-2);
+  }
+  .guide-card .meta {
+    font-size: 0.82rem;
+  }
+</style>

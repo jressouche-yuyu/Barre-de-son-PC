@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SoundbarCard from '../../components/SoundbarCard.astro';
+import { soundbarsByScore } from '../../data/soundbars';
+import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+
+const all = soundbarsByScore();
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Barres de son', path: '/barres-de-son' },
+];
+
+const faq = [
+  {
+    question: 'Combien de barres de son PC avez-vous testées ?',
+    answer: `Notre base compte actuellement ${all.length} modèles dédiés à un usage PC, du premier prix au modèle premium à son 3D.`,
+  },
+];
+
+const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
+---
+
+<BaseLayout
+  title="Toutes nos barres de son PC testées"
+  description="Retrouvez toutes les barres de son pour PC que nous avons testées et notées, triées par note. Fiches détaillées et comparatifs."
+  path="/barres-de-son"
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>Toutes nos barres de son PC</h1>
+      <p class="lead">
+        {all.length} modèles testés et notés sur cinq critères, classés par note
+        globale.
+      </p>
+    </header>
+
+    <section style="padding-bottom: var(--space-16)">
+      <div class="grid grid-3">
+        {all.map((sb) => <SoundbarCard soundbar={sb} />)}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

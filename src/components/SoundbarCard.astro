@@ -1,0 +1,111 @@
+---
+import type { Soundbar } from '../data/types';
+import { formatPrice } from '../data/soundbars';
+
+interface Props {
+  soundbar: Soundbar;
+  /** Rang affiché (optionnel, pour les classements). */
+  rank?: number;
+}
+const { soundbar: sb, rank } = Astro.props;
+---
+
+<article class="sb-card">
+  <div class="sb-head">
+    {rank && <span class="sb-rank" aria-label={`Classé numéro ${rank}`}>#{rank}</span>}
+    <div>
+      <h3 class="sb-name">
+        <a href={`/barres-de-son/${sb.slug}`}>{sb.name}</a>
+      </h3>
+      <p class="sb-brand">{sb.brand}</p>
+    </div>
+    <span class="sb-score score">{sb.score.toFixed(1)}<small>/10</small></span>
+  </div>
+
+  <p class="sb-verdict">{sb.verdict}</p>
+
+  <ul class="sb-tags">
+    {sb.hasSubwoofer && <li class="badge">Caisson inclus</li>}
+    {sb.hasRGB && <li class="badge">RGB</li>}
+    {sb.hasMicrophone && <li class="badge">Micro</li>}
+    {sb.connectivity.slice(0, 3).map((c) => <li class="badge">{c}</li>)}
+  </ul>
+
+  <div class="sb-foot">
+    <span class="sb-price">{formatPrice(sb.price, sb.currency)}</span>
+    <a class="btn btn-ghost" href={`/barres-de-son/${sb.slug}`}>Voir le test</a>
+  </div>
+</article>
+
+<style>
+  .sb-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    height: 100%;
+  }
+  .sb-head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  .sb-rank {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary);
+    background: rgba(79, 140, 255, 0.12);
+    border-radius: var(--radius-sm);
+    padding: 0.15rem 0.55rem;
+  }
+  .sb-name {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .sb-brand {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .sb-score {
+    margin-left: auto;
+    font-size: 1.4rem;
+    color: var(--accent);
+  }
+  .sb-score small {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .sb-verdict {
+    margin: 0;
+    color: var(--text);
+  }
+  .sb-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .sb-tags li {
+    margin: 0;
+  }
+  .sb-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+  }
+  .sb-price {
+    font-weight: 800;
+    font-size: 1.2rem;
+  }
+</style>

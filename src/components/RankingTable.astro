@@ -1,0 +1,51 @@
+---
+/** Tableau comparatif synthétique. Réutilisé sur les classements et le comparateur. */
+import type { Soundbar } from '../data/types';
+import { formatPrice } from '../data/soundbars';
+
+interface Props {
+  soundbars: Soundbar[];
+  /** Affiche une colonne de rang. */
+  showRank?: boolean;
+}
+const { soundbars: list, showRank = true } = Astro.props;
+---
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        {showRank && <th scope="col">#</th>}
+        <th scope="col">Modèle</th>
+        <th scope="col">Note</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Caisson</th>
+        <th scope="col">Connectique</th>
+        <th scope="col"><span class="sr-only">Lien</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        list.map((sb, i) => (
+          <tr
+            data-price={sb.price}
+            data-subwoofer={String(sb.hasSubwoofer)}
+            data-rgb={String(sb.hasRGB)}
+          >
+            {showRank && <td><strong>{i + 1}</strong></td>}
+            <td>
+              <a href={`/barres-de-son/${sb.slug}`}>{sb.name}</a>
+              <br />
+              <small style="color:var(--text-muted)">{sb.brand}</small>
+            </td>
+            <td><span class="score" style="color:var(--accent)">{sb.score.toFixed(1)}</span></td>
+            <td>{formatPrice(sb.price, sb.currency)}</td>
+            <td>{sb.hasSubwoofer ? 'Oui' : 'Non'}</td>
+            <td>{sb.connectivity.join(', ')}</td>
+            <td><a class="btn btn-ghost" href={`/barres-de-son/${sb.slug}`}>Test</a></td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SoundbarCard from '../components/SoundbarCard.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../consts';
+import { soundbarsByScore } from '../data/soundbars';
+import { rankings } from '../data/rankings';
+import { guides } from '../data/guides';
+import { faqSchema, breadcrumbSchema } from '../lib/schema';
+
+const top = soundbarsByScore().slice(0, 3);
+
+const homeFaq = [
+  {
+    question: 'Qu\'est-ce qu\'une barre de son pour PC ?',
+    answer:
+      'C\'est une enceinte allongée conçue pour se placer devant un écran d\'ordinateur. Elle se branche généralement en USB ou Bluetooth et améliore nettement le son par rapport aux haut-parleurs intégrés d\'un moniteur ou d\'un PC portable.',
+  },
+  {
+    question: 'Comment choisissez-vous les barres de son recommandées ?',
+    answer:
+      'Chaque modèle est évalué sur cinq critères : qualité sonore, basses, ergonomie sur un bureau, connectique adaptée au PC et rapport qualité-prix. Nos classements sont indépendants et réactualisés régulièrement.',
+  },
+];
+
+const jsonLd = [
+  breadcrumbSchema([{ name: 'Accueil', path: '/' }]),
+  faqSchema(homeFaq),
+];
+---
+
+<BaseLayout
+  title={`${SITE.name} — ${SITE.tagline}`}
+  description={SITE.description}
+  path="/"
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Comparatif indépendant · Mis à jour en 2026</p>
+      <h1>Trouvez la meilleure barre de son pour votre PC</h1>
+      <p class="lead">
+        Classements, tests détaillés et guides d'achat pour choisir la barre de
+        son idéale selon votre usage : gaming, bureautique, musique ou home-studio.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="/classements/meilleures-barres-de-son-pc">Voir le classement 2026</a>
+        <a class="btn btn-ghost" href="/comparateur">Comparer les modèles</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Notre top 3 du moment</h2>
+    <div class="grid grid-3">
+      {top.map((sb, i) => <SoundbarCard soundbar={sb} rank={i + 1} />)}
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Classements par usage</h2>
+    <div class="grid grid-3">
+      {
+        rankings.map((r) => (
+          <a class="link-card" href={`/classements/${r.slug}`}>
+            <h3>{r.title}</h3>
+            <p>{r.subtitle}</p>
+            <span class="link-card-cta">Voir le classement →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Guides d'achat</h2>
+    <div class="grid grid-2">
+      {
+        guides.map((g) => (
+          <a class="link-card" href={`/guides/${g.slug}`}>
+            <h3>{g.title}</h3>
+            <p>{g.description}</p>
+            <span class="link-card-cta">Lire le guide →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <div class="container">
+    <Faq items={homeFaq} />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: radial-gradient(1200px 400px at 50% -10%, rgba(79, 140, 255, 0.18), transparent);
+    padding-block: var(--space-16) var(--space-8);
+    text-align: center;
+  }
+  .hero h1 {
+    max-width: 18ch;
+    margin-inline: auto;
+  }
+  .hero .lead {
+    max-width: 60ch;
+    margin-inline: auto;
+  }
+  .hero-actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+  }
+  .link-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    color: var(--text);
+    height: 100%;
+  }
+  .link-card:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+  .link-card h3 {
+    margin: 0;
+  }
+  .link-card p {
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .link-card-cta {
+    margin-top: auto;
+    color: var(--primary);
+    font-weight: 600;
+  }
+</style>

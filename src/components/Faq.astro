@@ -1,0 +1,60 @@
+---
+/**
+ * Bloc FAQ accessible (balises <details>).
+ * Le contenu en clair est crucial pour le GEO : réponses courtes, factuelles,
+ * directement citables. Le schéma FAQPage est injecté côté page.
+ */
+interface Props {
+  items: { question: string; answer: string }[];
+  title?: string;
+}
+const { items, title = 'Questions fréquentes' } = Astro.props;
+---
+
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">{title}</h2>
+  <div class="faq-list">
+    {
+      items.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    display: grid;
+    gap: var(--space-3);
+  }
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: '+';
+    float: right;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  details[open] summary::after {
+    content: '–';
+  }
+  details p {
+    margin: var(--space-3) 0 0;
+    color: var(--text-muted);
+  }
+</style>

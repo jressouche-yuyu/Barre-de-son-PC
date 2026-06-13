@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import { guides } from '../../data/guides';
+import {
+  breadcrumbSchema,
+  articleSchema,
+  faqSchema,
+} from '../../lib/schema';
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Guides', path: '/guides' },
+  { name: guide.title, path: `/guides/${guide.slug}` },
+];
+
+const jsonLd = [
+  breadcrumbSchema(crumbs),
+  articleSchema(guide),
+  faqSchema(guide.faq),
+];
+---
+
+<BaseLayout
+  title={guide.title}
+  description={guide.description}
+  path={`/guides/${guide.slug}`}
+  ogType="article"
+  publishedTime={guide.publishedAt}
+  modifiedTime={guide.lastUpdated}
+  jsonLd={jsonLd}
+>
+  <article class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>{guide.title}</h1>
+      <p class="lead">{guide.description}</p>
+      <p class="meta badge">{guide.readingMinutes} min · Mis à jour le {guide.lastUpdated}</p>
+    </header>
+
+    {
+      guide.sections.map((s) => (
+        <section>
+          <h2>{s.heading}</h2>
+          <p set:html={s.body} />
+        </section>
+      ))
+    }
+
+    <Faq items={guide.faq} />
+
+    <p style="margin-top: var(--space-8)">
+      <a class="btn btn-ghost" href="/guides">← Tous les guides</a>
+    </p>
+  </article>
+</BaseLayout>

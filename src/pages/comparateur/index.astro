@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RankingTable from '../../components/RankingTable.astro';
+import { soundbarsByScore } from '../../data/soundbars';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const all = soundbarsByScore();
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Comparateur', path: '/comparateur' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+---
+
+<BaseLayout
+  title="Comparateur de barres de son PC"
+  description="Comparez en un tableau toutes les barres de son PC : note, prix, caisson de basses et connectique. Filtrez selon vos critères."
+  path="/comparateur"
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>Comparateur de barres de son PC</h1>
+      <p class="lead">
+        Toutes les caractéristiques côte à côte. Utilisez les filtres pour
+        affiner selon vos priorités.
+      </p>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filtres">
+      <label>
+        <input type="checkbox" id="f-subwoofer" /> Avec caisson de basses
+      </label>
+      <label>
+        <input type="checkbox" id="f-rgb" /> Avec RGB
+      </label>
+      <label>
+        Budget max :
+        <select id="f-budget">
+          <option value="0">Tous</option>
+          <option value="100">≤ 100 €</option>
+          <option value="250">≤ 250 €</option>
+          <option value="500">≤ 500 €</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="compare-table">
+      <RankingTable soundbars={all} showRank={false} />
+    </div>
+
+    <p id="no-result" hidden style="color: var(--text-muted)">
+      Aucun modèle ne correspond à ces critères.
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Filtrage client léger. Les données sont déjà rendues côté serveur (bon pour le SEO) ;
+  // on se contente de masquer/afficher les lignes via leurs data-attributes.
+  type Row = HTMLTableRowElement;
+
+  const subEl = document.getElementById('f-subwoofer') as HTMLInputElement | null;
+  const rgbEl = document.getElementById('f-rgb') as HTMLInputElement | null;
+  const budgetEl = document.getElementById('f-budget') as HTMLSelectElement | null;
+  const tableBody = document.querySelector('#compare-table tbody');
+  const noResult = document.getElementById('no-result');
+
+  function apply() {
+    if (!tableBody) return;
+    const rows = Array.from(tableBody.querySelectorAll('tr')) as Row[];
+    const needSub = subEl?.checked;
+    const needRgb = rgbEl?.checked;
+    const budget = Number(budgetEl?.value ?? 0);
+    let visible = 0;
+
+    rows.forEach((row) => {
+      const sub = row.dataset.subwoofer === 'true';
+      const rgb = row.dataset.rgb === 'true';
+      const price = Number(row.dataset.price ?? 0);
+      let show = true;
+      if (needSub && !sub) show = false;
+      if (needRgb && !rgb) show = false;
+      if (budget > 0 && price > budget) show = false;
+      row.hidden = !show;
+      if (show) visible++;
+    });
+
+    if (noResult) noResult.hidden = visible !== 0;
+  }
+
+  [subEl, rgbEl, budgetEl].forEach((el) => el?.addEventListener('change', apply));
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+  .filters label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.95rem;
+  }
+  select {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.5rem;
+  }
+</style>

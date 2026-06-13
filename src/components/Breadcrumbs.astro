@@ -1,0 +1,45 @@
+---
+/** Fil d'Ariane visuel. Le schéma BreadcrumbList associé est injecté côté page. */
+interface Props {
+  items: { name: string; path: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav aria-label="Fil d'Ariane" class="breadcrumbs">
+  <ol>
+    {
+      items.map((item, i) => (
+        <li>
+          {i < items.length - 1 ? (
+            <a href={item.path}>{item.name}</a>
+          ) : (
+            <span aria-current="page">{item.name}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .breadcrumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--space-2);
+    color: var(--border);
+  }
+  .breadcrumbs span[aria-current='page'] {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>

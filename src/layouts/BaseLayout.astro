@@ -1,0 +1,48 @@
+---
+/**
+ * Layout de base partagé par toutes les pages.
+ * Injecte le <head> (via Seo), le header sticky et le footer.
+ * Inclut systématiquement les schémas Organization + WebSite (E-E-A-T).
+ */
+import '../styles/global.css';
+import { SITE } from '../consts';
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { organizationSchema, websiteSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+  image?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const props = Astro.props;
+const baseSchemas = [organizationSchema(), websiteSchema()];
+const jsonLd = [...baseSchemas, ...(props.jsonLd ?? [])];
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo {...props} jsonLd={jsonLd} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Aller au contenu</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
