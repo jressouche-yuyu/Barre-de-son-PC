@@ -62,6 +62,7 @@ export function productReviewSchema(sb: Soundbar) {
     brand: { '@type': 'Brand', name: sb.brand },
     category: 'Barre de son PC',
     description: sb.summary,
+    image: abs(sb.image),
     offers: {
       '@type': 'Offer',
       price: sb.price,
@@ -123,6 +124,22 @@ export function faqSchema(faq: { question: string; answer: string }[]) {
       '@type': 'Question',
       name: item.question,
       acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+}
+
+/** Tutoriel d'installation → schéma HowTo, très exploité par les moteurs génératifs (GEO). */
+export function howToSchema(sb: Soundbar) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `Comment installer la ${sb.name} sur un PC`,
+    description: sb.tutorial.intro,
+    step: sb.tutorial.steps.map((step, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: step.title,
+      text: step.body,
     })),
   };
 }

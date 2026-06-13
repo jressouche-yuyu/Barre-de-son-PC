@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import RankingTable from '../../components/RankingTable.astro';
-import { soundbarsByScore } from '../../data/soundbars';
+import { soundbarsByScore, formatPrice, powerLabel } from '../../data/soundbars';
 import { breadcrumbSchema } from '../../lib/schema';
 
 const all = soundbarsByScore();
@@ -16,7 +15,7 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 
 <BaseLayout
   title="Comparateur de barres de son PC"
-  description="Comparez en un tableau toutes les barres de son PC : note, prix, caisson de basses et connectique. Filtrez selon vos critères."
+  description="Comparez en un tableau toutes les barres de son PC : note, prix, caisson de basses, connectique et taille. Triez et filtrez selon vos critères."
   path="/comparateur"
   jsonLd={jsonLd}
 >
@@ -25,31 +24,80 @@ const jsonLd = [breadcrumbSchema(crumbs)];
     <header class="section" style="padding-bottom: var(--space-4)">
       <h1>Comparateur de barres de son PC</h1>
       <p class="lead">
-        Toutes les caractéristiques côte à côte. Utilisez les filtres pour
-        affiner selon vos priorités.
+        Toutes les caractéristiques côte à côte. Filtrez selon vos priorités et
+        cliquez sur les en-têtes <em>Note</em> ou <em>Prix</em> pour trier.
       </p>
     </header>
 
     <div class="filters" role="group" aria-label="Filtres">
-      <label>
-        <input type="checkbox" id="f-subwoofer" /> Avec caisson de basses
-      </label>
-      <label>
-        <input type="checkbox" id="f-rgb" /> Avec RGB
-      </label>
+      <label><input type="checkbox" id="f-subwoofer" /> Avec caisson</label>
+      <label><input type="checkbox" id="f-rgb" /> Avec RGB</label>
+      <label><input type="checkbox" id="f-compact" /> Compacte (≤ 41 cm)</label>
+      <label><input type="checkbox" id="f-bt" /> Bluetooth</label>
       <label>
         Budget max :
         <select id="f-budget">
           <option value="0">Tous</option>
-          <option value="100">≤ 100 €</option>
+          <option value="60">≤ 60 €</option>
+          <option value="120">≤ 120 €</option>
           <option value="250">≤ 250 €</option>
           <option value="500">≤ 500 €</option>
         </select>
       </label>
+      <button type="button" id="f-reset" class="btn btn-ghost">Réinitialiser</button>
     </div>
 
-    <div id="compare-table">
-      <RankingTable soundbars={all} showRank={false} />
+    <div class="table-wrap">
+      <table id="compare">
+        <thead>
+          <tr>
+            <th scope="col">Modèle</th>
+            <th scope="col">
+              <button type="button" class="sort" data-sort="score" aria-label="Trier par note">
+                Note <span class="arrow" aria-hidden="true"></span>
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="sort" data-sort="price" aria-label="Trier par prix">
+                Prix <span class="arrow" aria-hidden="true"></span>
+              </button>
+            </th>
+            <th scope="col">Puissance</th>
+            <th scope="col">Caisson</th>
+            <th scope="col">RGB</th>
+            <th scope="col">Connectique</th>
+            <th scope="col"><span class="sr-only">Lien</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            all.map((sb) => (
+              <tr
+                data-name={sb.name}
+                data-score={sb.score}
+                data-price={sb.price}
+                data-subwoofer={String(sb.hasSubwoofer)}
+                data-rgb={String(sb.hasRGB)}
+                data-width={sb.dimensionsCm.width}
+                data-bluetooth={String(sb.connectivity.includes('Bluetooth'))}
+              >
+                <td>
+                  <a href={`/barres-de-son/${sb.slug}`}>{sb.name}</a>
+                  <br />
+                  <small style="color:var(--text-muted)">{sb.brand}</small>
+                </td>
+                <td><span class="score" style="color:var(--accent)">{sb.score.toFixed(1)}</span></td>
+                <td>{formatPrice(sb.price, sb.currency)}</td>
+                <td>{powerLabel(sb)}</td>
+                <td>{sb.hasSubwoofer ? 'Oui' : 'Non'}</td>
+                <td>{sb.hasRGB ? 'Oui' : 'Non'}</td>
+                <td>{sb.connectivity.join(', ')}</td>
+                <td><a class="btn btn-ghost" href={`/barres-de-son/${sb.slug}`}>Test</a></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
     </div>
 
     <p id="no-result" hidden style="color: var(--text-muted)">
@@ -59,31 +107,45 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 </BaseLayout>
 
 <script>
-  // Filtrage client léger. Les données sont déjà rendues côté serveur (bon pour le SEO) ;
-  // on se contente de masquer/afficher les lignes via leurs data-attributes.
+  // Filtrage + tri côté client. Les données sont rendues côté serveur (SEO) ;
+  // on se contente de masquer/réordonner les lignes via leurs data-attributes.
   type Row = HTMLTableRowElement;
 
-  const subEl = document.getElementById('f-subwoofer') as HTMLInputElement | null;
-  const rgbEl = document.getElementById('f-rgb') as HTMLInputElement | null;
-  const budgetEl = document.getElementById('f-budget') as HTMLSelectElement | null;
-  const tableBody = document.querySelector('#compare-table tbody');
-  const noResult = document.getElementById('no-result');
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+  const subEl = $<HTMLInputElement>('f-subwoofer');
+  const rgbEl = $<HTMLInputElement>('f-rgb');
+  const compactEl = $<HTMLInputElement>('f-compact');
+  const btEl = $<HTMLInputElement>('f-bt');
+  const budgetEl = $<HTMLSelectElement>('f-budget');
+  const resetEl = $<HTMLButtonElement>('f-reset');
+  const table = $<HTMLTableElement>('compare');
+  const tbody = table?.querySelector('tbody') ?? null;
+  const noResult = $('no-result');
+
+  let sortKey: 'score' | 'price' | null = null;
+  let sortDir: 1 | -1 = 1;
 
   function apply() {
-    if (!tableBody) return;
-    const rows = Array.from(tableBody.querySelectorAll('tr')) as Row[];
+    if (!tbody) return;
+    const rows = Array.from(tbody.querySelectorAll('tr')) as Row[];
     const needSub = subEl?.checked;
     const needRgb = rgbEl?.checked;
+    const needCompact = compactEl?.checked;
+    const needBt = btEl?.checked;
     const budget = Number(budgetEl?.value ?? 0);
     let visible = 0;
 
     rows.forEach((row) => {
       const sub = row.dataset.subwoofer === 'true';
       const rgb = row.dataset.rgb === 'true';
+      const bt = row.dataset.bluetooth === 'true';
+      const width = Number(row.dataset.width ?? 0);
       const price = Number(row.dataset.price ?? 0);
       let show = true;
       if (needSub && !sub) show = false;
       if (needRgb && !rgb) show = false;
+      if (needBt && !bt) show = false;
+      if (needCompact && width > 41) show = false;
       if (budget > 0 && price > budget) show = false;
       row.hidden = !show;
       if (show) visible++;
@@ -92,14 +154,46 @@ const jsonLd = [breadcrumbSchema(crumbs)];
     if (noResult) noResult.hidden = visible !== 0;
   }
 
-  [subEl, rgbEl, budgetEl].forEach((el) => el?.addEventListener('change', apply));
+  function sortBy(key: 'score' | 'price') {
+    if (!tbody) return;
+    if (sortKey === key) sortDir = (sortDir * -1) as 1 | -1;
+    else {
+      sortKey = key;
+      sortDir = key === 'price' ? 1 : -1; // prix croissant, note décroissante par défaut
+    }
+    const rows = Array.from(tbody.querySelectorAll('tr')) as Row[];
+    rows.sort((a, b) => {
+      const av = Number(a.dataset[key] ?? 0);
+      const bv = Number(b.dataset[key] ?? 0);
+      return (av - bv) * sortDir;
+    });
+    rows.forEach((r) => tbody.appendChild(r));
+
+    // Indicateur visuel de tri
+    document.querySelectorAll<HTMLElement>('.sort .arrow').forEach((el) => (el.textContent = ''));
+    const btn = document.querySelector<HTMLElement>(`.sort[data-sort="${key}"] .arrow`);
+    if (btn) btn.textContent = sortDir === 1 ? ' ▲' : ' ▼';
+  }
+
+  [subEl, rgbEl, compactEl, btEl, budgetEl].forEach((el) => el?.addEventListener('change', apply));
+  document.querySelectorAll<HTMLButtonElement>('.sort').forEach((btn) =>
+    btn.addEventListener('click', () => sortBy(btn.dataset.sort as 'score' | 'price')),
+  );
+  resetEl?.addEventListener('click', () => {
+    if (subEl) subEl.checked = false;
+    if (rgbEl) rgbEl.checked = false;
+    if (compactEl) compactEl.checked = false;
+    if (btEl) btEl.checked = false;
+    if (budgetEl) budgetEl.value = '0';
+    apply();
+  });
 </script>
 
 <style>
   .filters {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-6);
+    gap: var(--space-4) var(--space-6);
     align-items: center;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -119,5 +213,23 @@ const jsonLd = [breadcrumbSchema(crumbs)];
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 0.3rem 0.5rem;
+  }
+  .sort {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  .sort:hover {
+    color: var(--primary);
+  }
+  .arrow {
+    color: var(--accent);
+    font-size: 0.8em;
   }
 </style>

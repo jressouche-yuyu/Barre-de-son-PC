@@ -2,10 +2,11 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProsCons from '../../components/ProsCons.astro';
-import { soundbars, formatPrice } from '../../data/soundbars';
+import { soundbars, formatPrice, powerLabel } from '../../data/soundbars';
 import {
   breadcrumbSchema,
   productReviewSchema,
+  howToSchema,
 } from '../../lib/schema';
 
 export function getStaticPaths() {
@@ -34,19 +35,27 @@ const scoreRows: { label: string; value: number }[] = [
 const specs: { label: string; value: string }[] = [
   { label: 'Marque', value: sb.brand },
   { label: 'Prix indicatif', value: formatPrice(sb.price, sb.currency) },
-  { label: 'Puissance', value: `${sb.powerWatts} W` },
+  { label: 'Haut-parleurs', value: sb.driverConfig },
+  { label: 'Puissance', value: powerLabel(sb) },
+  ...(sb.frequencyResponse
+    ? [{ label: 'Réponse en fréquence', value: sb.frequencyResponse }]
+    : []),
   { label: 'Connectique', value: sb.connectivity.join(', ') },
   { label: 'Caisson de basses', value: sb.hasSubwoofer ? 'Oui' : 'Non' },
   { label: 'Microphone', value: sb.hasMicrophone ? 'Oui' : 'Non' },
   { label: 'Éclairage RGB', value: sb.hasRGB ? 'Oui' : 'Non' },
   {
-    label: 'Dimensions (L×H×P)',
+    label: 'Dimensions barre (L×H×P)',
     value: `${sb.dimensionsCm.width} × ${sb.dimensionsCm.height} × ${sb.dimensionsCm.depth} cm`,
   },
   { label: 'Année', value: String(sb.releaseYear) },
 ];
 
-const jsonLd = [breadcrumbSchema(crumbs), productReviewSchema(sb)];
+const jsonLd = [
+  breadcrumbSchema(crumbs),
+  productReviewSchema(sb),
+  howToSchema(sb),
+];
 ---
 
 <BaseLayout
@@ -73,6 +82,15 @@ const jsonLd = [breadcrumbSchema(crumbs), productReviewSchema(sb)];
         <span class="score-price">{formatPrice(sb.price, sb.currency)}</span>
       </div>
     </header>
+
+    <img
+      class="product-image"
+      src={sb.image}
+      alt={sb.imageAlt}
+      width="800"
+      height="500"
+      loading="eager"
+    />
 
     <h2>Notre avis</h2>
     <p>{sb.summary}</p>
@@ -109,6 +127,29 @@ const jsonLd = [breadcrumbSchema(crumbs), productReviewSchema(sb)];
         </tbody>
       </table>
     </div>
+
+    <h2>Tutoriel : installer et configurer la {sb.name}</h2>
+    <p>{sb.tutorial.intro}</p>
+    <ol class="tuto-steps">
+      {
+        sb.tutorial.steps.map((step) => (
+          <li>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+    {
+      sb.tutorial.tips && sb.tutorial.tips.length > 0 && (
+        <div class="tuto-tips">
+          <h3>Astuces</h3>
+          <ul>
+            {sb.tutorial.tips.map((tip) => <li>{tip}</li>)}
+          </ul>
+        </div>
+      )
+    }
 
     <p class="updated">Fiche vérifiée le {sb.lastUpdated}.</p>
 
@@ -188,5 +229,64 @@ const jsonLd = [breadcrumbSchema(crumbs), productReviewSchema(sb)];
     color: var(--text-muted);
     font-size: 0.85rem;
     font-style: italic;
+  }
+  .product-image {
+    width: 100%;
+    max-width: 720px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    margin-block: var(--space-6) var(--space-8);
+  }
+  .tuto-steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .tuto-steps li {
+    counter-increment: step;
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6) var(--space-4) calc(var(--space-12) + var(--space-2));
+    margin: 0;
+  }
+  .tuto-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 800;
+  }
+  .tuto-steps h3 {
+    margin: 0 0 var(--space-1);
+    font-size: 1.05rem;
+  }
+  .tuto-steps p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .tuto-tips {
+    margin-top: var(--space-6);
+    background: rgba(79, 140, 255, 0.06);
+    border: 1px solid rgba(79, 140, 255, 0.3);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+  }
+  .tuto-tips h3 {
+    margin-top: 0;
+  }
+  .tuto-tips ul {
+    margin: 0;
   }
 </style>

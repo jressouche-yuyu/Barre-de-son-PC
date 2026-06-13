@@ -11,6 +11,9 @@ const { soundbar: sb, rank } = Astro.props;
 ---
 
 <article class="sb-card">
+  <a class="sb-image-link" href={`/barres-de-son/${sb.slug}`} tabindex="-1" aria-hidden="true">
+    <img class="sb-image" src={sb.image} alt={sb.imageAlt} width="800" height="500" loading="lazy" />
+  </a>
   <div class="sb-head">
     {rank && <span class="sb-rank" aria-label={`Classé numéro ${rank}`}>#{rank}</span>}
     <div>
@@ -47,6 +50,18 @@ const { soundbar: sb, rank } = Astro.props;
     border-radius: var(--radius);
     padding: var(--space-6);
     height: 100%;
+  }
+  .sb-image-link {
+    display: block;
+    margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    overflow: hidden;
+  }
+  .sb-image {
+    width: 100%;
+    aspect-ratio: 8 / 5;
+    object-fit: cover;
+    display: block;
   }
   .sb-head {
     display: flex;

@@ -5,7 +5,8 @@
  */
 
 export type ConnectivityType =
-  | 'USB'
+  | 'USB-C'
+  | 'USB-A'
   | 'Bluetooth'
   | 'Jack 3.5mm'
   | 'Optique'
@@ -23,6 +24,20 @@ export interface ScoreBreakdown {
   connectique: number;
   /** Rapport qualité-prix. */
   rapportQualitePrix: number;
+}
+
+/** Étape d'un tutoriel d'installation / prise en main. */
+export interface TutorialStep {
+  title: string;
+  body: string;
+}
+
+export interface Tutorial {
+  /** Phrase d'introduction du tuto. */
+  intro: string;
+  steps: TutorialStep[];
+  /** Astuces optionnelles (réglages, EQ, dépannage). */
+  tips?: string[];
 }
 
 export interface Soundbar {
@@ -48,16 +63,28 @@ export interface Soundbar {
   /** Public / usage idéal — utile pour les requêtes intentionnelles. */
   bestFor: string;
   connectivity: ConnectivityType[];
-  /** Puissance annoncée en watts (RMS de préférence). */
-  powerWatts: number;
+  /** Configuration des haut-parleurs (texte descriptif). */
+  driverConfig: string;
+  /** Puissance RMS en watts (si communiquée par le constructeur). */
+  powerRmsWatts?: number;
+  /** Puissance crête en watts (si communiquée). */
+  powerPeakWatts?: number;
+  /** Réponse en fréquence annoncée (ex. "45 Hz – 20 kHz"). */
+  frequencyResponse?: string;
   /** Présence d'un caisson de basses dédié. */
   hasSubwoofer: boolean;
   /** Présence d'un microphone intégré (visio, jeu). */
   hasMicrophone: boolean;
   /** Éclairage RGB (argument gaming). */
   hasRGB: boolean;
-  /** Dimensions L×H×P en cm. */
+  /** Dimensions de la barre L×H×P en cm. */
   dimensionsCm: { width: number; height: number; depth: number };
+  /** Chemin de l'image produit (sous /public). */
+  image: string;
+  /** Texte alternatif de l'image (accessibilité + SEO image). */
+  imageAlt: string;
+  /** Tutoriel d'installation et de prise en main propre au produit. */
+  tutorial: Tutorial;
   /** Date de la dernière vérification éditoriale (ISO 8601). Important pour la fraîcheur SEO/GEO. */
   lastUpdated: string;
   /** Année de sortie du produit. */
