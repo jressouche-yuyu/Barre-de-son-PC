@@ -1,5 +1,6 @@
 ---
 /** Fil d'Ariane visuel. Le schéma BreadcrumbList associé est injecté côté page. */
+import { url } from '../lib/url';
 interface Props {
   items: { name: string; path: string }[];
 }
@@ -12,7 +13,7 @@ const { items } = Astro.props;
       items.map((item, i) => (
         <li>
           {i < items.length - 1 ? (
-            <a href={item.path}>{item.name}</a>
+            <a href={url(item.path)}>{item.name}</a>
           ) : (
             <span aria-current="page">{item.name}</span>
           )}

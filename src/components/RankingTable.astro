@@ -2,6 +2,7 @@
 /** Tableau comparatif synthétique. Réutilisé sur les classements et le comparateur. */
 import type { Soundbar } from '../data/types';
 import { formatPrice } from '../data/soundbars';
+import { url } from '../lib/url';
 
 interface Props {
   soundbars: Soundbar[];
@@ -34,7 +35,7 @@ const { soundbars: list, showRank = true } = Astro.props;
           >
             {showRank && <td><strong>{i + 1}</strong></td>}
             <td>
-              <a href={`/barres-de-son/${sb.slug}`}>{sb.name}</a>
+              <a href={url(`/barres-de-son/${sb.slug}`)}>{sb.name}</a>
               <br />
               <small style="color:var(--text-muted)">{sb.brand}</small>
             </td>
@@ -42,7 +43,7 @@ const { soundbars: list, showRank = true } = Astro.props;
             <td>{formatPrice(sb.price, sb.currency)}</td>
             <td>{sb.hasSubwoofer ? 'Oui' : 'Non'}</td>
             <td>{sb.connectivity.join(', ')}</td>
-            <td><a class="btn btn-ghost" href={`/barres-de-son/${sb.slug}`}>Test</a></td>
+            <td><a class="btn btn-ghost" href={url(`/barres-de-son/${sb.slug}`)}>Test</a></td>
           </tr>
         ))
       }

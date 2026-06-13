@@ -1,6 +1,7 @@
 ---
 import type { Soundbar } from '../data/types';
 import { formatPrice } from '../data/soundbars';
+import { url } from '../lib/url';
 
 interface Props {
   soundbar: Soundbar;
@@ -11,14 +12,14 @@ const { soundbar: sb, rank } = Astro.props;
 ---
 
 <article class="sb-card">
-  <a class="sb-image-link" href={`/barres-de-son/${sb.slug}`} tabindex="-1" aria-hidden="true">
-    <img class="sb-image" src={sb.image} alt={sb.imageAlt} width="800" height="500" loading="lazy" />
+  <a class="sb-image-link" href={url(`/barres-de-son/${sb.slug}`)} tabindex="-1" aria-hidden="true">
+    <img class="sb-image" src={url(sb.image)} alt={sb.imageAlt} width="800" height="500" loading="lazy" />
   </a>
   <div class="sb-head">
     {rank && <span class="sb-rank" aria-label={`Classé numéro ${rank}`}>#{rank}</span>}
     <div>
       <h3 class="sb-name">
-        <a href={`/barres-de-son/${sb.slug}`}>{sb.name}</a>
+        <a href={url(`/barres-de-son/${sb.slug}`)}>{sb.name}</a>
       </h3>
       <p class="sb-brand">{sb.brand}</p>
     </div>
@@ -36,7 +37,7 @@ const { soundbar: sb, rank } = Astro.props;
 
   <div class="sb-foot">
     <span class="sb-price">{formatPrice(sb.price, sb.currency)}</span>
-    <a class="btn btn-ghost" href={`/barres-de-son/${sb.slug}`}>Voir le test</a>
+    <a class="btn btn-ghost" href={url(`/barres-de-son/${sb.slug}`)}>Voir le test</a>
   </div>
 </article>
 

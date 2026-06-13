@@ -10,6 +10,7 @@ import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { organizationSchema, websiteSchema } from '../lib/schema';
+import { url } from '../lib/url';
 
 interface Props {
   title: string;
@@ -33,7 +34,7 @@ const jsonLd = [...baseSchemas, ...(props.jsonLd ?? [])];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
     <Seo {...props} jsonLd={jsonLd} />
   </head>

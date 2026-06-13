@@ -50,12 +50,45 @@ public/
 - **Signaux de fraîcheur** : date de dernière mise à jour affichée et exposée dans les schémas.
 - **E-E-A-T** : page méthodologie, mention d'indépendance éditoriale et entité éditeur.
 
+## 🚀 Déploiement sur GitHub Pages
+
+Un workflow (`.github/workflows/deploy.yml`) build et publie le site à chaque push.
+
+1. **Dépôt → Settings → Pages → Source : « GitHub Actions »**.
+2. Le site se publie sur `https://jressouche-yuyu.github.io/Barre-de-son-PC/`.
+3. Dépôt **privé** : GitHub Pages nécessite GitHub Pro, ou rendre le dépôt public
+   (Settings → General → Change visibility).
+
+Le build Pages utilise deux variables d'environnement (déjà câblées dans le workflow) :
+
+```bash
+SITE_URL=https://jressouche-yuyu.github.io BASE_PATH=/Barre-de-son-PC npm run build
+```
+
+Sur un domaine final (à la racine), il suffit de builder sans ces variables
+(`npm run build`) après avoir mis à jour `SITE.url` dans `src/consts.ts`.
+Tous les liens internes passent par le helper `src/lib/url.ts` pour rester
+compatibles avec le sous-chemin GitHub Pages.
+
+## 💸 Affiliation Amazon
+
+- Configure ton tag dans `src/consts.ts` → `AFFILIATE.partnerTag` (compte
+  [Partenaires Amazon](https://partenaires.amazon.fr)).
+- Les boutons « Voir le prix sur Amazon » pointent vers la fiche produit si un
+  `amazonAsin` est renseigné dans `src/data/soundbars.ts`, sinon vers une
+  recherche Amazon par nom — toujours avec ton tag, et en `rel="sponsored nofollow"`.
+- **Images officielles** : l'API Amazon Product Advertising (PA-API) peut fournir
+  visuels et prix à jour, mais exige un compte Partenaires validé (ventes
+  qualifiantes) + identifiants API en secret. En attendant, les visuels locaux
+  (`/public/images/products/`) servent de placeholders.
+
 ## ✏️ Personnalisation
 
-1. Modifie `src/consts.ts` (nom de marque, URL de prod, réseaux sociaux).
+1. Modifie `src/consts.ts` (nom de marque, URL de prod, réseaux sociaux, tag d'affiliation).
 2. Mets à jour le domaine dans `public/robots.txt`.
 3. Enrichis `src/data/*` avec tes vrais produits, prix et tests vérifiés.
+4. Remplace les visuels placeholder de `/public/images/products/` par de vraies photos.
 
-> ⚠️ Les données produits actuelles sont des **exemples** destinés à structurer
-> le site. Vérifie prix, specs et disponibilités avant toute mise en ligne :
-> l'exactitude et la fraîcheur sont des signaux SEO/GEO majeurs.
+> ⚠️ Les prix et notes sont indicatifs/éditoriaux. Vérifie prix, specs et
+> disponibilités régulièrement : l'exactitude et la fraîcheur sont des signaux
+> SEO/GEO majeurs.

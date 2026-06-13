@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { rankings } from '../../data/rankings';
 import { breadcrumbSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
 
 const crumbs = [
   { name: 'Accueil', path: '/' },
@@ -31,7 +32,7 @@ const jsonLd = [breadcrumbSchema(crumbs)];
       <div class="grid grid-2">
         {
           rankings.map((r) => (
-            <a class="ranking-card" href={`/classements/${r.slug}`}>
+            <a class="ranking-card" href={url(`/classements/${r.slug}`)}>
               <h2 style="margin-top:0">{r.title}</h2>
               <p>{r.subtitle}</p>
               <p class="meta">{r.items.length} modèles · MàJ {r.lastUpdated}</p>

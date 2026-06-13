@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { guides } from '../../data/guides';
 import { breadcrumbSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
 
 const crumbs = [
   { name: 'Accueil', path: '/' },
@@ -31,7 +32,7 @@ const jsonLd = [breadcrumbSchema(crumbs)];
       <div class="grid grid-2">
         {
           guides.map((g) => (
-            <a class="guide-card" href={`/guides/${g.slug}`}>
+            <a class="guide-card" href={url(`/guides/${g.slug}`)}>
               <h2 style="margin-top:0;font-size:1.25rem">{g.title}</h2>
               <p>{g.description}</p>
               <p class="meta">{g.readingMinutes} min de lecture · MàJ {g.lastUpdated}</p>

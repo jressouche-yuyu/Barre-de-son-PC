@@ -8,6 +8,7 @@ import {
   articleSchema,
   faqSchema,
 } from '../../lib/schema';
+import { url } from '../../lib/url';
 
 export function getStaticPaths() {
   return guides.map((guide) => ({
@@ -60,7 +61,7 @@ const jsonLd = [
     <Faq items={guide.faq} />
 
     <p style="margin-top: var(--space-8)">
-      <a class="btn btn-ghost" href="/guides">← Tous les guides</a>
+      <a class="btn btn-ghost" href={url('/guides')}>← Tous les guides</a>
     </p>
   </article>
 </BaseLayout>

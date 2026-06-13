@@ -1,5 +1,6 @@
 ---
 import { SITE, NAV } from '../consts';
+import { url } from '../lib/url';
 const year = new Date().getFullYear();
 ---
 
@@ -11,7 +12,7 @@ const year = new Date().getFullYear();
     </div>
     <nav aria-label="Navigation pied de page">
       <ul>
-        {NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {NAV.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
     <div class="footer-legal">

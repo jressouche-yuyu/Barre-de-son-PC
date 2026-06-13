@@ -27,6 +27,21 @@ export const SITE = {
   defaultOgImage: '/og-default.svg',
 } as const;
 
+/**
+ * Configuration de l'affiliation Amazon.
+ * - `partnerTag` : ton identifiant Partenaires Amazon (à créer sur
+ *   partenaires.amazon.fr). Remplace la valeur placeholder ci-dessous.
+ * - `marketplace` : domaine Amazon ciblé.
+ * Les liens sont générés par `lib/affiliate.ts` : lien direct si l'ASIN du
+ * produit est connu, sinon recherche Amazon par nom — toujours avec ton tag.
+ */
+export const AFFILIATE = {
+  partnerTag: 'votretag-21',
+  marketplace: 'https://www.amazon.fr',
+  /** Active/désactive globalement l'affichage des boutons d'achat. */
+  enabled: true,
+} as const;
+
 /** Navigation principale (header). */
 export const NAV: { label: string; href: string }[] = [
   { label: 'Classements', href: '/classements' },

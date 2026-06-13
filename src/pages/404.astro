@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/url';
 ---
 
 <BaseLayout
@@ -14,8 +15,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Le lien est peut-être cassé ou la page a été déplacée.
     </p>
     <p style="margin-top: var(--space-6)">
-      <a class="btn" href="/">Retour à l'accueil</a>
-      <a class="btn btn-ghost" href="/classements">Voir les classements</a>
+      <a class="btn" href={url('/')}>Retour à l'accueil</a>
+      <a class="btn btn-ghost" href={url('/classements')}>Voir les classements</a>
     </p>
   </div>
 </BaseLayout>

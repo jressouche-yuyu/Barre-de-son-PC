@@ -5,6 +5,7 @@
  * et l'injection de données structurées JSON-LD (clé du GEO).
  */
 import { SITE } from '../consts';
+import { url } from '../lib/url';
 
 interface Props {
   title: string;
@@ -28,7 +29,6 @@ interface Props {
 const {
   title,
   description = SITE.description,
-  path = Astro.url.pathname,
   image = SITE.defaultOgImage,
   ogType = 'website',
   noindex = false,
@@ -37,8 +37,11 @@ const {
   modifiedTime,
 } = Astro.props;
 
-const canonical = new URL(path, SITE.url).href;
-const ogImage = new URL(image, SITE.url).href;
+// Origine du déploiement courant (domaine de prod, ou github.io en préversion).
+const origin = Astro.site ?? new URL(SITE.url);
+// `Astro.url.pathname` inclut déjà le base path éventuel → URL canonique fiable.
+const canonical = new URL(Astro.url.pathname, origin).href;
+const ogImage = image.startsWith('http') ? image : new URL(url(image), origin).href;
 const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
 ---
 
