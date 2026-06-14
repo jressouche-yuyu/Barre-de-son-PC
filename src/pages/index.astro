@@ -4,7 +4,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SoundbarCard from '../components/SoundbarCard.astro';
 import CoverArt from '../components/CoverArt.astro';
 import Faq from '../components/Faq.astro';
-import { SITE } from '../consts';
 import { soundbarsByScore } from '../data/soundbars';
 import { rankings } from '../data/rankings';
 import { guides } from '../data/guides';
@@ -17,11 +16,38 @@ const latestPosts = (await getCollection('blog', (p) => !p.data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 3);
 
+// FAQ éditoriale ciblant « barre de son PC ». Rendue en accordéons <details>
+// (présents dans le HTML statique → indexables) + exposée en FAQPage (GEO).
 const homeFaq = [
   {
     question: 'Qu\'est-ce qu\'une barre de son pour PC ?',
     answer:
-      'C\'est une enceinte allongée conçue pour se placer devant un écran d\'ordinateur. Elle se branche généralement en USB ou Bluetooth et améliore nettement le son par rapport aux haut-parleurs intégrés d\'un moniteur ou d\'un PC portable.',
+      'Une barre de son pour PC est une enceinte compacte et allongée qui se place sous l\'écran. Branchée le plus souvent en USB-C ou en Bluetooth, elle remplace avantageusement les haut-parleurs intégrés d\'un moniteur ou d\'un PC portable, avec des voix plus claires et des basses bien plus présentes.',
+  },
+  {
+    question: 'Comment choisir une barre de son pour PC ?',
+    answer:
+      'Regardez d\'abord la connectique (USB-C idéal sur PC, Bluetooth en appoint), la présence ou non d\'un caisson de basses, l\'encombrement sous votre moniteur, et les options gaming (RGB, son spatial). Fixez ensuite un budget : nos classements par usage et notre comparateur facilitent le choix.',
+  },
+  {
+    question: 'Quelle est la meilleure barre de son PC en 2026 ?',
+    answer:
+      'Pour l\'immersion gaming, la Razer Leviathan V2 Pro est notre référence. Pour la polyvalence (PC, console, TV), la Creative Sound Blaster Katana V2. À petit budget, la Creative Stage V2 offre le meilleur rapport qualité-prix. Voir notre classement général pour le détail.',
+  },
+  {
+    question: 'Barre de son ou enceintes pour un PC ?',
+    answer:
+      'La barre de son gagne sur le confort, la simplicité (un seul appareil, souvent un câble USB-C) et le gain de place. Des enceintes offrent une meilleure scène stéréo mais demandent plus d\'espace. Pour un bureau chargé, la barre de son PC est généralement le choix le plus pratique.',
+  },
+  {
+    question: 'Quel budget pour une barre de son PC ?',
+    answer:
+      'À partir de ~50-60 € pour une mini-barre compacte, 100-130 € pour un combo barre + caisson polyvalent, 200-300 € pour les modèles puissants et bien connectés, et au-delà de 400 € pour le son 3D premium. Notre classement des barres de son PC pas chères couvre les petits budgets.',
+  },
+  {
+    question: 'Comment brancher une barre de son sur un PC ?',
+    answer:
+      'Le plus simple est l\'USB-C : un seul câble pour l\'audio (et parfois l\'alimentation), reconnu nativement par Windows. Sélectionnez ensuite la barre comme périphérique de sortie par défaut. Le Bluetooth dépanne pour le smartphone, le jack ou l\'optique pour d\'autres appareils.',
   },
   {
     question: 'Comment choisissez-vous les barres de son recommandées ?',
@@ -37,33 +63,35 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title={`${SITE.name} — ${SITE.tagline}`}
-  description={SITE.description}
+  title="Barre de son PC : comparatif et meilleurs modèles 2026"
+  description="Quelle barre de son pour PC choisir ? Comparatif indépendant, classements par usage et guides d'achat des meilleures barres de son PC : gaming, télétravail, petit budget."
   path="/"
   jsonLd={jsonLd}
 >
   <section class="hero">
+    <img
+      class="hero-bg"
+      src={url('/images/illustrations/hero.webp')}
+      alt=""
+      aria-hidden="true"
+      width="1376"
+      height="768"
+      fetchpriority="high"
+    />
+    <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-text">
         <p class="eyebrow">Comparatif indépendant · Mis à jour en 2026</p>
-        <h1>Trouvez la meilleure barre de son pour votre PC</h1>
+        <h1>La meilleure barre de son pour PC</h1>
         <p class="lead">
-          Classements, tests détaillés et guides d'achat pour choisir la barre de
-          son idéale selon votre usage : gaming, bureautique, musique ou home-studio.
+          Classements par usage, tests détaillés et guides d'achat pour choisir
+          la barre de son PC idéale : gaming, télétravail, musique ou petit budget.
         </p>
         <div class="hero-actions">
           <a class="btn" href={url('/classements/meilleures-barres-de-son-pc')}>Voir le classement 2026</a>
           <a class="btn btn-ghost" href={url('/comparateur')}>Comparer les modèles</a>
         </div>
       </div>
-      <img
-        class="hero-img"
-        src={url('/images/illustrations/hero.webp')}
-        alt="Barre de son sous un écran de PC avec des ondes sonores lumineuses"
-        width="1376"
-        height="768"
-        loading="eager"
-      />
     </div>
   </section>
 
@@ -131,26 +159,74 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- Bloc éditorial SEO (texte visible + accordéons indexables) -->
+  <section class="section container editorial">
+    <h2>La barre de son PC, le bon choix pour votre bureau</h2>
+    <p>
+      Une <strong>barre de son pour PC</strong> est une enceinte compacte et
+      allongée qui se glisse sous l'écran et remplace avantageusement les
+      haut-parleurs intégrés d'un moniteur ou d'un ordinateur portable. En un seul
+      appareil — souvent branché par un unique câble USB-C — elle apporte des voix
+      plus claires, des basses présentes et une scène sonore bien plus large, sans
+      encombrer le bureau.
+    </p>
+    <p>
+      Sur cette page, nous réunissons nos <a href={url('/classements')}>classements
+      par usage</a> (gaming, télétravail, petit budget, modèles compacts ou
+      polyvalents), des <a href={url('/barres-de-son')}>tests détaillés</a> modèle
+      par modèle et un <a href={url('/comparateur')}>comparateur</a> pour trancher
+      selon vos critères : caisson de basses, éclairage RGB, connectique ou prix.
+    </p>
+    <p>
+      Que vous cherchiez une barre de son PC pour le jeu, la bureautique ou la
+      musique, notre objectif est simple : vous aider à choisir vite et bien, avec
+      des informations vérifiées et tenues à jour.
+    </p>
+  </section>
+
   <div class="container">
-    <Faq items={homeFaq} />
+    <Faq items={homeFaq} title="Questions fréquentes sur les barres de son PC" />
   </div>
 </BaseLayout>
 
 <style>
+  /* Hero plein impact : image en fond + voile pour la lisibilité */
   .hero {
-    background: radial-gradient(1000px 400px at 30% -10%, rgba(79, 140, 255, 0.18), transparent);
-    padding-block: var(--space-12) var(--space-8);
-  }
-  .hero-inner {
-    display: grid;
-    gap: var(--space-8);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
     align-items: center;
+    min-height: min(78vh, 640px);
+    padding-block: var(--space-12);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% center;
+    z-index: -2;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgba(11, 14, 20, 0.92) 0%, rgba(11, 14, 20, 0.6) 55%, rgba(11, 14, 20, 0.25) 100%),
+      linear-gradient(0deg, rgba(11, 14, 20, 0.85) 0%, rgba(11, 14, 20, 0.25) 45%, rgba(11, 14, 20, 0.4) 100%);
+  }
+  .hero-text {
+    max-width: 640px;
   }
   .hero h1 {
-    max-width: 16ch;
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    margin-bottom: var(--space-4);
   }
   .hero .lead {
-    max-width: 56ch;
+    max-width: 52ch;
+    color: #cdd5e6;
   }
   .hero-actions {
     display: flex;
@@ -158,16 +234,7 @@ const jsonLd = [
     flex-wrap: wrap;
     margin-top: var(--space-6);
   }
-  .hero-img {
-    width: 100%;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-  }
-  @media (min-width: 880px) {
-    .hero-inner {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
+
   .link-card {
     display: flex;
     flex-direction: column;
@@ -224,5 +291,13 @@ const jsonLd = [
   .see-all {
     font-weight: 600;
     white-space: nowrap;
+  }
+  .editorial {
+    max-width: 820px;
+  }
+  .editorial p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
   }
 </style>
