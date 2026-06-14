@@ -49,6 +49,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Confine tout débordement horizontal au contenu (le header sticky est hors de
+   <main>, donc non impacté). Seuls les .table-wrap gardent leur scroll interne. */
+main {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -216,8 +222,10 @@ li {
 /* Tables */
 .table-wrap {
   overflow-x: auto;
+  max-width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
