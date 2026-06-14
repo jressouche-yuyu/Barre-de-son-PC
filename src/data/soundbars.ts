@@ -43,7 +43,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 11.4, depth: 9 },
-    image: '/images/products/razer-leviathan-v2-pro.svg',
+    image: '/images/products/razer-leviathan-v2-pro.webp',
     imageAlt: 'Barre de son Razer Leviathan V2 Pro avec son caisson de basses',
     tutorial: {
       intro:
@@ -102,7 +102,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 50, height: 9.1, depth: 8.4 },
-    image: '/images/products/razer-leviathan-v2.svg',
+    image: '/images/products/razer-leviathan-v2.webp',
     imageAlt: 'Barre de son gaming Razer Leviathan V2 avec caisson de basses et RGB',
     tutorial: {
       intro:
@@ -161,7 +161,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 9.5, depth: 6.2 },
-    image: '/images/products/creative-sound-blaster-katana-v2.svg',
+    image: '/images/products/creative-sound-blaster-katana-v2.webp',
     imageAlt: 'Barre de son Creative Sound Blaster Katana V2 avec caisson de basses',
     tutorial: {
       intro:
@@ -221,7 +221,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 6, depth: 7.8 },
-    image: '/images/products/creative-sound-blaster-katana-v2x.svg',
+    image: '/images/products/creative-sound-blaster-katana-v2x.webp',
     imageAlt: 'Barre de son Creative Sound Blaster Katana V2X avec caisson compact',
     tutorial: {
       intro:
@@ -278,7 +278,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 40, height: 8, depth: 8.6 },
-    image: '/images/products/razer-leviathan-v2-x.svg',
+    image: '/images/products/razer-leviathan-v2-x.webp',
     imageAlt: 'Barre de son compacte Razer Leviathan V2 X avec éclairage RGB',
     tutorial: {
       intro:
@@ -337,7 +337,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: false,
     dimensionsCm: { width: 68, height: 10, depth: 7.8 },
-    image: '/images/products/creative-stage-v2.svg',
+    image: '/images/products/creative-stage-v2.webp',
     imageAlt: 'Barre de son Creative Stage V2 avec son caisson de basses filaire',
     tutorial: {
       intro:
@@ -396,7 +396,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 41, height: 9.3, depth: 7.4 },
-    image: '/images/products/creative-sound-blaster-gs3.svg',
+    image: '/images/products/creative-sound-blaster-gs3.webp',
     imageAlt: 'Barre de son compacte Creative Sound Blaster GS3 avec éclairage RGB',
     tutorial: {
       intro:
@@ -454,7 +454,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: false,
     dimensionsCm: { width: 41, height: 7, depth: 7 },
-    image: '/images/products/creative-stage-air-v2.svg',
+    image: '/images/products/creative-stage-air-v2.webp',
     imageAlt: 'Mini barre de son nomade Creative Stage Air V2',
     tutorial: {
       intro:
@@ -509,7 +509,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: false,
     dimensionsCm: { width: 56.5, height: 6.6, depth: 10 },
-    image: '/images/products/creative-stage-360.svg',
+    image: '/images/products/creative-stage-360.webp',
     imageAlt: 'Barre de son Creative Stage 360 avec caisson et Dolby Atmos',
     tutorial: {
       intro:
@@ -569,7 +569,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: false,
     dimensionsCm: { width: 8.9, height: 16.8, depth: 12 },
-    image: '/images/products/logitech-z407.svg',
+    image: '/images/products/logitech-z407.webp',
     imageAlt: 'Kit 2.1 Logitech Z407 avec caisson de basses et molette de contrôle',
     tutorial: {
       intro:
@@ -623,7 +623,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: true,
     hasRGB: true,
     dimensionsCm: { width: 48.5, height: 7.4, depth: 8 },
-    image: '/images/products/edifier-mg300.svg',
+    image: '/images/products/edifier-mg300.webp',
     imageAlt: 'Barre de son compacte Edifier MG300 avec RGB et micro intégré',
     tutorial: {
       intro:
@@ -677,7 +677,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 42, height: 6.8, depth: 7.8 },
-    image: '/images/products/trust-gxt-620-axon.svg',
+    image: '/images/products/trust-gxt-620-axon.webp',
     imageAlt: 'Barre de son gaming RGB Trust GXT 620 Axon',
     tutorial: {
       intro:
@@ -731,7 +731,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 9, height: 14, depth: 9 },
-    image: '/images/products/edifier-g1500.svg',
+    image: '/images/products/edifier-g1500.webp',
     imageAlt: 'Paire d\'enceintes 2.0 RGB Edifier G1500 pour bureau',
     tutorial: {
       intro:
