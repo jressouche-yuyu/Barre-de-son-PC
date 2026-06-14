@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverArt from '../../components/CoverArt.astro';
 import { breadcrumbSchema } from '../../lib/schema';
 import { url } from '../../lib/url';
 
@@ -37,9 +38,12 @@ const jsonLd = [breadcrumbSchema(crumbs)];
         {
           posts.map((post) => (
             <a class="post-card" href={url(`/blog/${post.id}`)}>
-              <h2>{post.data.title}</h2>
-              <p>{post.data.description}</p>
-              <p class="meta">{dateFmt(post.data.publishedAt)} · {post.data.readingMinutes} min</p>
+              <CoverArt seed={post.id} variant="thumb" />
+              <div class="post-body">
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+                <p class="meta">{dateFmt(post.data.publishedAt)} · {post.data.readingMinutes} min</p>
+              </div>
             </a>
           ))
         }
@@ -54,12 +58,15 @@ const jsonLd = [breadcrumbSchema(crumbs)];
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: var(--space-6);
+    overflow: hidden;
     color: var(--text);
   }
   .post-card:hover {
     border-color: var(--primary);
     text-decoration: none;
+  }
+  .post-body {
+    padding: var(--space-6);
   }
   .post-card h2 {
     margin: 0 0 var(--space-2);

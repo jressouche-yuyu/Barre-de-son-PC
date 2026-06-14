@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverArt from '../../components/CoverArt.astro';
 import SoundbarCard from '../../components/SoundbarCard.astro';
 import RankingTable from '../../components/RankingTable.astro';
 import Faq from '../../components/Faq.astro';
@@ -50,7 +51,8 @@ const jsonLd = [
 >
   <div class="container">
     <Breadcrumbs items={crumbs} />
-    <header class="section" style="padding-bottom: var(--space-4)">
+    <CoverArt seed={ranking.slug} variant="banner" icon="🏆" class="rank-cover" />
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>{ranking.title}</h1>
       <p class="lead">{ranking.subtitle}</p>
       <p class="badge badge-accent">Mis à jour le {ranking.lastUpdated}</p>
@@ -80,6 +82,9 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
+  .rank-cover {
+    margin-top: var(--space-6);
+  }
   .ranking-list {
     display: grid;
     gap: var(--space-8);
