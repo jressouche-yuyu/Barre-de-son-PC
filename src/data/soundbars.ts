@@ -43,8 +43,13 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 11.4, depth: 9 },
-    image: '/images/products/razer-leviathan-v2-pro.webp',
+    image: '/images/products/razer-leviathan-v2-pro-1.webp',
     imageAlt: 'Barre de son Razer Leviathan V2 Pro avec son caisson de basses',
+    gallery: [
+      '/images/products/razer-leviathan-v2-pro-1.webp',
+      '/images/products/razer-leviathan-v2-pro-2.webp',
+      '/images/products/razer-leviathan-v2-pro-3.webp',
+    ],
     tutorial: {
       intro:
         'La Leviathan V2 Pro se branche en USB-C sur le PC et tire le meilleur d\'elle-même avec le suivi de tête activé dans Synapse.',
@@ -278,8 +283,15 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 40, height: 8, depth: 8.6 },
-    image: '/images/products/razer-leviathan-v2-x.webp',
+    image: '/images/products/razer-leviathan-v2-x-1.webp',
     imageAlt: 'Barre de son compacte Razer Leviathan V2 X avec éclairage RGB',
+    gallery: [
+      '/images/products/razer-leviathan-v2-x-1.webp',
+      '/images/products/razer-leviathan-v2-x-2.webp',
+      '/images/products/razer-leviathan-v2-x-3.webp',
+      '/images/products/razer-leviathan-v2-x-4.webp',
+      '/images/products/razer-leviathan-v2-x-5.webp',
+    ],
     tutorial: {
       intro:
         'La plus simple de la gamme : un seul câble USB-C suffit pour l\'alimentation et le son.',
