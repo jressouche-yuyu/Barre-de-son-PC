@@ -481,6 +481,229 @@ export const soundbars: Soundbar[] = [
     lastUpdated: '2026-06-13',
     releaseYear: 2022,
   },
+  {
+    slug: 'creative-stage-360',
+    name: 'Creative Stage 360',
+    brand: 'Creative',
+    price: 199,
+    currency: 'EUR',
+    score: 8.2,
+    scores: { son: 8.5, basses: 8.5, ergonomie: 7.5, connectique: 9, rapportQualitePrix: 8 },
+    verdict:
+      'Du Dolby Atmos abordable : une barre 2.1 polyvalente, idéale pour un PC, un écran ultralarge ou une TV.',
+    summary:
+      'La Stage 360 apporte le Dolby Atmos (virtuel) à petit prix : la barre de 56,5 cm et son caisson délivrent jusqu\'à 120 W RMS (240 W crête). La connectique orientée salon (2 entrées HDMI + ARC, optique, Bluetooth) et la télécommande IR en font une excellente passerelle entre PC, moniteur ultralarge et TV.',
+    pros: [
+      'Dolby Atmos virtuel convaincant pour le prix',
+      'Puissance confortable (jusqu\'à 240 W crête)',
+      'Double entrée HDMI + ARC, optique et Bluetooth',
+      'Télécommande IR fournie',
+    ],
+    cons: ['Pas de vraie voie verticale (Atmos simulé)', 'Pas d\'USB audio dédié PC', 'Caisson assez présent'],
+    bestFor: 'Poste hybride PC/écran ultralarge/TV cherchant l\'effet surround à petit prix',
+    connectivity: ['HDMI ARC', 'Optique', 'Bluetooth'],
+    driverConfig: 'Barre 2.0 (60 W) + caisson dédié (60 W), Dolby Atmos virtuel',
+    powerRmsWatts: 120,
+    powerPeakWatts: 240,
+    hasSubwoofer: true,
+    hasMicrophone: false,
+    hasRGB: false,
+    dimensionsCm: { width: 56.5, height: 6.6, depth: 10 },
+    image: '/images/products/creative-stage-360.svg',
+    imageAlt: 'Barre de son Creative Stage 360 avec caisson et Dolby Atmos',
+    tutorial: {
+      intro:
+        'Sur PC, branche la Stage 360 en HDMI (ou optique) ; la télécommande IR gère sources, volume et modes surround.',
+      steps: [
+        {
+          title: 'Relier le caisson',
+          body: 'Connecte le caisson à la barre, puis place-le au sol près du bureau ou du meuble TV.',
+        },
+        {
+          title: 'Choisir l\'entrée',
+          body: 'Sur PC/écran ultralarge, utilise l\'HDMI (ou l\'optique si pas de sortie HDMI audio). Pour une TV, branche en HDMI ARC pour piloter le volume avec la télécommande TV.',
+        },
+        {
+          title: 'Activer le mode Surround / Atmos',
+          body: 'Via la télécommande IR, active le traitement surround pour les films et jeux ; reste en stéréo pour la musique.',
+        },
+        {
+          title: 'Régler les niveaux',
+          body: 'Ajuste le niveau du caisson indépendamment selon ton bureau et le voisinage.',
+        },
+      ],
+      tips: [
+        'L\'effet Atmos est simulé : il élargit la scène sans vraies enceintes de plafond.',
+        'Sur écran ultralarge, centre bien la barre sous la dalle pour une image sonore cohérente.',
+      ],
+    },
+    lastUpdated: '2026-06-14',
+    releaseYear: 2022,
+  },
+  {
+    slug: 'logitech-z407',
+    name: 'Logitech Z407',
+    brand: 'Logitech',
+    price: 99,
+    currency: 'EUR',
+    score: 7.7,
+    scores: { son: 7.5, basses: 8.5, ergonomie: 7.5, connectique: 7.5, rapportQualitePrix: 8.5 },
+    verdict:
+      'Un 2.1 à grosses basses avec molette de contrôle sans fil : plus qu\'une barre, un vrai kit polyvalent.',
+    summary:
+      'Le Z407 n\'est pas une barre mais un ensemble 2.1 (deux satellites + caisson à émission vers le bas) délivrant 40 W RMS (80 W crête, 40 Hz – 20 kHz). Sa molette de contrôle sans fil et son Bluetooth en font un kit pratique et généreux en basses, à considérer si l\'impact prime sur le format épuré d\'une barre.',
+    pros: [
+      'Caisson de basses puissant et profond',
+      'Molette de contrôle sans fil pratique',
+      'Bluetooth + micro-USB + jack 3,5 mm',
+      'Très bon rapport qualité-prix',
+    ],
+    cons: ['Format 2.1, pas une barre', 'Aigus perfectibles', 'Encombrement des satellites + caisson'],
+    bestFor: 'Recherche de basses marquées sur le bureau avec un budget maîtrisé',
+    connectivity: ['USB-A', 'Bluetooth', 'Jack 3.5mm'],
+    driverConfig: '2 satellites 10 W + caisson 20 W à émission vers le bas (2.1)',
+    powerRmsWatts: 40,
+    powerPeakWatts: 80,
+    frequencyResponse: '40 Hz – 20 kHz',
+    hasSubwoofer: true,
+    hasMicrophone: false,
+    hasRGB: false,
+    dimensionsCm: { width: 8.9, height: 16.8, depth: 12 },
+    image: '/images/products/logitech-z407.svg',
+    imageAlt: 'Kit 2.1 Logitech Z407 avec caisson de basses et molette de contrôle',
+    tutorial: {
+      intro:
+        'Relie le caisson, choisis ta source (USB, jack ou Bluetooth) et pilote tout depuis la molette sans fil.',
+      steps: [
+        {
+          title: 'Connecter les satellites et le caisson',
+          body: 'Branche les deux satellites sur le caisson, puis alimente le caisson sur secteur.',
+        },
+        {
+          title: 'Brancher sur le PC',
+          body: 'Utilise le câble micro-USB (audio numérique) ou le jack 3,5 mm. Sélectionne le Z407 comme sortie par défaut dans Windows.',
+        },
+        {
+          title: 'Appairer la molette et le Bluetooth',
+          body: 'La molette sans fil contrôle volume et lecture ; appuie sur son bouton pour basculer/appairer une source Bluetooth.',
+        },
+      ],
+      tips: [
+        'Place le caisson au sol pour des basses plus pleines.',
+        'La molette se pose à portée de main : pratique pour couper le son rapidement.',
+      ],
+    },
+    lastUpdated: '2026-06-14',
+    releaseYear: 2020,
+  },
+  {
+    slug: 'edifier-mg300',
+    name: 'Edifier MG300',
+    brand: 'Edifier',
+    price: 59,
+    currency: 'EUR',
+    score: 7.2,
+    scores: { son: 7, basses: 6, ergonomie: 9, connectique: 7.5, rapportQualitePrix: 8.5 },
+    verdict:
+      'Mini-barre RGB avec micro intégré : le compagnon malin pour le gaming léger et la visio sur un petit bureau.',
+    summary:
+      'La MG300 est une barre compacte (48,5 cm) alimentée en USB, avec deux haut-parleurs 52 mm et des membranes de basses passives. Sa particularité : un micro intégré pratique pour la visio, un éclairage RGB et le Bluetooth 5.3. Idéale pour désencombrer un bureau et enchaîner jeu léger et réunions.',
+    pros: [
+      'Micro intégré (visio, chat vocal)',
+      'Format compact alimenté en USB',
+      'Éclairage RGB et Bluetooth 5.3',
+      'Prix très accessible',
+    ],
+    cons: ['Puissance modeste', 'Basses limitées sans caisson', 'Réservée aux petits volumes'],
+    bestFor: 'Petit bureau mêlant gaming léger et visioconférences',
+    connectivity: ['USB-A', 'Bluetooth'],
+    driverConfig: '2 haut-parleurs large bande 52 mm + 2 membranes passives',
+    powerRmsWatts: 5,
+    hasSubwoofer: false,
+    hasMicrophone: true,
+    hasRGB: true,
+    dimensionsCm: { width: 48.5, height: 7.4, depth: 8 },
+    image: '/images/products/edifier-mg300.svg',
+    imageAlt: 'Barre de son compacte Edifier MG300 avec RGB et micro intégré',
+    tutorial: {
+      intro:
+        'Branchement USB plug-and-play ; le micro intégré est reconnu par Windows pour la visio.',
+      steps: [
+        {
+          title: 'Brancher en USB',
+          body: 'Relie la MG300 au PC via l\'adaptateur USB fourni. Elle est alimentée et reçoit l\'audio par ce câble.',
+        },
+        {
+          title: 'Activer entrée et sortie audio',
+          body: 'Dans Windows, sélectionne la MG300 en périphérique de sortie (haut-parleurs) ET d\'entrée (microphone) pour la visio.',
+        },
+        {
+          title: 'Personnaliser le RGB',
+          body: 'Le bouton dédié fait défiler les 6 modes d\'éclairage RGB.',
+        },
+        {
+          title: 'Appairer le Bluetooth',
+          body: 'Maintiens le bouton Bluetooth jusqu\'au clignotement, puis sélectionne « Edifier MG300 » sur ton téléphone.',
+        },
+      ],
+      tips: [
+        'Pour les réunions, teste le micro dans les paramètres de son Windows.',
+        'Sans caisson, relève légèrement les basses dans l\'égaliseur de l\'app de visio.',
+      ],
+    },
+    lastUpdated: '2026-06-14',
+    releaseYear: 2024,
+  },
+  {
+    slug: 'trust-gxt-620-axon',
+    name: 'Trust GXT 620 Axon',
+    brand: 'Trust',
+    price: 45,
+    currency: 'EUR',
+    score: 6.8,
+    scores: { son: 6.5, basses: 6, ergonomie: 8, connectique: 6.5, rapportQualitePrix: 8 },
+    verdict:
+      'La barre RGB la moins chère pour habiller un setup gaming d\'entrée de gamme, alimentée en USB.',
+    summary:
+      'La GXT 620 Axon vise les setups colorés à tout petit prix : barre unique de 42 cm alimentée en USB, éclairage RGB « rainbow » et son correct pour la bureautique et le jeu occasionnel. À réserver aux petits budgets, sans caisson ni Bluetooth.',
+    pros: ['Prix plancher', 'Éclairage RGB', 'Alimentation USB simple', 'Format compact (42 cm)'],
+    cons: ['Puissance faible (12 W crête)', 'Pas de caisson ni de Bluetooth', 'Entrée audio en jack uniquement'],
+    bestFor: 'Setup gaming d\'entrée de gamme et usage bureautique à petit budget',
+    connectivity: ['USB-A', 'Jack 3.5mm'],
+    driverConfig: '2 haut-parleurs large bande, illumination RGB',
+    powerRmsWatts: 6,
+    powerPeakWatts: 12,
+    hasSubwoofer: false,
+    hasMicrophone: false,
+    hasRGB: true,
+    dimensionsCm: { width: 42, height: 6.8, depth: 7.8 },
+    image: '/images/products/trust-gxt-620-axon.svg',
+    imageAlt: 'Barre de son gaming RGB Trust GXT 620 Axon',
+    tutorial: {
+      intro:
+        'Deux câbles : l\'USB pour l\'alimentation et le RGB, le jack 3,5 mm pour le son.',
+      steps: [
+        {
+          title: 'Brancher l\'alimentation USB',
+          body: 'Relie le câble USB à un port du PC : il alimente la barre et son éclairage RGB.',
+        },
+        {
+          title: 'Brancher l\'audio en jack',
+          body: 'Connecte le câble 3,5 mm à la sortie casque/haut-parleurs du PC.',
+        },
+        {
+          title: 'Régler le volume et le RGB',
+          body: 'Utilise la molette en façade pour le volume ; l\'éclairage rainbow s\'anime automatiquement.',
+        },
+      ],
+      tips: [
+        'Sur un portable sans sortie jack, utilise un adaptateur USB-audio.',
+        'Sans caisson, garde un volume modéré pour éviter la distorsion dans les basses.',
+      ],
+    },
+    lastUpdated: '2026-06-14',
+    releaseYear: 2021,
+  },
 ];
 
 /** Retourne une barre de son par son slug. */

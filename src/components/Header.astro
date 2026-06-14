@@ -14,7 +14,18 @@ const isActive = (href: string) => {
       <span class="brand-mark" aria-hidden="true">🔊</span>
       <span class="brand-name">{SITE.name}</span>
     </a>
-    <nav aria-label="Navigation principale">
+
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+    >
+      <span class="burger" aria-hidden="true"></span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" aria-label="Navigation principale">
       <ul class="nav-list">
         {
           NAV.map((item) => (
@@ -29,6 +40,35 @@ const isActive = (href: string) => {
     </nav>
   </div>
 </header>
+
+<script>
+  // Bascule du menu burger sur mobile.
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('primary-nav');
+  const header = document.querySelector('.site-header');
+
+  function setOpen(open: boolean) {
+    if (!toggle || !header) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    header.classList.toggle('nav-open', open);
+  }
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    setOpen(!open);
+  });
+
+  // Ferme le menu après un clic sur un lien (navigation mobile).
+  nav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => setOpen(false)),
+  );
+
+  // Ferme avec Échap.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+</script>
 
 <style>
   .site-header {
@@ -45,7 +85,6 @@ const isActive = (href: string) => {
     justify-content: space-between;
     gap: var(--space-4);
     min-height: 64px;
-    flex-wrap: wrap;
   }
   .brand {
     display: inline-flex;
@@ -60,7 +99,6 @@ const isActive = (href: string) => {
   }
   .nav-list {
     display: flex;
-    flex-wrap: wrap;
     gap: var(--space-4);
     list-style: none;
     margin: 0;
@@ -75,5 +113,87 @@ const isActive = (href: string) => {
   .nav-list a[aria-current='page'] {
     color: var(--text);
     text-decoration: none;
+  }
+
+  /* Bouton burger : masqué sur desktop. */
+  .nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .burger,
+  .burger::before,
+  .burger::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .burger {
+    position: relative;
+  }
+  .burger::before,
+  .burger::after {
+    content: '';
+    position: absolute;
+  }
+  .burger::before {
+    transform: translateY(-7px);
+  }
+  .burger::after {
+    transform: translateY(7px);
+  }
+
+  /* Mobile : burger visible, nav en panneau déroulant. */
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .primary-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+    }
+    .nav-list {
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-2) var(--space-4) var(--space-4);
+    }
+    .nav-list li {
+      margin: 0;
+    }
+    .nav-list a {
+      display: block;
+      padding: var(--space-3) var(--space-2);
+      font-size: 1.05rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .site-header.nav-open .primary-nav {
+      max-height: 70vh;
+    }
+    /* Animation du burger en croix quand ouvert. */
+    .site-header.nav-open .burger {
+      background: transparent;
+    }
+    .site-header.nav-open .burger::before {
+      transform: translateY(0) rotate(45deg);
+    }
+    .site-header.nav-open .burger::after {
+      transform: translateY(0) rotate(-45deg);
+    }
   }
 </style>
