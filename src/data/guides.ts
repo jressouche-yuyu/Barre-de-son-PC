@@ -170,6 +170,88 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: 'barre-de-son-pc-sans-fil-bluetooth',
+    title: 'Barre de son PC sans fil : Bluetooth, batterie et limites',
+    description:
+      'Quand le sans-fil a-t-il du sens pour une barre de son PC ? Bluetooth, latence, autonomie sur batterie et multipoint : ce qu\'il faut savoir avant de choisir.',
+    cover: '/images/guides/barre-de-son-pc-sans-fil-bluetooth.webp',
+    coverAlt: 'Barre de son PC reliée sans fil à un smartphone, avec symbole de batterie',
+    publishedAt: '2026-06-14',
+    lastUpdated: '2026-06-14',
+    readingMinutes: 5,
+    sections: [
+      {
+        heading: 'Sans fil ne veut pas dire « sans câble »',
+        body: 'La plupart des barres de son PC « Bluetooth » restent alimentées par un câble (USB-C ou secteur) : le sans-fil concerne le signal audio, pas l\'alimentation. Seuls quelques modèles nomades intègrent une batterie, comme la Creative Stage Air V2, pour un usage réellement sans câble pendant quelques heures.',
+      },
+      {
+        heading: 'Le Bluetooth, idéal en appoint',
+        body: 'Le Bluetooth brille pour basculer rapidement vers un smartphone ou une tablette, sans rebrancher quoi que ce soit. Sur PC, on le garde souvent en complément d\'une liaison USB-C filaire qui reste la connexion principale. Pour le détail des entrées (USB-C, jack, optique…), voyez notre comparatif des connexions audio PC.',
+      },
+      {
+        heading: 'La latence : le vrai point faible pour le jeu',
+        body: 'Le Bluetooth introduit un léger décalage entre l\'image et le son, et compresse le signal. C\'est imperceptible pour de la musique de fond, mais gênant pour le jeu compétitif ou le montage. Dans ces cas, privilégiez l\'USB-C, dont la latence est négligeable.',
+      },
+      {
+        heading: 'Multipoint et autonomie',
+        body: 'Certaines barres et enceintes récentes (Bluetooth 5.3/5.4) gèrent une reconnexion rapide, voire le multipoint pour jongler entre deux appareils. Si la mobilité prime, vérifiez l\'autonomie annoncée et la présence d\'une vraie batterie plutôt qu\'une simple alimentation USB.',
+      },
+    ],
+    faq: [
+      {
+        question: 'Le Bluetooth dégrade-t-il la qualité du son ?',
+        answer:
+          'Légèrement, à cause de la compression, mais c\'est rarement audible pour un usage bureautique ou de la musique de fond. Pour une qualité optimale et zéro latence sur PC, l\'USB-C reste préférable.',
+      },
+      {
+        question: 'Peut-on utiliser une barre de son PC sans aucun câble ?',
+        answer:
+          'Seulement avec un modèle à batterie intégrée comme la Creative Stage Air V2. Les autres barres « sans fil » reçoivent l\'audio en Bluetooth mais nécessitent une alimentation par câble.',
+      },
+    ],
+  },
+  {
+    slug: 'barre-de-son-petit-bureau-moniteur',
+    title: 'Quelle barre de son pour un petit bureau ou un moniteur ?',
+    description:
+      'Largeur, hauteur sous l\'écran, alimentation par un seul câble : comment choisir une barre de son compacte adaptée à un petit bureau ou un simple moniteur.',
+    cover: '/images/guides/barre-de-son-petit-bureau-moniteur.webp',
+    coverAlt: 'Petite barre de son compacte sous un moniteur sur un bureau épuré',
+    publishedAt: '2026-06-14',
+    lastUpdated: '2026-06-14',
+    readingMinutes: 5,
+    sections: [
+      {
+        heading: 'Mesurer l\'espace sous l\'écran',
+        body: 'Avant tout, mesurez la largeur disponible entre les pieds du moniteur et la hauteur libre sous la dalle. Une barre de 40-41 cm (Razer Leviathan V2 X, Creative GS3, Stage Air V2) se glisse sous la plupart des écrans 24-27", tandis qu\'une barre de 60 cm demande un bureau plus large.',
+      },
+      {
+        heading: 'Un seul câble pour désencombrer',
+        body: 'Sur un petit bureau, privilégiez une barre alimentée et alimentée en audio par un unique câble USB-C : pas de bloc secteur, pas de caisson au sol. C\'est le cas des modèles compacts, parfaits pour un setup épuré.',
+      },
+      {
+        heading: 'Faut-il renoncer aux basses ?',
+        body: 'Sans caisson, les basses sont plus discrètes, mais les radiateurs passifs des bonnes barres compactes (Leviathan V2 X, GS3) offrent un grave honnête. Si l\'impact prime malgré l\'espace réduit, la Creative Katana V2X propose un caisson plus facile à caser que les gros modèles.',
+      },
+      {
+        heading: 'Et pour un PC portable ?',
+        body: 'Pour un laptop ou un poste nomade, une mini-barre USB-C, voire un modèle sur batterie (Stage Air V2), apporte un vrai gain de clarté face aux haut-parleurs intégrés, sans alourdir le sac.',
+      },
+    ],
+    faq: [
+      {
+        question: 'Quelle largeur de barre de son pour un écran 24 ou 27 pouces ?',
+        answer:
+          'Une barre de 40 à 50 cm convient à la plupart des moniteurs 24-27". Vérifiez surtout la hauteur pour ne pas masquer le bas de la dalle, et la largeur entre les pieds de l\'écran.',
+      },
+      {
+        question: 'Une barre compacte suffit-elle pour un petit bureau ?',
+        answer:
+          'Oui : face aux haut-parleurs intégrés d\'un moniteur, une barre compacte comme la Razer Leviathan V2 X ou la Creative GS3 apporte un gain de clarté et de volume immédiatement perceptible, sans encombrer.',
+      },
+    ],
+  },
 ];
 
 /** Retourne un guide par slug. */
