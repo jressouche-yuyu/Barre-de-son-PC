@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverArt from '../../components/CoverArt.astro';
 import Faq from '../../components/Faq.astro';
 import { guides } from '../../data/guides';
 import {
@@ -41,22 +42,25 @@ const jsonLd = [
   modifiedTime={guide.lastUpdated}
   jsonLd={jsonLd}
 >
-  <article class="container">
+  <article class="container guide">
     <Breadcrumbs items={crumbs} />
-    <header class="section" style="padding-bottom: var(--space-4)">
+    <CoverArt seed={`guide-${guide.slug}`} variant="banner" icon="📘" class="guide-cover" />
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>{guide.title}</h1>
       <p class="lead">{guide.description}</p>
       <p class="meta badge">{guide.readingMinutes} min · Mis à jour le {guide.lastUpdated}</p>
     </header>
 
-    {
-      guide.sections.map((s) => (
-        <section>
-          <h2>{s.heading}</h2>
-          <p set:html={s.body} />
-        </section>
-      ))
-    }
+    <div class="prose">
+      {
+        guide.sections.map((s) => (
+          <section class="guide-section">
+            <h2>{s.heading}</h2>
+            <p set:html={s.body} />
+          </section>
+        ))
+      }
+    </div>
 
     <Faq items={guide.faq} />
 
@@ -65,3 +69,27 @@ const jsonLd = [
     </p>
   </article>
 </BaseLayout>
+
+<style>
+  .guide {
+    max-width: 760px;
+  }
+  .guide-cover {
+    margin-top: var(--space-6);
+  }
+  .prose {
+    font-size: 1.06rem;
+  }
+  .guide-section {
+    margin-bottom: var(--space-8);
+  }
+  .guide-section h2 {
+    margin-top: var(--space-12);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+  }
+  .guide-section p {
+    color: var(--text);
+    line-height: 1.75;
+  }
+</style>

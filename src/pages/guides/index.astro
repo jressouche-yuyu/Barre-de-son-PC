@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverArt from '../../components/CoverArt.astro';
 import { guides } from '../../data/guides';
 import { breadcrumbSchema } from '../../lib/schema';
 import { url } from '../../lib/url';
@@ -33,9 +34,12 @@ const jsonLd = [breadcrumbSchema(crumbs)];
         {
           guides.map((g) => (
             <a class="guide-card" href={url(`/guides/${g.slug}`)}>
-              <h2 style="margin-top:0;font-size:1.25rem">{g.title}</h2>
-              <p>{g.description}</p>
-              <p class="meta">{g.readingMinutes} min de lecture · MàJ {g.lastUpdated}</p>
+              <CoverArt seed={`guide-${g.slug}`} variant="thumb" icon="📘" />
+              <div class="guide-body">
+                <h2 style="margin-top:0;font-size:1.25rem">{g.title}</h2>
+                <p>{g.description}</p>
+                <p class="meta">{g.readingMinutes} min de lecture · MàJ {g.lastUpdated}</p>
+              </div>
             </a>
           ))
         }
@@ -50,12 +54,15 @@ const jsonLd = [breadcrumbSchema(crumbs)];
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: var(--space-6);
+    overflow: hidden;
     color: var(--text);
   }
   .guide-card:hover {
     border-color: var(--primary);
     text-decoration: none;
+  }
+  .guide-body {
+    padding: var(--space-6);
   }
   .guide-card p {
     color: var(--text-muted);

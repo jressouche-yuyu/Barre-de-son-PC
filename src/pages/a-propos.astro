@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CoverArt from '../components/CoverArt.astro';
 import { SITE } from '../consts';
 import { breadcrumbSchema } from '../lib/schema';
 
@@ -19,7 +20,8 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 >
   <div class="container narrow">
     <Breadcrumbs items={crumbs} />
-    <header class="section" style="padding-bottom: var(--space-4)">
+    <CoverArt seed="a-propos-barreson" variant="banner" icon="🎧" class="about-cover" />
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>À propos de {SITE.name}</h1>
       <p class="lead">
         Un site éditorial indépendant dédié aux barres de son pour PC.
@@ -60,5 +62,8 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 <style>
   .narrow {
     max-width: 760px;
+  }
+  .about-cover {
+    margin-top: var(--space-6);
   }
 </style>
