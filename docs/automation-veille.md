@@ -21,6 +21,11 @@ frais, plus structuré et plus utile que la concurrence.
 **Garde-fous :** ne jamais inventer de specs/prix ; marquer comme « à confirmer »
 toute donnée non vérifiée ; pas d'images sous copyright.
 
+**Images d'article :** ne renseigne PAS de champ `cover` par défaut — chaque
+article reçoit automatiquement un visuel génératif unique (bandeau + vignette).
+N'ajoute un `cover: /images/blog/<fichier>` que si une image **libre de droits**
+a été déposée dans `public/images/blog/`.
+
 ## 2. Sélection du mois (le 2 de chaque mois)
 
 **Objectif** : tenir à jour `src/data/monthly.ts` avec un statut clair.

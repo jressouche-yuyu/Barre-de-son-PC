@@ -16,6 +16,14 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     /** Temps de lecture estimé en minutes. */
     readingMinutes: z.number().default(5),
+    /**
+     * Image de couverture (optionnelle). Chemin sous /public, ex.
+     * "/images/blog/mon-article.jpg". Si absent, un visuel génératif unique
+     * est affiché automatiquement.
+     */
+    cover: z.string().optional(),
+    /** Texte alternatif de la couverture (accessibilité/SEO). */
+    coverAlt: z.string().optional(),
     /** Mettre à true pour ne pas publier. */
     draft: z.boolean().default(false),
   }),

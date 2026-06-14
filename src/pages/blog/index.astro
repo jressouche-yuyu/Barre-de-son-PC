@@ -38,7 +38,20 @@ const jsonLd = [breadcrumbSchema(crumbs)];
         {
           posts.map((post) => (
             <a class="post-card" href={url(`/blog/${post.id}`)}>
-              <CoverArt seed={post.id} variant="thumb" />
+              {
+                post.data.cover ? (
+                  <img
+                    class="post-thumb"
+                    src={url(post.data.cover)}
+                    alt={post.data.coverAlt ?? post.data.title}
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                  />
+                ) : (
+                  <CoverArt seed={post.id} variant="thumb" />
+                )
+              }
               <div class="post-body">
                 <h2>{post.data.title}</h2>
                 <p>{post.data.description}</p>
@@ -64,6 +77,12 @@ const jsonLd = [breadcrumbSchema(crumbs)];
   .post-card:hover {
     border-color: var(--primary);
     text-decoration: none;
+  }
+  .post-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
   }
   .post-body {
     padding: var(--space-6);
