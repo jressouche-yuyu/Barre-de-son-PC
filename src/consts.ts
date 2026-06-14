@@ -9,7 +9,7 @@ export const SITE = {
   /** Domaine de production (sans slash final). Utilisé pour les URL canoniques, le sitemap et les schémas. */
   url: 'https://www.barresonpc.fr',
   /** Slogan court — réutilisé dans la home et les balises meta. */
-  tagline: 'Le comparatif de référence des barres de son pour PC',
+  tagline: 'Tests, comparatifs & guides audio PC',
   /** Description par défaut (meta description de repli, ~155 caractères). */
   description:
     'Classements, comparatifs et guides d\'achat des meilleures barres de son pour PC. Tests indépendants, critères clairs et recommandations à jour.',
@@ -36,7 +36,7 @@ export const SITE = {
  * produit est connu, sinon recherche Amazon par nom — toujours avec ton tag.
  */
 export const AFFILIATE = {
-  partnerTag: 'votretag-21',
+  partnerTag: 'jrgrowth-21',
   marketplace: 'https://www.amazon.fr',
   /** Active/désactive globalement l'affichage des boutons d'achat. */
   enabled: true,
