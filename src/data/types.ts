@@ -87,6 +87,8 @@ export interface Soundbar {
   tutorial: Tutorial;
   /** ASIN Amazon (optionnel) pour un lien d'affiliation direct. Sinon recherche par nom. */
   amazonAsin?: string;
+  /** Lien direct vers la notice/manuel (PDF) du produit, si connu. Sinon lien de recherche. */
+  manualUrl?: string;
   /** Date de la dernière vérification éditoriale (ISO 8601). Important pour la fraîcheur SEO/GEO. */
   lastUpdated: string;
   /** Année de sortie du produit. */

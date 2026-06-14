@@ -60,6 +60,12 @@ const specs: { label: string; value: string }[] = [
 
 const brandInfo = getBrand(sb.brand.toLowerCase());
 const inRankings = rankingsForSoundbar(sb.slug);
+
+// Notice : lien direct si connu, sinon recherche de la notice officielle.
+const manualIsDirect = Boolean(sb.manualUrl);
+const manualHref =
+  sb.manualUrl ??
+  `https://www.google.com/search?q=${encodeURIComponent(`${sb.brand} ${sb.name} manuel notice pdf`)}`;
 const relatedGuides = ['comment-choisir-barre-de-son-pc', 'comment-installer-barre-de-son-pc']
   .map((s) => getGuide(s))
   .filter((g): g is NonNullable<typeof g> => Boolean(g));
@@ -82,48 +88,59 @@ const jsonLd = [
   <div class="container">
     <Breadcrumbs items={crumbs} />
 
-    <header class="product-head section" style="padding-bottom: var(--space-6)">
-      <div>
-        <a class:list={['brand-badge', brandInfo?.logoBg === 'dark' && 'badge-dark']} href={url(`/marques/${sb.brand.toLowerCase()}`)} aria-label={`Toutes les barres de son ${sb.brand}`}>
+    <article class="product-hero">
+      <div class="product-media">
+        <a
+          class:list={['brand-badge', brandInfo?.logoBg === 'dark' && 'badge-dark']}
+          href={url(`/marques/${sb.brand.toLowerCase()}`)}
+          aria-label={`Toutes les barres de son ${sb.brand}`}
+        >
           {
             brandInfo?.logo ? (
-              <img src={url(brandInfo.logo)} alt={`Logo ${sb.brand}`} height="20" loading="eager" />
+              <img src={url(brandInfo.logo)} alt={`Logo ${sb.brand}`} height="18" loading="eager" />
             ) : (
               <span>{sb.brand}</span>
             )
           }
         </a>
+        <img
+          class="product-image"
+          src={url(sb.image)}
+          alt={sb.imageAlt}
+          width="1200"
+          height="675"
+          loading="eager"
+        />
+      </div>
+
+      <div class="product-info">
         <h1>{sb.name}</h1>
         <p class="lead">{sb.verdict}</p>
-        <p class="badge badge-accent">Idéal pour : {sb.bestFor}</p>
-      </div>
-      <div class="score-box">
-        <span class="score-big score">{sb.score.toFixed(1)}</span>
-        <span class="score-out">/ 10</span>
-        <span class="score-price">{formatPrice(sb.price, sb.currency)}</span>
-        {
-          AFFILIATE.enabled && (
-            <a
-              class="btn buy-btn"
-              href={amazonUrl(sb)}
-              target="_blank"
-              rel="sponsored nofollow noopener"
-            >
-              Voir le prix sur Amazon
-            </a>
-          )
-        }
-      </div>
-    </header>
+        <p class="badge badge-accent">🎯 Idéal pour : {sb.bestFor}</p>
 
-    <img
-      class="product-image"
-      src={url(sb.image)}
-      alt={sb.imageAlt}
-      width="800"
-      height="500"
-      loading="eager"
-    />
+        <div class="buybox">
+          <div class="buybox-score">
+            <span class="score-big score">{sb.score.toFixed(1)}</span>
+            <span class="score-out">/ 10</span>
+          </div>
+          <div class="buybox-buy">
+            <span class="buybox-price">{formatPrice(sb.price, sb.currency)}</span>
+            {
+              AFFILIATE.enabled && (
+                <a
+                  class="btn buy-btn"
+                  href={amazonUrl(sb)}
+                  target="_blank"
+                  rel="sponsored nofollow noopener"
+                >
+                  Voir le prix sur Amazon
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </article>
 
     <Callout title="L'essentiel" icon="⚡">
       <ul>
@@ -173,6 +190,20 @@ const jsonLd = [
       </table>
     </div>
 
+    <section class="fit-check" aria-labelledby="fit-title">
+      <h2 id="fit-title">📐 Tient-elle sous votre écran ?</h2>
+      <p>
+        La {sb.name} mesure <strong>{sb.dimensionsCm.width} cm</strong> de large.
+        Entrez la largeur disponible sous votre moniteur pour vérifier d'un coup d'œil :
+      </p>
+      <div class="fit-controls">
+        <label for="fit-input">Largeur dispo (cm)</label>
+        <input type="number" id="fit-input" min="10" max="250" step="0.5" inputmode="decimal" placeholder="ex. 55" />
+        <button type="button" id="fit-btn" class="btn">Vérifier</button>
+      </div>
+      <p id="fit-result" class="fit-result" role="status" aria-live="polite"></p>
+    </section>
+
     <h2>Tutoriel : installer et configurer la {sb.name}</h2>
     <p>{sb.tutorial.intro}</p>
     <ol class="tuto-steps">
@@ -195,6 +226,17 @@ const jsonLd = [
         </div>
       )
     }
+
+    <section class="notice">
+      <h2>📘 Notice &amp; support</h2>
+      <p>
+        Besoin du manuel d'utilisation de la {sb.name} (branchements, réglages,
+        dépannage) ?
+      </p>
+      <a class="btn btn-ghost" href={manualHref} target="_blank" rel="noopener nofollow">
+        {manualIsDirect ? '📄 Télécharger la notice (PDF)' : '🔎 Trouver la notice officielle'}
+      </a>
+    </section>
 
     <p class="updated">Fiche vérifiée le {sb.lastUpdated}.</p>
 
@@ -226,49 +268,131 @@ const jsonLd = [
       <a class="btn btn-ghost" href={url('/barres-de-son')}>← Toutes les barres de son</a>
     </p>
   </div>
+
+  <script is:inline define:vars={{ barWidth: sb.dimensionsCm.width }}>
+    const input = document.getElementById('fit-input');
+    const btn = document.getElementById('fit-btn');
+    const result = document.getElementById('fit-result');
+    function checkFit() {
+      const avail = parseFloat((input?.value || '').replace(',', '.'));
+      if (!result) return;
+      if (!avail || avail <= 0) {
+        result.textContent = '';
+        result.className = 'fit-result';
+        return;
+      }
+      const clearance = +(avail - barWidth).toFixed(1);
+      if (clearance >= 0) {
+        result.textContent = `✅ Ça passe ! Il vous restera ${clearance} cm de marge sous l'écran.`;
+        result.className = 'fit-result ok';
+      } else {
+        result.textContent = `❌ Trop large de ${Math.abs(clearance)} cm. Visez une barre plus compacte.`;
+        result.className = 'fit-result no';
+      }
+    }
+    btn?.addEventListener('click', checkFit);
+    input?.addEventListener('input', checkFit);
+  </script>
 </BaseLayout>
 
 <style>
-  .product-head {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-8);
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-  .score-box {
+  .product-hero {
     display: grid;
-    justify-items: center;
-    align-content: center;
-    gap: var(--space-1);
+    gap: var(--space-8);
+    align-items: center;
+    margin-top: var(--space-6);
+  }
+  @media (min-width: 860px) {
+    .product-hero {
+      grid-template-columns: 1.05fr 1fr;
+    }
+  }
+  .product-media {
+    position: relative;
+  }
+  .product-info h1 {
+    margin-bottom: var(--space-3);
+  }
+  .buybox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-6);
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: var(--space-6);
-    min-width: 160px;
+  }
+  .buybox-score {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
   }
   .score-big {
-    font-size: 3rem;
+    font-size: 2.6rem;
     color: var(--accent);
     line-height: 1;
   }
   .score-out {
     color: var(--text-muted);
   }
-  .score-price {
-    margin-top: var(--space-2);
-    font-weight: 700;
-    font-size: 1.2rem;
+  .buybox-buy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-left: auto;
+  }
+  .buybox-price {
+    font-weight: 800;
+    font-size: 1.3rem;
   }
   .buy-btn {
-    margin-top: var(--space-3);
-    width: 100%;
     justify-content: center;
     background: var(--accent);
     color: #06231b;
   }
   .buy-btn:hover {
     background: #2fe3b6;
+  }
+  .fit-check,
+  .notice {
+    margin-top: var(--space-8);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+  }
+  .fit-check h2,
+  .notice h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+  }
+  .fit-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+  .fit-controls input {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.7rem;
+    width: 120px;
+  }
+  .fit-result {
+    font-weight: 600;
+    margin: 0;
+    min-height: 1.3em;
+  }
+  .fit-result.ok {
+    color: var(--accent);
+  }
+  .fit-result.no {
+    color: var(--danger);
   }
   .scores {
     display: grid;
@@ -341,11 +465,17 @@ const jsonLd = [
   }
   .product-image {
     width: 100%;
-    max-width: 720px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
-    margin-block: var(--space-6) var(--space-8);
+    display: block;
+  }
+  .product-media .brand-badge {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 1;
+    margin: 0;
   }
   .tuto-steps {
     list-style: none;
