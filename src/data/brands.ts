@@ -57,6 +57,7 @@ export const brands: BrandInfo[] = [
     cover: '/images/brands/logitech.webp',
     coverAlt: 'Enceintes de bureau Logitech aux accents cyan',
     accent: '#00B8FC',
+    logo: '/images/brands/logos/logitech.png',
     intro:
       'Logitech propose des solutions audio de bureau accessibles et fiables, comme le kit 2.1 Z407 à la molette de contrôle sans fil et aux basses généreuses — une alternative pratique à la barre de son classique.',
   },
