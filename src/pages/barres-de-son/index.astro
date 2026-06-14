@@ -3,7 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SoundbarCard from '../../components/SoundbarCard.astro';
 import { soundbarsByScore } from '../../data/soundbars';
+import { brands } from '../../data/brands';
 import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
 
 const all = soundbarsByScore();
 
@@ -38,6 +40,11 @@ const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
       </p>
     </header>
 
+    <nav class="brand-links" aria-label="Par marque">
+      <span class="brand-links-label">Par marque :</span>
+      {brands.map((b) => <a href={url(`/marques/${b.slug}`)}>{b.name}</a>)}
+    </nav>
+
     <section style="padding-bottom: var(--space-16)">
       <div class="grid grid-3">
         {all.map((sb) => <SoundbarCard soundbar={sb} />)}
@@ -45,3 +52,27 @@ const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
     </section>
   </div>
 </BaseLayout>
+
+<style>
+  .brand-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+  .brand-links-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .brand-links a {
+    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+  .brand-links a:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+</style>

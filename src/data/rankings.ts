@@ -161,6 +161,66 @@ export const rankings: Ranking[] = [
     ],
     lastUpdated: '2026-06-13',
   },
+  {
+    slug: 'meilleures-barres-de-son-pc-sans-fil',
+    title: 'Les meilleures barres de son PC sans fil (Bluetooth)',
+    subtitle: 'Du son sans câble pour relier PC, smartphone et tablette',
+    cover: '/images/rankings/meilleures-barres-de-son-pc-sans-fil.webp',
+    coverAlt: 'Barre de son PC diffusant des ondes Bluetooth sans fil',
+    metaDescription:
+      'Comparatif des meilleures barres de son PC sans fil (Bluetooth) : connexion mobile facile, modèles compacts et nomades. Sélection 2026.',
+    intro:
+      'Le sans-fil ne remplace pas l\'USB pour le jeu (latence), mais le Bluetooth est idéal en appoint : garder le PC branché et diffuser ponctuellement depuis un smartphone, ou opter pour un modèle nomade sur batterie. Voici nos barres de son PC les plus pratiques en Bluetooth.',
+    items: [
+      { soundbar: 'creative-stage-air-v2', why: 'Bluetooth 5.3 + batterie intégrée : la plus nomade et autonome.' },
+      { soundbar: 'creative-sound-blaster-gs3', why: 'Bluetooth 5.4, compacte, avec prise casque pratique.' },
+      { soundbar: 'razer-leviathan-v2-x', why: 'Compacte gaming, USB-C + Bluetooth 5.0 et RGB.' },
+      { soundbar: 'edifier-mg300', why: 'Bluetooth 5.3 et micro intégré, idéale visio.' },
+    ],
+    faq: [
+      {
+        question: 'Le Bluetooth est-il adapté au jeu sur PC ?',
+        answer:
+          'Pas idéalement : le Bluetooth introduit une latence et une légère compression. Pour le gaming, préférez l\'USB-C (latence négligeable) et gardez le Bluetooth en appoint pour le smartphone.',
+      },
+      {
+        question: 'Existe-t-il des barres de son PC totalement sans fil ?',
+        answer:
+          'La Creative Stage Air V2 intègre une batterie et le Bluetooth 5.3, ce qui permet un usage réellement sans câble pendant quelques heures — pratique avec un PC portable en déplacement.',
+      },
+    ],
+    lastUpdated: '2026-06-14',
+  },
+  {
+    slug: 'meilleures-barres-de-son-pc-avec-caisson',
+    title: 'Les meilleures barres de son PC avec caisson de basses',
+    subtitle: 'Des basses physiques pour le jeu et les films',
+    cover: '/images/rankings/meilleures-barres-de-son-pc-avec-caisson.webp',
+    coverAlt: 'Barre de son PC accompagnée d\'un caisson de basses lumineux',
+    metaDescription:
+      'Comparatif des meilleures barres de son PC avec caisson de basses : impact, profondeur et immersion pour le gaming et les films. Sélection 2026.',
+    intro:
+      'Un caisson de basses dédié change tout pour le jeu et le cinéma : explosions, ambiances et bandes-son gagnent en impact physique. Voici nos barres de son PC livrées avec un caisson, de la référence premium au combo abordable.',
+    items: [
+      { soundbar: 'razer-leviathan-v2-pro', why: 'Caisson 13,3 cm et son 3D : l\'immersion maximale.' },
+      { soundbar: 'creative-sound-blaster-katana-v2', why: 'Caisson généreux et jusqu\'à 250 W crête.' },
+      { soundbar: 'razer-leviathan-v2', why: 'Caisson 14 cm efficace, THX Spatial et RGB.' },
+      { soundbar: 'creative-stage-v2', why: 'Combo barre + caisson le plus abordable.' },
+    ],
+    faq: [
+      {
+        question: 'Un caisson de basses est-il utile sur un bureau ?',
+        answer:
+          'Oui pour le jeu et les films : il apporte un grave physique que les petites barres ne peuvent pas reproduire. Pour la bureautique ou la musique neutre, il est moins indispensable et peut être réglé plus bas.',
+      },
+      {
+        question: 'Où placer le caisson de basses ?',
+        answer:
+          'Au sol, près du bureau, sans le coincer dans un meuble fermé ni contre un mur pour éviter les résonances. Son niveau se règle généralement indépendamment de la barre.',
+      },
+    ],
+    lastUpdated: '2026-06-14',
+  },
 ];
 
 /** Retourne un classement par slug. */

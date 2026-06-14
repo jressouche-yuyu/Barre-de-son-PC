@@ -82,7 +82,7 @@ const jsonLd = [
 
     <header class="product-head section" style="padding-bottom: var(--space-6)">
       <div>
-        <p class="eyebrow">{sb.brand}</p>
+        <p class="eyebrow"><a href={url(`/marques/${sb.brand.toLowerCase()}`)}>{sb.brand}</a></p>
         <h1>{sb.name}</h1>
         <p class="lead">{sb.verdict}</p>
         <p class="badge badge-accent">Idéal pour : {sb.bestFor}</p>

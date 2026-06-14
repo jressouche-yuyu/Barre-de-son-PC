@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { brands } from '../../data/brands';
+import { soundbars } from '../../data/soundbars';
+import { breadcrumbSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Marques', path: '/marques' },
+];
+const count = (name: string) => soundbars.filter((s) => s.brand === name).length;
+const jsonLd = [breadcrumbSchema(crumbs)];
+---
+
+<BaseLayout
+  title="Barres de son PC par marque : Razer, Creative, Edifier…"
+  description="Toutes les marques de barres de son pour PC que nous testons : Razer, Creative, Edifier, Logitech, Trust. Modèles, tests et avis par fabricant."
+  path="/marques"
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>Les barres de son PC par marque</h1>
+      <p class="lead">
+        Retrouvez nos tests regroupés par fabricant : chaque marque a ses points
+        forts, du gaming RGB au son le plus polyvalent.
+      </p>
+    </header>
+
+    <section style="padding-bottom: var(--space-16)">
+      <div class="grid grid-3">
+        {
+          brands.map((b) => (
+            <a class="brand-card" href={url(`/marques/${b.slug}`)}>
+              <img class="brand-thumb" src={url(b.cover)} alt={b.coverAlt} width="800" height="450" loading="lazy" />
+              <div class="brand-body">
+                <h2>{b.name}</h2>
+                <p>{count(b.name)} modèle{count(b.name) > 1 ? 's' : ''} testé{count(b.name) > 1 ? 's' : ''}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .brand-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: var(--text);
+  }
+  .brand-card:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+  .brand-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .brand-body {
+    padding: var(--space-4) var(--space-6);
+  }
+  .brand-body h2 {
+    margin: 0 0 var(--space-1);
+    font-size: 1.2rem;
+  }
+  .brand-body p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+</style>

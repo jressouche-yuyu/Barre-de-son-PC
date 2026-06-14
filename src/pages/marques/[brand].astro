@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SoundbarCard from '../../components/SoundbarCard.astro';
+import { brands } from '../../data/brands';
+import { soundbarsByScore } from '../../data/soundbars';
+import {
+  breadcrumbSchema,
+  soundbarsItemListSchema,
+} from '../../lib/schema';
+import { url } from '../../lib/url';
+
+export function getStaticPaths() {
+  return brands.map((brand) => ({
+    params: { brand: brand.slug },
+    props: { brand },
+  }));
+}
+
+const { brand } = Astro.props;
+const models = soundbarsByScore().filter((s) => s.brand === brand.name);
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Marques', path: '/marques' },
+  { name: brand.name, path: `/marques/${brand.slug}` },
+];
+
+const jsonLd = [
+  breadcrumbSchema(crumbs),
+  soundbarsItemListSchema(models, `Barres de son ${brand.name} pour PC`),
+];
+---
+
+<BaseLayout
+  title={`Barres de son ${brand.name} pour PC : modèles, tests et avis`}
+  description={`Tous les modèles de barres de son ${brand.name} pour PC testés et notés : ${brand.intro.slice(0, 110)}…`}
+  path={`/marques/${brand.slug}`}
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <img
+      class="brand-cover"
+      src={url(brand.cover)}
+      alt={brand.coverAlt}
+      width="1600"
+      height="900"
+      loading="eager"
+    />
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
+      <h1>Barres de son {brand.name} pour PC</h1>
+      <p class="lead">{brand.intro}</p>
+    </header>
+
+    <div class="grid grid-3">
+      {models.map((sb, i) => <SoundbarCard soundbar={sb} rank={i + 1} />)}
+    </div>
+
+    <section class="maillage">
+      <h2>Aller plus loin</h2>
+      <ul>
+        <li><a href={url('/classements/meilleures-barres-de-son-pc')}>Le classement général des meilleures barres de son PC</a></li>
+        <li><a href={url('/comparateur')}>Comparer toutes les barres de son PC</a></li>
+        <li><a href={url('/marques')}>Voir toutes les marques</a></li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .brand-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-top: var(--space-6);
+    display: block;
+  }
+  .maillage {
+    margin-top: var(--space-12);
+  }
+  .maillage h2 {
+    font-size: 1.15rem;
+  }
+</style>
