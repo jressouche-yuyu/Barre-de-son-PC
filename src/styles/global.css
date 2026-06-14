@@ -47,10 +47,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* Empêche tout défilement horizontal de la page (le défilement vertical et le
+     header sticky restent intacts car html est le conteneur de scroll racine). */
+  overflow-x: hidden;
 }
 
-/* Confine tout débordement horizontal au contenu (le header sticky est hors de
-   <main>, donc non impacté). Seuls les .table-wrap gardent leur scroll interne. */
+/* Sécurité supplémentaire au niveau du contenu (header sticky hors de <main>). */
 main {
   overflow-x: clip;
 }
