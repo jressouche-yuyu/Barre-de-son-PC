@@ -1,0 +1,149 @@
+---
+/**
+ * Galerie de photos produit (carrousel accessible).
+ * Toutes les images sont rendues dans le HTML statique (indexables).
+ * Sans JS : la première photo s'affiche, les autres restent accessibles via les
+ * vignettes ; avec JS, navigation carrousel (flèches, vignettes, clavier).
+ */
+import { url } from '../lib/url';
+
+interface Props {
+  images: string[];
+  name: string;
+}
+const { images, name } = Astro.props;
+---
+
+<div class="gallery" data-gallery>
+  <div class="gallery-main">
+    <button type="button" class="gallery-nav gallery-prev" aria-label="Photo précédente">‹</button>
+    {
+      images.map((src, i) => (
+        <img
+          class:list={['gallery-img', i === 0 && 'active']}
+          src={url(src)}
+          alt={`${name} — photo ${i + 1}`}
+          width="1200"
+          height="750"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          data-idx={i}
+        />
+      ))
+    }
+    <button type="button" class="gallery-nav gallery-next" aria-label="Photo suivante">›</button>
+  </div>
+  {
+    images.length > 1 && (
+      <div class="gallery-thumbs" role="tablist" aria-label={`Photos de ${name}`}>
+        {images.map((src, i) => (
+          <button
+            type="button"
+            class:list={['gallery-thumb', i === 0 && 'active']}
+            data-idx={i}
+            aria-label={`Voir la photo ${i + 1}`}
+          >
+            <img src={url(src)} alt="" width="160" height="100" loading="lazy" />
+          </button>
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<script>
+  document.querySelectorAll('[data-gallery]').forEach((gal) => {
+    const imgs = Array.from(gal.querySelectorAll('.gallery-img'));
+    const thumbs = Array.from(gal.querySelectorAll('.gallery-thumb'));
+    if (imgs.length < 2) return;
+    let cur = 0;
+    function show(i) {
+      cur = (i + imgs.length) % imgs.length;
+      imgs.forEach((el, n) => el.classList.toggle('active', n === cur));
+      thumbs.forEach((el, n) => el.classList.toggle('active', n === cur));
+    }
+    gal.querySelector('.gallery-prev')?.addEventListener('click', () => show(cur - 1));
+    gal.querySelector('.gallery-next')?.addEventListener('click', () => show(cur + 1));
+    thumbs.forEach((t, n) => t.addEventListener('click', () => show(n)));
+  });
+</script>
+
+<style>
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .gallery-main {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .gallery-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .gallery-img.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(11, 14, 20, 0.7);
+    color: var(--text);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+  }
+  .gallery-nav:hover {
+    background: var(--primary);
+  }
+  .gallery-prev {
+    left: var(--space-3);
+  }
+  .gallery-next {
+    right: var(--space-3);
+  }
+  .gallery-thumbs {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+  }
+  .gallery-thumb {
+    flex: 0 0 auto;
+    width: 72px;
+    height: 46px;
+    padding: 0;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .gallery-thumb.active {
+    border-color: var(--primary);
+  }
+  .gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>

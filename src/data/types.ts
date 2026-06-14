@@ -83,6 +83,8 @@ export interface Soundbar {
   image: string;
   /** Texte alternatif de l'image (accessibilité + SEO image). */
   imageAlt: string;
+  /** Galerie de photos réelles (chemins sous /public). Si présente, affiche un carrousel. */
+  gallery?: string[];
   /** Tutoriel d'installation et de prise en main propre au produit. */
   tutorial: Tutorial;
   /** ASIN Amazon (optionnel) pour un lien d'affiliation direct. Sinon recherche par nom. */

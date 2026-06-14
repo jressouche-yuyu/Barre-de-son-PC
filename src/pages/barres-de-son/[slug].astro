@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProsCons from '../../components/ProsCons.astro';
 import Callout from '../../components/Callout.astro';
+import Gallery from '../../components/Gallery.astro';
 import { soundbars, formatPrice, powerLabel } from '../../data/soundbars';
 import { rankingsForSoundbar } from '../../data/rankings';
 import { getGuide } from '../../data/guides';
@@ -150,14 +151,20 @@ const jsonLd = [
             )
           }
         </a>
-        <img
-          class="product-image"
-          src={url(sb.image)}
-          alt={sb.imageAlt}
-          width="1200"
-          height="675"
-          loading="eager"
-        />
+        {
+          sb.gallery && sb.gallery.length > 0 ? (
+            <Gallery images={sb.gallery} name={sb.name} />
+          ) : (
+            <img
+              class="product-image"
+              src={url(sb.image)}
+              alt={sb.imageAlt}
+              width="1200"
+              height="675"
+              loading="eager"
+            />
+          )
+        }
       </div>
 
       <div class="product-info">
