@@ -35,12 +35,6 @@ jobs:
       - name: Install
         run: npm ci
 
-      # Active GitHub Pages (source = Actions) automatiquement (OK sur dépôt public).
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
       - name: Build
         run: npm run build
         env:
