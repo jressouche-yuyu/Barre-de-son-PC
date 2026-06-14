@@ -10,6 +10,8 @@ export const rankings: Ranking[] = [
     slug: 'meilleures-barres-de-son-pc',
     title: 'Les meilleures barres de son pour PC en 2026',
     subtitle: 'Notre classement général, toutes catégories confondues',
+    cover: '/images/rankings/meilleures-barres-de-son-pc.webp',
+    coverAlt: 'Barre de son sur un podium, classement de référence',
     metaDescription:
       'Classement 2026 des meilleures barres de son pour PC. Comparatif indépendant : son, basses, connectique et rapport qualité-prix.',
     intro:
@@ -44,6 +46,8 @@ export const rankings: Ranking[] = [
     slug: 'meilleures-barres-de-son-pc-gaming',
     title: 'Les meilleures barres de son PC pour le gaming',
     subtitle: 'Immersion, basses et RGB pour les setups joueurs',
+    cover: '/images/rankings/meilleures-barres-de-son-pc-gaming.webp',
+    coverAlt: 'Setup gaming avec barre de son et ambiance RGB',
     metaDescription:
       'Comparatif des meilleures barres de son gaming pour PC : audio immersif, basses puissantes et éclairage RGB. Sélection 2026.',
     intro:
@@ -72,6 +76,8 @@ export const rankings: Ranking[] = [
     slug: 'meilleures-barres-de-son-pc-pas-cheres',
     title: 'Les meilleures barres de son PC pas chères (moins de 120 €)',
     subtitle: 'Le meilleur du son sur bureau à petit budget',
+    cover: '/images/rankings/meilleures-barres-de-son-pc-pas-cheres.webp',
+    coverAlt: 'Barre de son compacte au bon rapport qualité-prix',
     metaDescription:
       'Barres de son PC pas chères : notre sélection des meilleurs modèles à moins de 120 € pour améliorer le son de votre ordinateur.',
     intro:
@@ -100,6 +106,8 @@ export const rankings: Ranking[] = [
     slug: 'meilleures-barres-de-son-pc-compactes',
     title: 'Les meilleures barres de son PC compactes',
     subtitle: 'Un son qui gagne de la place sur les petits bureaux',
+    cover: '/images/rankings/meilleures-barres-de-son-pc-compactes.webp',
+    coverAlt: 'Petite barre de son compacte sur un bureau épuré',
     metaDescription:
       'Sélection des meilleures barres de son PC compactes (≤ 41 cm) : USB-C, Bluetooth et faible encombrement pour petits bureaux et laptops.',
     intro:
@@ -128,6 +136,8 @@ export const rankings: Ranking[] = [
     slug: 'meilleures-barres-de-son-pc-polyvalentes',
     title: 'Les meilleures barres de son PC polyvalentes (PC, console, TV)',
     subtitle: 'Une seule barre pour tous vos écrans',
+    cover: '/images/rankings/meilleures-barres-de-son-pc-polyvalentes.webp',
+    coverAlt: 'Barre de son reliée à un PC, une TV et une console',
     metaDescription:
       'Barres de son PC polyvalentes : USB, HDMI ARC, optique et Bluetooth pour passer du PC à la console et à la TV. Comparatif 2026.',
     intro:

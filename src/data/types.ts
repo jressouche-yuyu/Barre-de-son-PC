@@ -106,6 +106,9 @@ export interface Ranking {
   title: string;
   /** Sous-titre éditorial. */
   subtitle: string;
+  /** Image de couverture (chemin sous /public). Repli sur visuel génératif si absent. */
+  cover?: string;
+  coverAlt?: string;
   /** Meta description dédiée (≤ 160 caractères). */
   metaDescription: string;
   /** Intro éditoriale (paragraphe d'ouverture, riche en contexte pour le GEO). */

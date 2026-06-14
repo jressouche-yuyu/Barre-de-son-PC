@@ -22,7 +22,15 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 >
   <div class="container">
     <Breadcrumbs items={crumbs} />
-    <header class="section" style="padding-bottom: var(--space-4)">
+    <img
+      class="page-cover"
+      src={url('/images/illustrations/comparateur.webp')}
+      alt="Plusieurs barres de son alignées pour comparaison"
+      width="1600"
+      height="900"
+      loading="eager"
+    />
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>Comparateur de barres de son PC</h1>
       <p class="lead">
         Toutes les caractéristiques côte à côte. Filtrez selon vos priorités et
@@ -191,6 +199,14 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 </script>
 
 <style>
+  .page-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-top: var(--space-6);
+    display: block;
+  }
   .filters {
     display: flex;
     flex-wrap: wrap;

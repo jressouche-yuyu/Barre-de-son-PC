@@ -5,6 +5,8 @@ publishedAt: 2026-06-10
 updatedAt: 2026-06-14
 tags: ["windows", "réglages", "tutoriel"]
 readingMinutes: 6
+cover: /images/blog/5-reglages-windows-ameliorer-son-barre.webp
+coverAlt: Curseurs et boutons d'égaliseur lumineux au-dessus d'une barre de son
 ---
 
 Une bonne barre de son mal configurée ne donne pas sa pleine mesure. Voici cinq réglages Windows simples pour gagner en clarté et en confort, sans logiciel tiers.

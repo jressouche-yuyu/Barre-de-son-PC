@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import CoverArt from '../components/CoverArt.astro';
 import { SITE } from '../consts';
 import { breadcrumbSchema } from '../lib/schema';
+import { url } from '../lib/url';
 
 const crumbs = [
   { name: 'Accueil', path: '/' },
@@ -20,7 +20,14 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 >
   <div class="container narrow">
     <Breadcrumbs items={crumbs} />
-    <CoverArt seed="a-propos-barreson" variant="banner" icon="🎧" class="about-cover" />
+    <img
+      class="about-cover about-cover-img"
+      src={url('/images/illustrations/a-propos.webp')}
+      alt="Casque audio et barre de son sur un bureau"
+      width="1600"
+      height="900"
+      loading="eager"
+    />
     <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>À propos de {SITE.name}</h1>
       <p class="lead">
@@ -65,5 +72,12 @@ const jsonLd = [breadcrumbSchema(crumbs)];
   }
   .about-cover {
     margin-top: var(--space-6);
+  }
+  .about-cover-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+    display: block;
   }
 </style>

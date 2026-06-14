@@ -5,6 +5,8 @@ publishedAt: 2026-05-28
 updatedAt: 2026-06-14
 tags: ["télétravail", "visio", "conseils"]
 readingMinutes: 5
+cover: /images/blog/barre-de-son-ou-casque-teletravail.webp
+coverAlt: Un casque et une barre de son côte à côte sur un bureau
 ---
 
 Entre deux réunions et quelques heures de concentration, le choix de votre audio de bureau change vraiment le quotidien. Barre de son ou casque ? Les deux ont leur place — voici comment trancher selon votre usage.

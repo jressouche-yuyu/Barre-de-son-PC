@@ -80,7 +80,13 @@ const jsonLd = [
       {
         rankings.map((r) => (
           <a class="link-card media-card" href={url(`/classements/${r.slug}`)}>
-            <CoverArt seed={r.slug} variant="thumb" icon="🏆" />
+            {
+              r.cover ? (
+                <img class="media-thumb" src={url(r.cover)} alt={r.coverAlt ?? r.title} width="800" height="450" loading="lazy" />
+              ) : (
+                <CoverArt seed={r.slug} variant="thumb" icon="🏆" />
+              )
+            }
             <div class="media-body">
               <h3>{r.title}</h3>
               <p>{r.subtitle}</p>
@@ -180,6 +186,12 @@ const jsonLd = [
   .media-card {
     padding: 0;
     overflow: hidden;
+  }
+  .media-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
   }
   .media-body {
     display: flex;

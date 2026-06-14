@@ -5,6 +5,8 @@ publishedAt: 2026-06-02
 updatedAt: 2026-06-14
 tags: ["connectique", "conseils", "technique"]
 readingMinutes: 6
+cover: /images/blog/usb-jack-bluetooth-quelle-connexion-audio-pc.webp
+coverAlt: Connecteurs audio lumineux (USB-C, jack, Bluetooth) vers une barre de son
 ---
 
 Brancher une barre de son sur un PC paraît trivial, mais le type de connexion influence la qualité, la latence et la simplicité. Tour d'horizon des options.

@@ -8,6 +8,7 @@ import Faq from '../../components/Faq.astro';
 import { rankings } from '../../data/rankings';
 import { getSoundbar } from '../../data/soundbars';
 import type { Soundbar } from '../../data/types';
+import { url } from '../../lib/url';
 import {
   breadcrumbSchema,
   rankingItemListSchema,
@@ -51,7 +52,20 @@ const jsonLd = [
 >
   <div class="container">
     <Breadcrumbs items={crumbs} />
-    <CoverArt seed={ranking.slug} variant="banner" icon="🏆" class="rank-cover" />
+    {
+      ranking.cover ? (
+        <img
+          class="rank-cover rank-cover-img"
+          src={url(ranking.cover)}
+          alt={ranking.coverAlt ?? ranking.title}
+          width="1600"
+          height="900"
+          loading="eager"
+        />
+      ) : (
+        <CoverArt seed={ranking.slug} variant="banner" icon="🏆" class="rank-cover" />
+      )
+    }
     <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>{ranking.title}</h1>
       <p class="lead">{ranking.subtitle}</p>
@@ -84,6 +98,13 @@ const jsonLd = [
 <style>
   .rank-cover {
     margin-top: var(--space-6);
+  }
+  .rank-cover-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+    display: block;
   }
   .ranking-list {
     display: grid;
