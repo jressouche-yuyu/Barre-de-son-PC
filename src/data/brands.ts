@@ -37,6 +37,7 @@ export const brands: BrandInfo[] = [
     cover: '/images/brands/creative.webp',
     coverAlt: 'Barre de son Creative aux accents orange',
     accent: '#F5821F',
+    logo: '/images/brands/logos/creative.png',
     intro:
       'Pionnier de l\'audio PC avec la marque Sound Blaster, Creative couvre tous les besoins : barres compactes en USB-C, combos avec caisson, traitement Super X-Fi et connectique très complète (HDMI ARC, optique, Bluetooth), à des tarifs variés.',
   },
@@ -46,6 +47,7 @@ export const brands: BrandInfo[] = [
     cover: '/images/brands/edifier.webp',
     coverAlt: 'Barre de son Edifier aux accents bleus',
     accent: '#0072CE',
+    logo: '/images/brands/logos/edifier.png',
     intro:
       'Edifier mise sur le rapport qualité-prix et la polyvalence : barres et enceintes compactes pour le bureau, souvent dotées d\'un Bluetooth récent, d\'un éclairage RGB et parfois d\'un micro intégré pour la visio.',
   },
@@ -64,6 +66,7 @@ export const brands: BrandInfo[] = [
     cover: '/images/brands/trust.webp',
     coverAlt: 'Barre de son gaming RGB Trust aux accents rouges',
     accent: '#E2001A',
+    logo: '/images/brands/logos/trust.png',
     intro:
       'Trust cible les setups gaming à petit budget avec ses barres RGB de la gamme GXT : simples à brancher en USB, pensées pour habiller un bureau et apporter un éclairage coloré sans se ruiner.',
   },
