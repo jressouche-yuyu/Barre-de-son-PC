@@ -48,5 +48,6 @@ export const NAV: { label: string; href: string }[] = [
   { label: 'Barres de son', href: '/barres-de-son' },
   { label: 'Comparateur', href: '/comparateur' },
   { label: 'Guides', href: '/guides' },
+  { label: 'Blog', href: '/blog' },
   { label: 'À propos', href: '/a-propos' },
 ];

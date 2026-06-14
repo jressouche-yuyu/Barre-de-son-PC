@@ -704,6 +704,60 @@ export const soundbars: Soundbar[] = [
     lastUpdated: '2026-06-14',
     releaseYear: 2021,
   },
+  {
+    slug: 'edifier-g1500',
+    name: 'Edifier G1500',
+    brand: 'Edifier',
+    price: 89,
+    currency: 'EUR',
+    score: 7.4,
+    scores: { son: 7.5, basses: 6.5, ergonomie: 8, connectique: 8, rapportQualitePrix: 8.5 },
+    verdict:
+      'Des mini-enceintes 2.0 RGB polyvalentes : une alternative compacte à la barre pour le jeu et la musique.',
+    summary:
+      'Le G1500 n\'est pas une barre mais une paire d\'enceintes 2.0 compactes, pensées pour le bureau gaming. Bluetooth 5.3, USB et entrée jack, modes Auto EQ (jeu/film) et éclairage RGB en font un kit polyvalent et abordable, à privilégier si tu préfères deux enceintes à une barre unique.',
+    pros: [
+      'Vraie stéréo avec deux enceintes séparées',
+      'Bluetooth 5.3, USB et jack 3,5 mm',
+      'Modes Auto EQ et éclairage RGB',
+      'Bon rapport qualité-prix',
+    ],
+    cons: ['Format 2.0, pas une barre', 'Basses limitées sans caisson', 'Puissance modeste'],
+    bestFor: 'Bureau gaming/musique préférant deux enceintes à une barre unique',
+    connectivity: ['USB-A', 'Bluetooth', 'Jack 3.5mm'],
+    driverConfig: '2 enceintes 2.0 compactes + radiateurs passifs, éclairage RGB',
+    powerRmsWatts: 5,
+    hasSubwoofer: false,
+    hasMicrophone: false,
+    hasRGB: true,
+    dimensionsCm: { width: 9, height: 14, depth: 9 },
+    image: '/images/products/edifier-g1500.svg',
+    imageAlt: 'Paire d\'enceintes 2.0 RGB Edifier G1500 pour bureau',
+    tutorial: {
+      intro:
+        'Relie les deux enceintes, branche en USB ou jack (ou appaire en Bluetooth) et choisis un mode EQ.',
+      steps: [
+        {
+          title: 'Relier les deux enceintes',
+          body: 'Connecte l\'enceinte secondaire à l\'enceinte principale avec le câble fourni.',
+        },
+        {
+          title: 'Brancher sur le PC',
+          body: 'Utilise l\'USB ou le jack 3,5 mm, puis sélectionne le G1500 comme sortie par défaut dans Windows.',
+        },
+        {
+          title: 'Choisir un mode et le RGB',
+          body: 'Bascule entre les modes Auto EQ (Musique/Jeu/Film) et fais défiler les effets RGB avec les boutons dédiés.',
+        },
+      ],
+      tips: [
+        'Écarte les deux enceintes et oriente-les vers tes oreilles pour une vraie scène stéréo.',
+        'Le Bluetooth 5.3 permet de garder le PC en USB et le téléphone en sans-fil.',
+      ],
+    },
+    lastUpdated: '2026-06-14',
+    releaseYear: 2023,
+  },
 ];
 
 /** Retourne une barre de son par son slug. */

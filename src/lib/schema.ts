@@ -144,6 +144,28 @@ export function howToSchema(sb: Soundbar) {
   };
 }
 
+/** Article de blog (BlogPosting). */
+export function blogPostingSchema(post: {
+  title: string;
+  description: string;
+  slug: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    inLanguage: SITE.lang,
+    datePublished: post.publishedAt.toISOString(),
+    dateModified: (post.updatedAt ?? post.publishedAt).toISOString(),
+    author: { '@type': 'Organization', name: SITE.author },
+    publisher: { '@id': `${SITE.url}/#organization` },
+    mainEntityOfPage: abs(`/blog/${post.slug}`),
+  };
+}
+
 /** Article éditorial (guides). */
 export function articleSchema(guide: Guide) {
   return {

@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+const posts = (await getCollection('blog', (p) => !p.data.draft)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+
+const dateFmt = (d: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' }).format(d);
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Blog', path: '/blog' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+---
+
+<BaseLayout
+  title="Blog audio PC : actus, conseils et tutoriels"
+  description="Le blog de BarreSon PC : conseils, tutoriels et décryptages autour du son sur PC, des barres de son et des accessoires audio."
+  path="/blog"
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>Le blog</h1>
+      <p class="lead">Conseils, tutoriels et décryptages pour mieux choisir et profiter de votre audio sur PC.</p>
+    </header>
+
+    <section style="padding-bottom: var(--space-16)">
+      <div class="grid grid-2">
+        {
+          posts.map((post) => (
+            <a class="post-card" href={url(`/blog/${post.id}`)}>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+              <p class="meta">{dateFmt(post.data.publishedAt)} · {post.data.readingMinutes} min</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .post-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    color: var(--text);
+  }
+  .post-card:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+  .post-card h2 {
+    margin: 0 0 var(--space-2);
+    font-size: 1.25rem;
+  }
+  .post-card p {
+    color: var(--text-muted);
+    margin: 0 0 var(--space-2);
+  }
+  .post-card .meta {
+    font-size: 0.82rem;
+  }
+</style>

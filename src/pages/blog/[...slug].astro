@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { breadcrumbSchema, blogPostingSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (p) => !p.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateFmt = (d: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' }).format(d);
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Blog', path: '/blog' },
+  { name: post.data.title, path: `/blog/${post.id}` },
+];
+
+const jsonLd = [
+  breadcrumbSchema(crumbs),
+  blogPostingSchema({
+    title: post.data.title,
+    description: post.data.description,
+    slug: post.id,
+    publishedAt: post.data.publishedAt,
+    updatedAt: post.data.updatedAt,
+  }),
+];
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  path={`/blog/${post.id}`}
+  ogType="article"
+  publishedTime={post.data.publishedAt.toISOString()}
+  modifiedTime={(post.data.updatedAt ?? post.data.publishedAt).toISOString()}
+  jsonLd={jsonLd}
+>
+  <article class="container article">
+    <Breadcrumbs items={crumbs} />
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <h1>{post.data.title}</h1>
+      <p class="lead">{post.data.description}</p>
+      <p class="meta badge">
+        {dateFmt(post.data.publishedAt)} · {post.data.readingMinutes} min de lecture
+      </p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <p style="margin-top: var(--space-12)">
+      <a class="btn btn-ghost" href={url('/blog')}>← Tous les articles</a>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: 760px;
+  }
+  .prose :global(h2) {
+    margin-top: var(--space-12);
+  }
+  .prose :global(table) {
+    margin: var(--space-4) 0;
+  }
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: var(--space-8) 0;
+  }
+</style>

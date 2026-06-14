@@ -1,12 +1,21 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
+import { getCollection } from 'astro:content';
 import { SITE } from '../consts';
 import { guides } from '../data/guides';
 import { rankings } from '../data/rankings';
 
-/** Flux RSS agrégeant guides et classements — utile pour la découverte et le partage. */
-export function GET(context: APIContext) {
+/** Flux RSS agrégeant articles de blog, guides et classements. */
+export async function GET(context: APIContext) {
   const site = context.site ?? new URL(SITE.url);
+
+  const posts = await getCollection('blog', (p) => !p.data.draft);
+  const blogItems = posts.map((p) => ({
+    title: p.data.title,
+    description: p.data.description,
+    link: `/blog/${p.id}`,
+    pubDate: p.data.publishedAt,
+  }));
 
   const guideItems = guides.map((g) => ({
     title: g.title,
@@ -22,7 +31,7 @@ export function GET(context: APIContext) {
     pubDate: new Date(r.lastUpdated),
   }));
 
-  const items = [...rankingItems, ...guideItems].sort(
+  const items = [...blogItems, ...rankingItems, ...guideItems].sort(
     (a, b) => b.pubDate.getTime() - a.pubDate.getTime(),
   );
 
