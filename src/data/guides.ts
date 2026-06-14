@@ -12,6 +12,8 @@ export const guides: Guide[] = [
     title: 'Comment choisir une barre de son pour PC ?',
     description:
       'Connectique, encombrement, caisson, RGB : tous les critères pour bien choisir une barre de son adaptée à un usage informatique.',
+    cover: '/images/guides/comment-choisir-barre-de-son-pc.webp',
+    coverAlt: 'Plusieurs barres de son sur un bureau, l\'une mise en avant',
     publishedAt: '2026-03-12',
     lastUpdated: '2026-06-13',
     readingMinutes: 7,
@@ -55,6 +57,8 @@ export const guides: Guide[] = [
     title: 'Comment installer une barre de son sur un PC ?',
     description:
       'Branchement USB, Bluetooth ou jack, réglage de la sortie audio Windows et logiciels constructeur : le guide pas à pas pour installer votre barre de son.',
+    cover: '/images/guides/comment-installer-barre-de-son-pc.webp',
+    coverAlt: 'Câble USB-C lumineux se branchant à une barre de son',
     publishedAt: '2026-05-02',
     lastUpdated: '2026-06-13',
     readingMinutes: 6,
@@ -98,6 +102,8 @@ export const guides: Guide[] = [
     title: 'Barre de son ou enceintes pour PC : que choisir ?',
     description:
       'Avantages, inconvénients et cas d\'usage : faut-il préférer une barre de son ou des enceintes pour votre ordinateur ?',
+    cover: '/images/guides/barre-de-son-vs-enceintes-pc.webp',
+    coverAlt: 'Comparaison entre une barre de son et deux enceintes de bureau',
     publishedAt: '2026-04-02',
     lastUpdated: '2026-06-13',
     readingMinutes: 5,
@@ -128,6 +134,8 @@ export const guides: Guide[] = [
     title: 'Quelle barre de son PC pour le télétravail et la visio ?',
     description:
       'Clarté des voix, micro, confort d\'écoute : les critères et nos recommandations de barres de son adaptées au télétravail et aux visioconférences.',
+    cover: '/images/guides/barre-de-son-pc-teletravail-visio.webp',
+    coverAlt: 'Bureau de télétravail avec écran en visioconférence et barre de son',
     publishedAt: '2026-05-20',
     lastUpdated: '2026-06-13',
     readingMinutes: 5,

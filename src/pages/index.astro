@@ -43,17 +43,27 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <section class="hero">
-    <div class="container">
-      <p class="eyebrow">Comparatif indépendant · Mis à jour en 2026</p>
-      <h1>Trouvez la meilleure barre de son pour votre PC</h1>
-      <p class="lead">
-        Classements, tests détaillés et guides d'achat pour choisir la barre de
-        son idéale selon votre usage : gaming, bureautique, musique ou home-studio.
-      </p>
-      <div class="hero-actions">
-        <a class="btn" href={url('/classements/meilleures-barres-de-son-pc')}>Voir le classement 2026</a>
-        <a class="btn btn-ghost" href={url('/comparateur')}>Comparer les modèles</a>
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">Comparatif indépendant · Mis à jour en 2026</p>
+        <h1>Trouvez la meilleure barre de son pour votre PC</h1>
+        <p class="lead">
+          Classements, tests détaillés et guides d'achat pour choisir la barre de
+          son idéale selon votre usage : gaming, bureautique, musique ou home-studio.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href={url('/classements/meilleures-barres-de-son-pc')}>Voir le classement 2026</a>
+          <a class="btn btn-ghost" href={url('/comparateur')}>Comparer les modèles</a>
+        </div>
       </div>
+      <img
+        class="hero-img"
+        src={url('/images/illustrations/hero.webp')}
+        alt="Barre de son sous un écran de PC avec des ondes sonores lumineuses"
+        width="1376"
+        height="768"
+        loading="eager"
+      />
     </div>
   </section>
 
@@ -122,24 +132,35 @@ const jsonLd = [
 
 <style>
   .hero {
-    background: radial-gradient(1200px 400px at 50% -10%, rgba(79, 140, 255, 0.18), transparent);
-    padding-block: var(--space-16) var(--space-8);
-    text-align: center;
+    background: radial-gradient(1000px 400px at 30% -10%, rgba(79, 140, 255, 0.18), transparent);
+    padding-block: var(--space-12) var(--space-8);
+  }
+  .hero-inner {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
   }
   .hero h1 {
-    max-width: 18ch;
-    margin-inline: auto;
+    max-width: 16ch;
   }
   .hero .lead {
-    max-width: 60ch;
-    margin-inline: auto;
+    max-width: 56ch;
   }
   .hero-actions {
     display: flex;
     gap: var(--space-3);
-    justify-content: center;
     flex-wrap: wrap;
     margin-top: var(--space-6);
+  }
+  .hero-img {
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  @media (min-width: 880px) {
+    .hero-inner {
+      grid-template-columns: 1fr 1fr;
+    }
   }
   .link-card {
     display: flex;

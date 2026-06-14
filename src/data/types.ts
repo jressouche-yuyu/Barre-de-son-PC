@@ -121,6 +121,9 @@ export interface Guide {
   slug: string;
   title: string;
   description: string;
+  /** Image de couverture (chemin sous /public). Repli sur visuel génératif si absent. */
+  cover?: string;
+  coverAlt?: string;
   /** Date de publication ISO 8601. */
   publishedAt: string;
   lastUpdated: string;

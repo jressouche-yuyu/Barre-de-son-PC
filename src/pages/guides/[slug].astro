@@ -44,7 +44,20 @@ const jsonLd = [
 >
   <article class="container guide">
     <Breadcrumbs items={crumbs} />
-    <CoverArt seed={`guide-${guide.slug}`} variant="banner" icon="📘" class="guide-cover" />
+    {
+      guide.cover ? (
+        <img
+          class="guide-cover guide-cover-img"
+          src={url(guide.cover)}
+          alt={guide.coverAlt ?? guide.title}
+          width="1600"
+          height="900"
+          loading="eager"
+        />
+      ) : (
+        <CoverArt seed={`guide-${guide.slug}`} variant="banner" icon="📘" class="guide-cover" />
+      )
+    }
     <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
       <h1>{guide.title}</h1>
       <p class="lead">{guide.description}</p>
@@ -76,6 +89,13 @@ const jsonLd = [
   }
   .guide-cover {
     margin-top: var(--space-6);
+  }
+  .guide-cover-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+    display: block;
   }
   .prose {
     font-size: 1.06rem;

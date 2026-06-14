@@ -34,7 +34,20 @@ const jsonLd = [breadcrumbSchema(crumbs)];
         {
           guides.map((g) => (
             <a class="guide-card" href={url(`/guides/${g.slug}`)}>
-              <CoverArt seed={`guide-${g.slug}`} variant="thumb" icon="📘" />
+              {
+                g.cover ? (
+                  <img
+                    class="guide-thumb"
+                    src={url(g.cover)}
+                    alt={g.coverAlt ?? g.title}
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                  />
+                ) : (
+                  <CoverArt seed={`guide-${g.slug}`} variant="thumb" icon="📘" />
+                )
+              }
               <div class="guide-body">
                 <h2 style="margin-top:0;font-size:1.25rem">{g.title}</h2>
                 <p>{g.description}</p>
@@ -60,6 +73,12 @@ const jsonLd = [breadcrumbSchema(crumbs)];
   .guide-card:hover {
     border-color: var(--primary);
     text-decoration: none;
+  }
+  .guide-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
   }
   .guide-body {
     padding: var(--space-6);
