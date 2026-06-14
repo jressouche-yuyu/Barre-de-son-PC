@@ -256,19 +256,23 @@ const jsonLd = [
       <h2 id="fit-title">📐 Tient-elle sous votre écran ?</h2>
       <p>
         La {sb.name} mesure <strong>{sb.dimensionsCm.width} cm</strong> de large.
-        Entrez la largeur disponible sous votre moniteur — la simulation s'ajuste en direct :
+        Renseignez la largeur de votre écran : le moniteur et la barre s'affichent
+        à la même échelle, en 3D.
       </p>
       <div class="fit-controls">
-        <label for="fit-input">Largeur dispo (cm)</label>
-        <input type="number" id="fit-input" min="10" max="250" step="0.5" inputmode="decimal" value="60" />
-        <span class="fit-hint">l'espace horizontal libre sous/devant votre moniteur</span>
+        <label for="fit-input">Largeur de l'écran (cm)</label>
+        <input type="number" id="fit-input" min="20" max="250" step="0.5" inputmode="decimal" value="60" />
+        <span class="fit-hint">≈ 53 cm (24″) · 60 cm (27″) · 70 cm (32″) · 80 cm (34″ ultralarge)</span>
       </div>
-      <div class="sim" aria-hidden="true">
-        <div class="sim-screen"><span>Espace dispo : <b id="sim-screen-cm"></b></span></div>
-        <div class="sim-track">
-          <div class="sim-bar" id="sim-bar"><span id="sim-bar-cm"></span></div>
+      <div class="sim3d" aria-hidden="true">
+        <div class="sim3d-stage">
+          <div class="sim3d-monitor" id="sim-monitor">
+            <div class="sim3d-screen"><span>Écran · <b id="sim-screen-cm"></b></span></div>
+            <div class="sim3d-neck"></div>
+            <div class="sim3d-foot"></div>
+          </div>
+          <div class="sim3d-bar" id="sim-bar"><span id="sim-bar-cm"></span></div>
         </div>
-        <div class="sim-ruler"><span>0</span><span id="sim-ruler-max"></span></div>
       </div>
       <p id="fit-result" class="fit-result" role="status" aria-live="polite"></p>
     </section>
@@ -375,34 +379,31 @@ const jsonLd = [
     // Simulateur visuel « tient sous votre écran »
     const input = document.getElementById('fit-input');
     const result = document.getElementById('fit-result');
+    const monitor = document.getElementById('sim-monitor');
     const simBar = document.getElementById('sim-bar');
     const simCm = document.getElementById('sim-bar-cm');
-    const rulerMax = document.getElementById('sim-ruler-max');
     const simScreenCm = document.getElementById('sim-screen-cm');
     function checkFit() {
-      const avail = parseFloat((input?.value || '').replace(',', '.'));
-      if (!result || !simBar) return;
-      if (!avail || avail <= 0) {
-        result.textContent = 'Entrez la largeur disponible sous votre écran.';
+      const screenW = parseFloat((input?.value || '').replace(',', '.'));
+      if (!result || !simBar || !monitor) return;
+      if (!screenW || screenW <= 0) {
+        result.textContent = 'Renseignez la largeur de votre écran.';
         result.className = 'fit-result';
-        simBar.style.width = '0%';
-        if (simCm) simCm.textContent = '';
-        if (rulerMax) rulerMax.textContent = '';
-        if (simScreenCm) simScreenCm.textContent = '—';
         return;
       }
-      if (rulerMax) rulerMax.textContent = avail + ' cm';
-      if (simScreenCm) simScreenCm.textContent = avail + ' cm';
-      simBar.style.width = (Math.min(barWidth / avail, 1) * 100).toFixed(1) + '%';
+      const maxW = Math.max(screenW, barWidth);
+      monitor.style.width = ((screenW / maxW) * 100).toFixed(1) + '%';
+      simBar.style.width = ((barWidth / maxW) * 100).toFixed(1) + '%';
+      if (simScreenCm) simScreenCm.textContent = screenW + ' cm';
       if (simCm) simCm.textContent = barWidth + ' cm';
-      const clearance = +(avail - barWidth).toFixed(1);
+      const clearance = +(screenW - barWidth).toFixed(1);
       if (clearance >= 0) {
         simBar.classList.remove('overflow');
-        result.textContent = `✅ Ça passe : ${clearance} cm de marge au total (${(clearance / 2).toFixed(1)} cm de chaque côté).`;
+        result.textContent = `✅ Elle tient sous votre écran : ${(clearance / 2).toFixed(1)} cm de marge de chaque côté.`;
         result.className = 'fit-result ok';
       } else {
         simBar.classList.add('overflow');
-        result.textContent = `❌ Trop large de ${Math.abs(clearance)} cm — visez une barre plus compacte.`;
+        result.textContent = `⚠️ Elle dépasse de ${Math.abs(clearance)} cm (la barre est plus large que l'écran).`;
         result.className = 'fit-result no';
       }
     }
@@ -541,70 +542,88 @@ const jsonLd = [
   .fit-result.no {
     color: var(--danger);
   }
-  /* Simulateur visuel de largeur sous l'écran */
-  .sim {
-    position: relative;
-    margin: var(--space-4) 0;
-    padding: var(--space-6);
+  .fit-hint {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    flex-basis: 100%;
+  }
+  /* Simulateur 3D : moniteur à l'échelle + barre de son dessous */
+  .sim3d {
+    perspective: 1100px;
+    margin: var(--space-4) 0 var(--space-2);
+    padding: var(--space-12) var(--space-4) var(--space-8);
     background:
-      radial-gradient(120% 80% at 50% 0%, rgba(79, 140, 255, 0.14), transparent),
+      radial-gradient(120% 90% at 50% 5%, rgba(79, 140, 255, 0.16), transparent),
       var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-  }
-  .sim-screen {
-    width: 100%;
-    height: 76px;
-    border-radius: 10px 10px 4px 4px;
-    border: 2px solid var(--border);
-    border-bottom: none;
-    background: linear-gradient(135deg, rgba(79, 140, 255, 0.28), rgba(37, 208, 164, 0.2));
-    display: grid;
-    place-items: center;
-    color: #cdd5e6;
-    font-size: 0.8rem;
-    margin-bottom: 8px;
-  }
-  .fit-hint {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    flex-basis: 100%;
-  }
-  .sim-track {
-    position: relative;
-    height: 40px;
-    border-radius: var(--radius-sm);
-    border: 1px dashed var(--border);
-    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 9px, transparent 9px 10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
   }
-  .sim-bar {
-    height: 28px;
-    border-radius: 6px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    box-shadow: 0 0 18px rgba(79, 140, 255, 0.5);
+  .sim3d-stage {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    transform: rotateX(16deg);
+    transform-style: preserve-3d;
+  }
+  .sim3d-monitor {
+    margin: 0 auto;
+    transition: width 0.3s ease;
+  }
+  .sim3d-screen {
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    border: 4px solid #20283a;
+    background:
+      radial-gradient(80% 60% at 50% 30%, rgba(79, 140, 255, 0.45), transparent),
+      linear-gradient(135deg, rgba(79, 140, 255, 0.32), rgba(37, 208, 164, 0.24));
+    box-shadow: 0 24px 40px rgba(0, 0, 0, 0.55), inset 0 0 28px rgba(79, 140, 255, 0.28);
+    display: grid;
+    place-items: center;
+    color: #e8ecf4;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .sim3d-neck {
+    width: 12px;
+    height: 18px;
+    margin: 0 auto;
+    background: linear-gradient(#283246, #1a2233);
+  }
+  .sim3d-foot {
+    width: 38%;
+    height: 10px;
+    margin: 0 auto;
+    border-radius: 5px;
+    background: linear-gradient(#283246, #161d2b);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.5);
+  }
+  .sim3d-bar {
+    margin: var(--space-6) auto 0;
+    height: 34px;
+    border-radius: 9px;
+    background: linear-gradient(180deg, var(--primary), var(--accent));
+    box-shadow:
+      0 14px 24px rgba(0, 0, 0, 0.5),
+      0 0 22px rgba(79, 140, 255, 0.45),
+      inset 0 2px 0 rgba(255, 255, 255, 0.35);
     display: grid;
     place-items: center;
     color: #06231b;
-    font-weight: 700;
-    font-size: 0.78rem;
+    font-weight: 800;
+    font-size: 0.8rem;
     white-space: nowrap;
-    transition: width 0.25s ease;
+    transform: translateZ(45px);
+    transition: width 0.3s ease;
+    -webkit-box-reflect: below 4px linear-gradient(transparent 55%, rgba(0, 0, 0, 0.28));
   }
-  .sim-bar.overflow {
-    background: repeating-linear-gradient(45deg, var(--danger) 0 8px, #a23 8px 16px);
+  .sim3d-bar.overflow {
+    background: repeating-linear-gradient(45deg, var(--danger) 0 9px, #a23 9px 18px);
     color: #fff;
-    box-shadow: 0 0 18px rgba(255, 107, 107, 0.5);
-  }
-  .sim-ruler {
-    display: flex;
-    justify-content: space-between;
-    color: var(--text-muted);
-    font-size: 0.72rem;
-    margin-top: 6px;
+    box-shadow:
+      0 14px 24px rgba(0, 0, 0, 0.5),
+      0 0 22px rgba(255, 107, 107, 0.5),
+      inset 0 2px 0 rgba(255, 255, 255, 0.25);
   }
   .audience {
     margin-top: var(--space-8);
