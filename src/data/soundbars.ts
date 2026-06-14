@@ -779,5 +779,5 @@ export function formatPrice(price: number, currency = 'EUR'): string {
 export function powerLabel(sb: { powerRmsWatts?: number; powerPeakWatts?: number }): string {
   if (sb.powerRmsWatts) return `${sb.powerRmsWatts} W RMS`;
   if (sb.powerPeakWatts) return `${sb.powerPeakWatts} W crête`;
-  return 'Non communiquée';
+  return '—';
 }
