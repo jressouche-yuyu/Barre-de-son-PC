@@ -27,6 +27,7 @@ export const brands: BrandInfo[] = [
     cover: '/images/brands/razer.webp',
     coverAlt: 'Barre de son gaming aux accents verts Razer',
     accent: '#44D62C',
+    logo: '/images/brands/logos/razer.png',
     intro:
       'Razer décline sa gamme Leviathan pensée pour le gaming sur PC : son immersif (THX Spatial, audio 3D à suivi de tête), éclairage Chroma RGB et caissons de basses efficaces. Du modèle compact USB-C au modèle premium, c\'est la référence des setups joueurs.',
   },
