@@ -50,25 +50,32 @@ public/
 - **Signaux de fraîcheur** : date de dernière mise à jour affichée et exposée dans les schémas.
 - **E-E-A-T** : page méthodologie, mention d'indépendance éditoriale et entité éditeur.
 
-## 🚀 Déploiement sur GitHub Pages
+## 🚀 Déploiement sur Cloudflare Pages
 
-Un workflow (`.github/workflows/deploy.yml`) build et publie le site à chaque push.
+Hébergement gratuit, compatible dépôt privé, URL racine (pas de sous-chemin) et
+redéploiement automatique à chaque push.
 
-1. **Dépôt → Settings → Pages → Source : « GitHub Actions »**.
-2. Le site se publie sur `https://jressouche-yuyu.github.io/Barre-de-son-PC/`.
-3. Dépôt **privé** : GitHub Pages nécessite GitHub Pro, ou rendre le dépôt public
-   (Settings → General → Change visibility).
+**Mise en place (une fois) :**
+1. Va sur [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages**
+   → **Create** → onglet **Pages** → **Connect to Git**.
+2. Autorise Cloudflare à accéder au dépôt `Barre-de-son-PC` (installe l'app
+   GitHub Cloudflare sur ce dépôt).
+3. Renseigne les paramètres de build :
+   - **Framework preset** : `Astro`
+   - **Build command** : `npm run build`
+   - **Build output directory** : `dist`
+   - **Production branch** : `claude/soundbar-ranking-site-uwpfvi`
+4. (Optionnel mais recommandé) Variables d'environnement :
+   - `SITE_URL` = l'URL finale du projet (ex. `https://barre-de-son-pc.pages.dev`)
+     pour des `canonical`/sitemap corrects.
+5. **Save and Deploy**. Le site sera publié sur `https://<projet>.pages.dev`.
 
-Le build Pages utilise deux variables d'environnement (déjà câblées dans le workflow) :
+La version de Node est figée via `.nvmrc` (Node 20). Aucune variable `BASE_PATH`
+n'est nécessaire : à la racine, les liens internes (helper `src/lib/url.ts`)
+restent neutres.
 
-```bash
-SITE_URL=https://jressouche-yuyu.github.io BASE_PATH=/Barre-de-son-PC npm run build
-```
-
-Sur un domaine final (à la racine), il suffit de builder sans ces variables
-(`npm run build`) après avoir mis à jour `SITE.url` dans `src/consts.ts`.
-Tous les liens internes passent par le helper `src/lib/url.ts` pour rester
-compatibles avec le sous-chemin GitHub Pages.
+> Pour passer plus tard sur GitHub Pages (dépôt public ou GitHub Pro), il suffit
+> de rebuild avec `SITE_URL=https://<user>.github.io BASE_PATH=/Barre-de-son-PC`.
 
 ## 💸 Affiliation Amazon
 
