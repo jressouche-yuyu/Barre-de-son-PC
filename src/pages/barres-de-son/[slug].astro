@@ -6,6 +6,7 @@ import Callout from '../../components/Callout.astro';
 import { soundbars, formatPrice, powerLabel } from '../../data/soundbars';
 import { rankingsForSoundbar } from '../../data/rankings';
 import { getGuide } from '../../data/guides';
+import { getBrand } from '../../data/brands';
 import {
   breadcrumbSchema,
   productReviewSchema,
@@ -57,6 +58,7 @@ const specs: { label: string; value: string }[] = [
   { label: 'Année', value: String(sb.releaseYear) },
 ];
 
+const brandInfo = getBrand(sb.brand.toLowerCase());
 const inRankings = rankingsForSoundbar(sb.slug);
 const relatedGuides = ['comment-choisir-barre-de-son-pc', 'comment-installer-barre-de-son-pc']
   .map((s) => getGuide(s))
@@ -82,7 +84,15 @@ const jsonLd = [
 
     <header class="product-head section" style="padding-bottom: var(--space-6)">
       <div>
-        <p class="eyebrow"><a href={url(`/marques/${sb.brand.toLowerCase()}`)}>{sb.brand}</a></p>
+        <a class="brand-badge" href={url(`/marques/${sb.brand.toLowerCase()}`)} aria-label={`Toutes les barres de son ${sb.brand}`}>
+          {
+            brandInfo?.logo ? (
+              <img src={url(brandInfo.logo)} alt={`Logo ${sb.brand}`} height="20" loading="eager" />
+            ) : (
+              <span>{sb.brand}</span>
+            )
+          }
+        </a>
         <h1>{sb.name}</h1>
         <p class="lead">{sb.verdict}</p>
         <p class="badge badge-accent">Idéal pour : {sb.bestFor}</p>
@@ -298,6 +308,25 @@ const jsonLd = [
     color: var(--text-muted);
     font-size: 0.85rem;
     font-style: italic;
+  }
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.6rem;
+    margin-bottom: var(--space-3);
+    line-height: 0;
+  }
+  .brand-badge img {
+    height: 20px;
+    width: auto;
+    display: block;
+  }
+  .brand-badge span {
+    line-height: 1;
+    font-weight: 700;
+    color: var(--bg);
   }
   .maillage {
     margin-top: var(--space-8);
