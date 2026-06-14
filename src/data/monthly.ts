@@ -6,9 +6,11 @@
  *  - 'stable'     : rien n'a changé depuis le mois dernier
  *  - 'a-venir'    : une sortie est attendue le(s) mois suivant(s)
  *
- * Pour ajouter une édition : place le nouvel objet EN TÊTE du tableau.
- * C'est ce fichier que la veille mensuelle automatisée viendra mettre à jour.
+ * Les éditions sont stockées dans monthly.json (mises à jour par le pipeline
+ * automatisé) ; place la plus récente EN TÊTE du tableau.
  */
+import editionsData from './monthly.json';
+
 export type MarketStatus = 'nouveautes' | 'stable' | 'a-venir';
 
 export interface MonthlyPick {
@@ -38,27 +40,7 @@ export interface MonthlyEdition {
   upcoming: string[];
 }
 
-export const monthlyEditions: MonthlyEdition[] = [
-  {
-    id: '2026-06',
-    label: 'Juin 2026',
-    publishedAt: '2026-06-02',
-    status: 'stable',
-    headline:
-      'Aucune nouveauté majeure ce mois-ci : nos références restent les mêmes, le marché PC est stable.',
-    intro:
-      'Pour le lancement de cette rubrique, le marché des barres de son PC est stable : pas de sortie marquante en juin. Nos valeurs sûres conservent leur place. À surveiller toutefois du côté de Creative et Razer, historiquement actifs en fin d\'année.',
-    picks: [
-      { soundbar: 'razer-leviathan-v2-pro', note: 'Toujours la référence immersion, sans concurrente directe sur le son 3D.' },
-      { soundbar: 'creative-sound-blaster-katana-v2', note: 'Le meilleur équilibre puissance/connectique du moment.' },
-      { soundbar: 'creative-stage-v2', note: 'Notre meilleur rapport qualité-prix, stock et tarif stables.' },
-    ],
-    newReleases: [],
-    upcoming: [
-      'Aucune sortie confirmée pour juillet 2026 à ce jour.',
-    ],
-  },
-];
+export const monthlyEditions: MonthlyEdition[] = editionsData as MonthlyEdition[];
 
 /** Édition la plus récente. */
 export function latestEdition(): MonthlyEdition {
