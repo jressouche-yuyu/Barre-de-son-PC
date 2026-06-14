@@ -2,7 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProsCons from '../../components/ProsCons.astro';
+import Callout from '../../components/Callout.astro';
 import { soundbars, formatPrice, powerLabel } from '../../data/soundbars';
+import { rankingsForSoundbar } from '../../data/rankings';
+import { getGuide } from '../../data/guides';
 import {
   breadcrumbSchema,
   productReviewSchema,
@@ -53,6 +56,11 @@ const specs: { label: string; value: string }[] = [
   },
   { label: 'Année', value: String(sb.releaseYear) },
 ];
+
+const inRankings = rankingsForSoundbar(sb.slug);
+const relatedGuides = ['comment-choisir-barre-de-son-pc', 'comment-installer-barre-de-son-pc']
+  .map((s) => getGuide(s))
+  .filter((g): g is NonNullable<typeof g> => Boolean(g));
 
 const jsonLd = [
   breadcrumbSchema(crumbs),
@@ -106,6 +114,18 @@ const jsonLd = [
       height="500"
       loading="eager"
     />
+
+    <Callout title="L'essentiel" icon="⚡">
+      <ul>
+        <li><strong>Idéal pour :</strong> {sb.bestFor}</li>
+        <li><strong>Point fort :</strong> {sb.pros[0]}</li>
+        <li><strong>À noter :</strong> {sb.cons[0]}</li>
+        <li>
+          <strong>Prix indicatif :</strong> {formatPrice(sb.price, sb.currency)} ·
+          <strong> Note :</strong> {sb.score.toFixed(1)}/10
+        </li>
+      </ul>
+    </Callout>
 
     <h2>Notre avis</h2>
     <p>{sb.summary}</p>
@@ -167,6 +187,30 @@ const jsonLd = [
     }
 
     <p class="updated">Fiche vérifiée le {sb.lastUpdated}.</p>
+
+    <section class="maillage grid grid-2">
+      {
+        inRankings.length > 0 && (
+          <div>
+            <h2>La {sb.name} dans nos classements</h2>
+            <ul>
+              {inRankings.map((r) => (
+                <li><a href={url(`/classements/${r.slug}`)}>{r.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+      <div>
+        <h2>Guides utiles</h2>
+        <ul>
+          {relatedGuides.map((g) => (
+            <li><a href={url(`/guides/${g.slug}`)}>{g.title}</a></li>
+          ))}
+          <li><a href={url('/comparateur')}>Comparer toutes les barres de son PC</a></li>
+        </ul>
+      </div>
+    </section>
 
     <p style="margin-top: var(--space-8)">
       <a class="btn btn-ghost" href={url('/barres-de-son')}>← Toutes les barres de son</a>
@@ -254,6 +298,13 @@ const jsonLd = [
     color: var(--text-muted);
     font-size: 0.85rem;
     font-style: italic;
+  }
+  .maillage {
+    margin-top: var(--space-8);
+  }
+  .maillage h2 {
+    font-size: 1.15rem;
+    margin-top: var(--space-6);
   }
   .product-image {
     width: 100%;

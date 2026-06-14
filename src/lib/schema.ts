@@ -115,6 +115,23 @@ export function rankingItemListSchema(ranking: Ranking, resolve: (slug: string) 
   };
 }
 
+/** Liste de produits (ItemList) générique — ex. top 3 de la page d'accueil. */
+export function soundbarsItemListSchema(list: Soundbar[], name: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    itemListOrder: 'https://schema.org/ItemListOrderDescending',
+    numberOfItems: list.length,
+    itemListElement: list.map((sb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: sb.name,
+      url: abs(`/barres-de-son/${sb.slug}`),
+    })),
+  };
+}
+
 /** FAQ structurée — fortement reprise dans les AI Overviews et les réponses génératives. */
 export function faqSchema(faq: { question: string; answer: string }[]) {
   return {

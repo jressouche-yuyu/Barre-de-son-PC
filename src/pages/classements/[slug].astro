@@ -6,6 +6,7 @@ import SoundbarCard from '../../components/SoundbarCard.astro';
 import RankingTable from '../../components/RankingTable.astro';
 import Faq from '../../components/Faq.astro';
 import { rankings } from '../../data/rankings';
+import { guides } from '../../data/guides';
 import { getSoundbar } from '../../data/soundbars';
 import type { Soundbar } from '../../data/types';
 import { url } from '../../lib/url';
@@ -92,12 +93,42 @@ const jsonLd = [
     </div>
 
     <Faq items={ranking.faq} />
+
+    <section class="maillage grid grid-2">
+      <div>
+        <h2>Autres classements</h2>
+        <ul>
+          {
+            rankings
+              .filter((r) => r.slug !== ranking.slug)
+              .map((r) => (
+                <li><a href={url(`/classements/${r.slug}`)}>{r.title}</a></li>
+              ))
+          }
+        </ul>
+      </div>
+      <div>
+        <h2>À lire aussi</h2>
+        <ul>
+          {guides.slice(0, 3).map((g) => (
+            <li><a href={url(`/guides/${g.slug}`)}>{g.title}</a></li>
+          ))}
+          <li><a href={url('/comparateur')}>Comparer les barres de son PC</a></li>
+        </ul>
+      </div>
+    </section>
   </div>
 </BaseLayout>
 
 <style>
   .rank-cover {
     margin-top: var(--space-6);
+  }
+  .maillage {
+    margin-top: var(--space-12);
+  }
+  .maillage h2 {
+    font-size: 1.15rem;
   }
   .rank-cover-img {
     width: 100%;

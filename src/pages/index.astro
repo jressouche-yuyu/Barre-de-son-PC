@@ -7,7 +7,7 @@ import Faq from '../components/Faq.astro';
 import { soundbarsByScore } from '../data/soundbars';
 import { rankings } from '../data/rankings';
 import { guides } from '../data/guides';
-import { faqSchema, breadcrumbSchema } from '../lib/schema';
+import { faqSchema, breadcrumbSchema, soundbarsItemListSchema } from '../lib/schema';
 import { url } from '../lib/url';
 
 const top = soundbarsByScore().slice(0, 3);
@@ -58,6 +58,7 @@ const homeFaq = [
 
 const jsonLd = [
   breadcrumbSchema([{ name: 'Accueil', path: '/' }]),
+  soundbarsItemListSchema(top, 'Top 3 des barres de son PC'),
   faqSchema(homeFaq),
 ];
 ---

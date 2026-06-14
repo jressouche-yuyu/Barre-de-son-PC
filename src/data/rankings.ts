@@ -167,3 +167,8 @@ export const rankings: Ranking[] = [
 export function getRanking(slug: string) {
   return rankings.find((r) => r.slug === slug);
 }
+
+/** Classements dans lesquels figure une barre de son (maillage interne). */
+export function rankingsForSoundbar(slug: string) {
+  return rankings.filter((r) => r.items.some((i) => i.soundbar === slug));
+}

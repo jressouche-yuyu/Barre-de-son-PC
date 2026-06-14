@@ -1,0 +1,39 @@
+---
+/**
+ * Encart d'enrichissement (« En bref », « À retenir »…).
+ * Bloc scannable, bon pour le SEO (extraits) et le GEO (réponse citable).
+ */
+interface Props {
+  title?: string;
+  icon?: string;
+}
+const { title = 'En bref', icon = '⚡' } = Astro.props;
+---
+
+<aside class="callout">
+  <p class="callout-title"><span aria-hidden="true">{icon}</span> {title}</p>
+  <div class="callout-body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .callout {
+    background: rgba(79, 140, 255, 0.07);
+    border: 1px solid rgba(79, 140, 255, 0.3);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+  .callout-title {
+    margin: 0 0 var(--space-2);
+    font-weight: 700;
+  }
+  .callout-body :global(ul) {
+    margin: 0;
+  }
+  .callout-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>
