@@ -261,11 +261,10 @@ const jsonLd = [
       <div class="fit-controls">
         <label for="fit-input">Largeur dispo (cm)</label>
         <input type="number" id="fit-input" min="10" max="250" step="0.5" inputmode="decimal" value="60" />
+        <span class="fit-hint">l'espace horizontal libre sous/devant votre moniteur</span>
       </div>
       <div class="sim" aria-hidden="true">
-        <div class="sim-screen"><span>Votre écran</span></div>
-        <div class="sim-stand"></div>
-        <div class="sim-base"></div>
+        <div class="sim-screen"><span>Espace dispo : <b id="sim-screen-cm"></b></span></div>
         <div class="sim-track">
           <div class="sim-bar" id="sim-bar"><span id="sim-bar-cm"></span></div>
         </div>
@@ -379,6 +378,7 @@ const jsonLd = [
     const simBar = document.getElementById('sim-bar');
     const simCm = document.getElementById('sim-bar-cm');
     const rulerMax = document.getElementById('sim-ruler-max');
+    const simScreenCm = document.getElementById('sim-screen-cm');
     function checkFit() {
       const avail = parseFloat((input?.value || '').replace(',', '.'));
       if (!result || !simBar) return;
@@ -388,9 +388,11 @@ const jsonLd = [
         simBar.style.width = '0%';
         if (simCm) simCm.textContent = '';
         if (rulerMax) rulerMax.textContent = '';
+        if (simScreenCm) simScreenCm.textContent = '—';
         return;
       }
       if (rulerMax) rulerMax.textContent = avail + ' cm';
+      if (simScreenCm) simScreenCm.textContent = avail + ' cm';
       simBar.style.width = (Math.min(barWidth / avail, 1) * 100).toFixed(1) + '%';
       if (simCm) simCm.textContent = barWidth + ' cm';
       const clearance = +(avail - barWidth).toFixed(1);
@@ -551,31 +553,22 @@ const jsonLd = [
     border-radius: var(--radius);
   }
   .sim-screen {
-    width: 56%;
-    max-width: 320px;
-    margin: 0 auto;
-    aspect-ratio: 16 / 9;
-    max-height: 120px;
-    border-radius: 10px;
+    width: 100%;
+    height: 76px;
+    border-radius: 10px 10px 4px 4px;
     border: 2px solid var(--border);
-    background: linear-gradient(135deg, rgba(79, 140, 255, 0.3), rgba(37, 208, 164, 0.22));
+    border-bottom: none;
+    background: linear-gradient(135deg, rgba(79, 140, 255, 0.28), rgba(37, 208, 164, 0.2));
     display: grid;
     place-items: center;
     color: #cdd5e6;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
   }
-  .sim-stand {
-    width: 10px;
-    height: 16px;
-    background: var(--surface-2);
-    margin: 0 auto;
-  }
-  .sim-base {
-    width: 90px;
-    height: 6px;
-    border-radius: 3px;
-    background: var(--surface-2);
-    margin: 0 auto var(--space-4);
+  .fit-hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    flex-basis: 100%;
   }
   .sim-track {
     position: relative;
