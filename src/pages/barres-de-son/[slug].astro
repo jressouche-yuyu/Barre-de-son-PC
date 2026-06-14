@@ -61,11 +61,56 @@ const specs: { label: string; value: string }[] = [
 const brandInfo = getBrand(sb.brand.toLowerCase());
 const inRankings = rankingsForSoundbar(sb.slug);
 
-// Notice : lien direct si connu, sinon recherche de la notice officielle.
+// Notice : lien direct si connu, sinon recherche ciblée sur le site officiel de la marque.
+const supportDomain: Record<string, string> = {
+  Razer: 'razer.com',
+  Creative: 'creative.com',
+  Edifier: 'edifier.com',
+  Logitech: 'logitech.com',
+  Trust: 'trust.com',
+};
+const domain = supportDomain[sb.brand];
 const manualIsDirect = Boolean(sb.manualUrl);
 const manualHref =
   sb.manualUrl ??
-  `https://www.google.com/search?q=${encodeURIComponent(`${sb.brand} ${sb.name} manuel notice pdf`)}`;
+  `https://www.google.com/search?q=${encodeURIComponent(`${domain ? `site:${domain} ` : ''}${sb.name} manuel notice pdf`)}`;
+
+// Point 3 — « Pour qui / Pas pour qui » (dérivé des caractéristiques).
+const forYou: string[] = [
+  sb.bestFor,
+  ...(sb.hasRGB ? ['Vous voulez habiller un setup avec du RGB'] : []),
+  ...(sb.hasMicrophone ? ['Vous enchaînez les visios (micro intégré)'] : []),
+  ...(sb.connectivity.includes('HDMI ARC') ? ['Vous branchez aussi une TV ou une console'] : []),
+  ...(sb.price <= 80 ? ['Vous cherchez le bon plan à petit prix'] : []),
+].slice(0, 4);
+const notForYou: string[] = [
+  ...(!sb.hasSubwoofer ? ['Vous voulez des basses physiques puissantes (pas de caisson)'] : []),
+  ...(!sb.connectivity.includes('Bluetooth') ? ['Vous voulez diffuser sans fil depuis un mobile (pas de Bluetooth)'] : []),
+  ...(sb.dimensionsCm.width >= 56 ? ['Votre bureau est étroit (barre assez large)'] : []),
+  ...(sb.price >= 250 ? ['Votre budget est serré'] : []),
+  ...(!sb.hasRGB ? ['Vous tenez à un éclairage RGB'] : []),
+].slice(0, 4);
+
+// Point 1 — Alternatives intelligentes (calculées depuis le catalogue).
+const others = soundbars.filter((s) => s.slug !== sb.slug);
+const used = new Set<string>([sb.slug]);
+const altList: { label: string; sb: typeof sb }[] = [];
+const pushAlt = (label: string, cand: typeof sb | undefined) => {
+  if (cand && !used.has(cand.slug)) {
+    used.add(cand.slug);
+    altList.push({ label, sb: cand });
+  }
+};
+pushAlt('Moins chère', [...others].filter((s) => s.price < sb.price).sort((a, b) => b.score - a.score)[0]);
+pushAlt('Montée en gamme', [...others].filter((s) => s.price > sb.price).sort((a, b) => b.score - a.score)[0]);
+pushAlt(
+  'Plus compacte',
+  [...others].filter((s) => s.dimensionsCm.width < sb.dimensionsCm.width).sort((a, b) => a.dimensionsCm.width - b.dimensionsCm.width)[0],
+);
+
+// Point 6 — Puissance utile pour la pièce.
+const watts = sb.powerRmsWatts ?? (sb.powerPeakWatts ? Math.round(sb.powerPeakWatts / 2) : 0);
+const wattsKnown = watts > 0;
 const relatedGuides = ['comment-choisir-barre-de-son-pc', 'comment-installer-barre-de-son-pc']
   .map((s) => getGuide(s))
   .filter((g): g is NonNullable<typeof g> => Boolean(g));
@@ -159,6 +204,21 @@ const jsonLd = [
 
     <ProsCons pros={sb.pros} cons={sb.cons} />
 
+    <section class="audience grid grid-2" aria-label="Pour qui / pas pour qui">
+      <div class="aud aud-yes">
+        <h3>👍 Pour vous si…</h3>
+        <ul>
+          {forYou.map((x) => <li>{x}</li>)}
+        </ul>
+      </div>
+      <div class="aud aud-no">
+        <h3>👎 Passez votre chemin si…</h3>
+        <ul>
+          {notForYou.map((x) => <li>{x}</li>)}
+        </ul>
+      </div>
+    </section>
+
     <h2>Notes détaillées</h2>
     <div class="scores">
       {
@@ -204,6 +264,21 @@ const jsonLd = [
       <p id="fit-result" class="fit-result" role="status" aria-live="polite"></p>
     </section>
 
+    <section class="room-check" aria-labelledby="room-title">
+      <h2 id="room-title">🔊 Adaptée à votre espace ?</h2>
+      <p>Puissance de cette barre : <strong>{powerLabel(sb)}</strong>. Choisissez votre contexte d'écoute :</p>
+      <div class="fit-controls">
+        <label for="room-select">Contexte</label>
+        <select id="room-select">
+          <option value="bureau">Petit bureau (écoute de près)</option>
+          <option value="grand-bureau">Grand bureau</option>
+          <option value="petite-piece">Petite pièce (~10-15 m²)</option>
+          <option value="grande-piece">Grande pièce / salon</option>
+        </select>
+      </div>
+      <p id="room-result" class="fit-result" role="status" aria-live="polite"></p>
+    </section>
+
     <h2>Tutoriel : installer et configurer la {sb.name}</h2>
     <p>{sb.tutorial.intro}</p>
     <ol class="tuto-steps">
@@ -224,6 +299,24 @@ const jsonLd = [
             {sb.tutorial.tips.map((tip) => <li>{tip}</li>)}
           </ul>
         </div>
+      )
+    }
+
+    {
+      altList.length > 0 && (
+        <section class="alternatives">
+          <h2>Alternatives à considérer</h2>
+          <div class="alt-grid">
+            {altList.map((a) => (
+              <a class="alt-card" href={url(`/barres-de-son/${a.sb.slug}`)}>
+                <span class="alt-label">{a.label}</span>
+                <img src={url(a.sb.image)} alt={a.sb.name} width="320" height="180" loading="lazy" />
+                <span class="alt-name">{a.sb.name}</span>
+                <span class="alt-meta">{formatPrice(a.sb.price, a.sb.currency)} · {a.sb.score.toFixed(1)}/10</span>
+              </a>
+            ))}
+          </div>
+        </section>
       )
     }
 
@@ -269,7 +362,8 @@ const jsonLd = [
     </p>
   </div>
 
-  <script is:inline define:vars={{ barWidth: sb.dimensionsCm.width }}>
+  <script is:inline define:vars={{ barWidth: sb.dimensionsCm.width, watts, wattsKnown }}>
+    // Vérificateur « tient sous votre écran »
     const input = document.getElementById('fit-input');
     const btn = document.getElementById('fit-btn');
     const result = document.getElementById('fit-result');
@@ -292,6 +386,32 @@ const jsonLd = [
     }
     btn?.addEventListener('click', checkFit);
     input?.addEventListener('input', checkFit);
+
+    // Recommandation selon l'espace
+    const roomSel = document.getElementById('room-select');
+    const roomResult = document.getElementById('room-result');
+    const need = { 'bureau': 5, 'grand-bureau': 20, 'petite-piece': 40, 'grande-piece': 80 };
+    function checkRoom() {
+      if (!roomResult || !roomSel) return;
+      if (!wattsKnown) {
+        roomResult.textContent = 'ℹ️ Puissance non communiquée par le constructeur — fiez-vous à nos notes Son et Basses.';
+        roomResult.className = 'fit-result';
+        return;
+      }
+      const n = need[roomSel.value];
+      if (watts >= n) {
+        roomResult.textContent = `✅ Puissance suffisante (${watts} W) pour ce contexte.`;
+        roomResult.className = 'fit-result ok';
+      } else if (watts >= n / 2) {
+        roomResult.textContent = `🟡 Convient à volume modéré (${watts} W) ; un peu juste à fort volume.`;
+        roomResult.className = 'fit-result';
+      } else {
+        roomResult.textContent = `❌ Probablement trop juste (${watts} W) pour ce contexte.`;
+        roomResult.className = 'fit-result no';
+      }
+    }
+    roomSel?.addEventListener('change', checkRoom);
+    checkRoom();
   </script>
 </BaseLayout>
 
@@ -356,7 +476,8 @@ const jsonLd = [
     background: #2fe3b6;
   }
   .fit-check,
-  .notice {
+  .notice,
+  .room-check {
     margin-top: var(--space-8);
     background: var(--surface);
     border: 1px solid var(--border);
@@ -364,7 +485,8 @@ const jsonLd = [
     padding: var(--space-6);
   }
   .fit-check h2,
-  .notice h2 {
+  .notice h2,
+  .room-check h2 {
     margin-top: 0;
     font-size: 1.2rem;
   }
@@ -375,12 +497,15 @@ const jsonLd = [
     gap: var(--space-3);
     margin: var(--space-3) 0;
   }
-  .fit-controls input {
+  .fit-controls input,
+  .fit-controls select {
     background: var(--bg-soft);
     color: var(--text);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 0.5rem 0.7rem;
+  }
+  .fit-controls input {
     width: 120px;
   }
   .fit-result {
@@ -393,6 +518,79 @@ const jsonLd = [
   }
   .fit-result.no {
     color: var(--danger);
+  }
+  .audience {
+    margin-top: var(--space-8);
+  }
+  .aud {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+  }
+  .aud h3 {
+    margin-top: 0;
+  }
+  .aud ul {
+    margin: 0;
+  }
+  .aud-yes {
+    background: rgba(37, 208, 164, 0.06);
+    border-color: rgba(37, 208, 164, 0.3);
+  }
+  .aud-no {
+    background: rgba(255, 107, 107, 0.06);
+    border-color: rgba(255, 107, 107, 0.3);
+  }
+  .aud-yes li::marker {
+    content: '✓ ';
+    color: var(--accent);
+  }
+  .aud-no li::marker {
+    content: '✕ ';
+    color: var(--danger);
+  }
+  .alternatives {
+    margin-top: var(--space-8);
+  }
+  .alt-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .alt-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    color: var(--text);
+  }
+  .alt-card:hover {
+    border-color: var(--primary);
+    text-decoration: none;
+  }
+  .alt-card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-1);
+  }
+  .alt-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .alt-name {
+    font-weight: 600;
+  }
+  .alt-meta {
+    color: var(--text-muted);
+    font-size: 0.88rem;
   }
   .scores {
     display: grid;
