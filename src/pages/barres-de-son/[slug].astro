@@ -84,7 +84,7 @@ const jsonLd = [
 
     <header class="product-head section" style="padding-bottom: var(--space-6)">
       <div>
-        <a class="brand-badge" href={url(`/marques/${sb.brand.toLowerCase()}`)} aria-label={`Toutes les barres de son ${sb.brand}`}>
+        <a class:list={['brand-badge', brandInfo?.logoBg === 'dark' && 'badge-dark']} href={url(`/marques/${sb.brand.toLowerCase()}`)} aria-label={`Toutes les barres de son ${sb.brand}`}>
           {
             brandInfo?.logo ? (
               <img src={url(brandInfo.logo)} alt={`Logo ${sb.brand}`} height="20" loading="eager" />
@@ -313,10 +313,14 @@ const jsonLd = [
     display: inline-flex;
     align-items: center;
     background: #fff;
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 0.3rem 0.6rem;
     margin-bottom: var(--space-3);
     line-height: 0;
+  }
+  .brand-badge.badge-dark {
+    background: #0b0e14;
   }
   .brand-badge img {
     height: 20px;

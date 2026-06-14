@@ -48,7 +48,7 @@ const jsonLd = [
       height="900"
       loading="eager"
     />
-    <div class:list={['brand-mark', brand.logo && 'has-logo']}>
+    <div class:list={['brand-mark', brand.logo && 'has-logo', brand.logoBg === 'dark' && 'logo-dark']}>
       {
         brand.logo ? (
           <img class="brand-logo" src={url(brand.logo)} alt={`Logo ${brand.name}`} height="44" loading="eager" />
@@ -104,6 +104,10 @@ const jsonLd = [
   .brand-mark.has-logo {
     background: #fff;
     padding: var(--space-3) var(--space-6);
+  }
+  .brand-mark.has-logo.logo-dark {
+    background: #0b0e14;
+    border-color: var(--border);
   }
   .brand-wordmark {
     font-size: 2rem;
