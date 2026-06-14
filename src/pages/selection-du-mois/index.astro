@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverArt from '../../components/CoverArt.astro';
+import SoundbarCard from '../../components/SoundbarCard.astro';
+import { monthlyEditions, latestEdition, statusLabel } from '../../data/monthly';
+import { getSoundbar } from '../../data/soundbars';
+import type { Soundbar } from '../../data/types';
+import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+
+const edition = latestEdition();
+const picks = edition.picks
+  .map((p) => ({ sb: getSoundbar(p.soundbar), note: p.note }))
+  .filter((x): x is { sb: Soundbar; note: string } => Boolean(x.sb));
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Sélection du mois', path: '/selection-du-mois' },
+];
+
+const faq = [
+  {
+    question: 'À quelle fréquence la sélection est-elle mise à jour ?',
+    answer:
+      'Notre sélection du mois est actualisée le 2 de chaque mois. Nous indiquons clairement s\'il y a de nouvelles entrées, des sorties récentes, ou si le marché est resté stable.',
+  },
+];
+
+const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
+---
+
+<BaseLayout
+  title={`Notre sélection du mois — ${edition.label}`}
+  description={edition.headline}
+  path="/selection-du-mois"
+  ogType="article"
+  modifiedTime={edition.publishedAt}
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <CoverArt seed={`selection-${edition.id}`} variant="banner" icon="🗓️" class="sel-cover" />
+
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
+      <p class="eyebrow">Sélection du mois · {edition.label}</p>
+      <h1>Notre sélection du mois</h1>
+      <p class="lead">{edition.intro}</p>
+    </header>
+
+    <div class={`status status-${edition.status}`}>
+      <span class="status-tag">{statusLabel(edition.status)}</span>
+      <p>{edition.headline}</p>
+    </div>
+
+    <h2>La sélection</h2>
+    <div class="grid grid-3">
+      {picks.map((p, i) => <SoundbarCard soundbar={p.sb} rank={i + 1} />)}
+    </div>
+
+    <div class="grid grid-2" style="margin-top: var(--space-8)">
+      <section class="panel">
+        <h2 style="margin-top:0">🆕 Sorties &amp; nouveautés</h2>
+        {
+          edition.newReleases.length > 0 ? (
+            <ul>{edition.newReleases.map((r) => <li>{r}</li>)}</ul>
+          ) : (
+            <p class="muted">Aucune nouvelle sortie ce mois-ci.</p>
+          )
+        }
+      </section>
+      <section class="panel">
+        <h2 style="margin-top:0">🔮 À venir</h2>
+        {
+          edition.upcoming.length > 0 ? (
+            <ul>{edition.upcoming.map((r) => <li>{r}</li>)}</ul>
+          ) : (
+            <p class="muted">Rien d'annoncé pour le moment.</p>
+          )
+        }
+      </section>
+    </div>
+
+    {
+      monthlyEditions.length > 1 && (
+        <section style="margin-top: var(--space-12)">
+          <h2>Éditions précédentes</h2>
+          <ul class="archive">
+            {monthlyEditions.slice(1).map((e) => (
+              <li>
+                <strong>{e.label}</strong> — {statusLabel(e.status)} : {e.headline}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <p class="muted" style="margin-top: var(--space-12)">
+      Rubrique actualisée le 2 de chaque mois. Dernière mise à jour : {edition.publishedAt}.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .sel-cover {
+    margin-top: var(--space-6);
+  }
+  .status {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+  .status p {
+    margin: 0;
+    font-weight: 600;
+  }
+  .status-tag {
+    align-self: flex-start;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+  .status-stable {
+    background: rgba(154, 166, 192, 0.08);
+    border-color: var(--border);
+  }
+  .status-stable .status-tag {
+    background: var(--surface-2);
+    color: var(--text-muted);
+  }
+  .status-nouveautes {
+    background: rgba(37, 208, 164, 0.08);
+    border-color: rgba(37, 208, 164, 0.35);
+  }
+  .status-nouveautes .status-tag {
+    background: rgba(37, 208, 164, 0.18);
+    color: var(--accent);
+  }
+  .status-a-venir {
+    background: rgba(255, 180, 84, 0.08);
+    border-color: rgba(255, 180, 84, 0.35);
+  }
+  .status-a-venir .status-tag {
+    background: rgba(255, 180, 84, 0.18);
+    color: var(--warning);
+  }
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    background: var(--surface);
+  }
+  .muted {
+    color: var(--text-muted);
+  }
+  .archive {
+    padding-left: 1.1rem;
+  }
+</style>

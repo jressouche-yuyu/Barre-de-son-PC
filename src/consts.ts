@@ -45,6 +45,7 @@ export const AFFILIATE = {
 /** Navigation principale (header). */
 export const NAV: { label: string; href: string }[] = [
   { label: 'Classements', href: '/classements' },
+  { label: 'Sélection du mois', href: '/selection-du-mois' },
   { label: 'Barres de son', href: '/barres-de-son' },
   { label: 'Comparateur', href: '/comparateur' },
   { label: 'Guides', href: '/guides' },
