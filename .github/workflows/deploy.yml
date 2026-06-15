@@ -6,7 +6,7 @@ name: Déploiement GitHub Pages
 on:
   push:
     branches:
-      - claude/soundbar-ranking-site-uwpfvi
+      - main
   workflow_dispatch:
 
 permissions:
