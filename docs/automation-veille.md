@@ -28,7 +28,8 @@ a été déposée dans `public/images/blog/`.
 
 ## 2. Sélection du mois (le 2 de chaque mois)
 
-**Objectif** : tenir à jour `src/data/monthly.ts` avec un statut clair.
+**Objectif** : tenir à jour `src/data/monthly.json` (les éditions ; `monthly.ts`
+ne fait que l'importer et l'exposer) avec un statut clair.
 
 **Étapes :**
 1. Re-évaluer le marché vs l'édition précédente.
@@ -82,3 +83,19 @@ puis commit & push sur `claude/soundbar-ranking-site-uwpfvi` (→ déploiement a
 
 > ℹ️ La planification (cadence, fuseau) se règle dans l'interface Claude Code sur le web.
 > Ces prompts sont volontairement courts : toute la procédure détaillée vit dans ce fichier.
+
+### Réglages des deux déclencheurs (Claude Code sur le web → Schedules)
+
+| Déclencheur | Cadence (cron) | Branche | Prompt |
+|---|---|---|---|
+| Veille hebdo | `0 8 * * 1` (lundi 08:00) | `claude/soundbar-ranking-site-uwpfvi` | « Prompt — Veille hebdomadaire » ci-dessus |
+| Sélection du mois | `0 8 2 * *` (le 2 à 08:00) | `claude/soundbar-ranking-site-uwpfvi` | « Prompt — Sélection du mois » ci-dessus |
+
+**Prérequis réseau (important)** : la veille fait des recherches web. Le déclencheur
+doit donc tourner dans un environnement dont la **politique réseau autorise l'accès
+web** (sinon Claude ne pourra pas lire l'actualité et ne publiera rien). À régler à la
+création de l'environnement/déclencheur.
+
+**Comportement attendu** : si rien de pertinent → aucun commit (pas de bruit). Sinon →
+contenu vérifié sur 2 sources mini, `npm run build` + `npm run check` à 0 erreur, puis
+push sur la branche → déploiement GitHub Pages automatique.

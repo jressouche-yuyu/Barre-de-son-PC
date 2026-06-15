@@ -56,7 +56,7 @@ const { images, name } = Astro.props;
     const thumbs = Array.from(gal.querySelectorAll('.gallery-thumb'));
     if (imgs.length < 2) return;
     let cur = 0;
-    function show(i) {
+    function show(i: number) {
       cur = (i + imgs.length) % imgs.length;
       imgs.forEach((el, n) => el.classList.toggle('active', n === cur));
       thumbs.forEach((el, n) => el.classList.toggle('active', n === cur));
