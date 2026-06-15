@@ -21,7 +21,7 @@ export const SITE = {
    * `noindex, nofollow` (site en préparation). Repasser à `false` le jour du
    * lancement pour autoriser l'indexation par les moteurs et crawlers IA.
    */
-  noindex: true,
+  noindex: false,
   /** Auteur / éditeur du site (entité E-E-A-T). */
   author: 'La rédaction BarreSon PC',
   /** Réseaux sociaux et profils (utilisés dans le schéma Organization → sameAs). */
