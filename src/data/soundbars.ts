@@ -43,7 +43,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 11.4, depth: 9 },
-    image: '/images/products/razer-leviathan-v2-pro-1.webp',
+    image: '/images/products/razer-leviathan-v2-pro-card.webp',
     imageAlt: 'Barre de son Razer Leviathan V2 Pro avec son caisson de basses',
     gallery: [
       '/images/products/razer-leviathan-v2-pro-1.webp',
@@ -107,7 +107,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 50, height: 9.1, depth: 8.4 },
-    image: '/images/products/razer-leviathan-v2-1.webp',
+    image: '/images/products/razer-leviathan-v2-card.webp',
     imageAlt: 'Barre de son gaming Razer Leviathan V2 avec caisson de basses et RGB',
     gallery: [
       '/images/products/razer-leviathan-v2-1.webp',
@@ -172,7 +172,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 9.5, depth: 6.2 },
-    image: '/images/products/creative-sound-blaster-katana-v2-1.webp',
+    image: '/images/products/creative-sound-blaster-katana-v2-card.webp',
     imageAlt: 'Barre de son Creative Sound Blaster Katana V2 avec caisson de basses',
     gallery: [
       '/images/products/creative-sound-blaster-katana-v2-1.webp',
@@ -237,7 +237,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 6, depth: 7.8 },
-    image: '/images/products/creative-sound-blaster-katana-v2x-1.webp',
+    image: '/images/products/creative-sound-blaster-katana-v2x-card.webp',
     imageAlt: 'Barre de son Creative Sound Blaster Katana V2X avec caisson compact',
     gallery: [
       '/images/products/creative-sound-blaster-katana-v2x-1.webp',
@@ -300,7 +300,7 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 40, height: 8, depth: 8.6 },
-    image: '/images/products/razer-leviathan-v2-x-1.webp',
+    image: '/images/products/razer-leviathan-v2-x-card.webp',
     imageAlt: 'Barre de son compacte Razer Leviathan V2 X avec éclairage RGB',
     gallery: [
       '/images/products/razer-leviathan-v2-x-1.webp',
