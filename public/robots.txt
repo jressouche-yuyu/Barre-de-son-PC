@@ -3,6 +3,8 @@
 
 User-agent: *
 Allow: /
+# Pages de redirection d'affiliation (cloaking) — ne pas crawler/indexer.
+Disallow: /go/
 
 # Crawlers de moteurs génératifs / IA explicitement autorisés (GEO)
 User-agent: GPTBot

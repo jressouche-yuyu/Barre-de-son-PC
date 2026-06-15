@@ -1,0 +1,68 @@
+---
+/**
+ * Page de redirection d'affiliation (cloaking).
+ * Générée pour chaque produit en /go/<slug>/. L'URL Amazon est encodée en
+ * base64 : elle n'apparaît donc pas en clair dans le code source, et n'est
+ * reconstruite que côté navigateur au moment du clic. La page est `noindex,
+ * nofollow` et le chemin /go/ est bloqué dans robots.txt + exclu du sitemap.
+ */
+import { soundbars } from '../../data/soundbars';
+import { amazonUrl } from '../../lib/affiliate';
+
+export function getStaticPaths() {
+  return soundbars.map((sb) => ({
+    params: { slug: sb.slug },
+    props: { sb },
+  }));
+}
+
+const { sb } = Astro.props;
+// Destination réelle, encodée pour ne pas exposer l'URL marchande dans le HTML.
+const enc = Buffer.from(amazonUrl(sb), 'utf-8').toString('base64');
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Redirection vers l'offre…</title>
+    <script is:inline define:vars={{ enc }}>
+      // Redirection immédiate vers la destination décodée.
+      try {
+        window.location.replace(atob(enc));
+      } catch (e) {
+        /* le lien de secours ci-dessous prend le relais */
+      }
+    </script>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #0b0e14;
+        color: #e8ecf4;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        text-align: center;
+        padding: 1.5rem;
+      }
+      a {
+        color: #4f8cff;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Redirection en cours vers l'offre…<br />
+      <a id="go-fallback" rel="sponsored nofollow noopener" href="#">Cliquez ici si la page ne s'ouvre pas.</a>
+    </p>
+    <script is:inline define:vars={{ enc }}>
+      // Renseigne le lien de secours (clic manuel) sans exposer l'URL en clair.
+      var f = document.getElementById('go-fallback');
+      if (f) f.setAttribute('href', atob(enc));
+    </script>
+  </body>
+</html>

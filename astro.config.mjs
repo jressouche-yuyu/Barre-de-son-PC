@@ -16,6 +16,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [
     sitemap({
+      // Exclut les pages de redirection d'affiliation (/go/) du sitemap.
+      filter: (page) => !/\/go\//.test(page),
       i18n: {
         defaultLocale: 'fr',
         locales: { fr: 'fr-FR' },

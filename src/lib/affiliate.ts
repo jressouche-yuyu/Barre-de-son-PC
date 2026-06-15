@@ -16,6 +16,7 @@
  */
 import { AFFILIATE } from '../consts';
 import type { Soundbar } from '../data/types';
+import { url } from './url';
 
 export function amazonUrl(sb: Pick<Soundbar, 'name' | 'amazonAsin'>): string {
   const tag = AFFILIATE.partnerTag;
@@ -24,4 +25,16 @@ export function amazonUrl(sb: Pick<Soundbar, 'name' | 'amazonAsin'>): string {
   }
   const q = encodeURIComponent(sb.name);
   return `${AFFILIATE.marketplace}/s?k=${q}&tag=${encodeURIComponent(tag)}`;
+}
+
+/**
+ * Lien d'achat « obfusqué » (cloaking) : pointe vers une page de redirection
+ * interne `/go/<slug>/` plutôt que vers l'URL Amazon en clair. Avantages :
+ * - l'URL marchande (et le tag) n'apparaît pas dans le HTML de la page produit ;
+ * - la page /go/ est `noindex` et bloquée dans robots.txt → les moteurs ne
+ *   suivent pas le lien d'affiliation et ne l'indexent pas ;
+ * - permet de changer la destination (ASIN, marchand) sans toucher au contenu.
+ */
+export function goUrl(slug: string): string {
+  return url(`/go/${slug}`);
 }

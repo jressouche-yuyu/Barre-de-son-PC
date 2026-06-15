@@ -14,7 +14,7 @@ import {
   howToSchema,
 } from '../../lib/schema';
 import { url } from '../../lib/url';
-import { amazonUrl } from '../../lib/affiliate';
+import { goUrl } from '../../lib/affiliate';
 import { AFFILIATE } from '../../consts';
 
 export function getStaticPaths() {
@@ -183,7 +183,7 @@ const jsonLd = [
               AFFILIATE.enabled && (
                 <a
                   class="btn buy-btn"
-                  href={amazonUrl(sb)}
+                  href={goUrl(sb.slug)}
                   target="_blank"
                   rel="sponsored nofollow noopener"
                 >
