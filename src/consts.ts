@@ -7,7 +7,7 @@ export const SITE = {
   /** Nom de marque affiché dans l'en-tête, les titres et les données structurées. */
   name: 'BarreSon PC',
   /** Domaine de production (sans slash final). Utilisé pour les URL canoniques, le sitemap et les schémas. */
-  url: 'https://www.barresonpc.fr',
+  url: 'https://barre-de-son-pc.fr',
   /** Slogan court — réutilisé dans la home et les balises meta. */
   tagline: 'Tests, comparatifs & guides audio PC',
   /** Description par défaut (meta description de repli, ~155 caractères). */

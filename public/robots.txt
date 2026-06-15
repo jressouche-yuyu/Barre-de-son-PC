@@ -26,4 +26,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://www.barresonpc.fr/sitemap-index.xml
+Sitemap: https://barre-de-son-pc.fr/sitemap-index.xml
