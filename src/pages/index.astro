@@ -285,6 +285,10 @@ const jsonLd = [
     justify-content: space-between;
     gap: var(--space-4);
     flex-wrap: wrap;
+    /* Reproduit l'espacement titre→contenu des autres sections (h2 a un
+       margin-bottom de var(--space-4) via global.css ; ici le h2 est remis à
+       0 pour l'alignement flex, donc on reporte cette marge sur le conteneur). */
+    margin-bottom: var(--space-4);
   }
   .section-head h2 {
     margin: 0;
