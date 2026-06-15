@@ -107,8 +107,14 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 50, height: 9.1, depth: 8.4 },
-    image: '/images/products/razer-leviathan-v2.webp',
+    image: '/images/products/razer-leviathan-v2-1.webp',
     imageAlt: 'Barre de son gaming Razer Leviathan V2 avec caisson de basses et RGB',
+    gallery: [
+      '/images/products/razer-leviathan-v2-1.webp',
+      '/images/products/razer-leviathan-v2-2.webp',
+      '/images/products/razer-leviathan-v2-3.webp',
+      '/images/products/razer-leviathan-v2-4.webp',
+    ],
     tutorial: {
       intro:
         'Installation immédiate en USB ; Synapse débloque le THX Spatial Audio et la personnalisation du Chroma.',
@@ -166,8 +172,13 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 9.5, depth: 6.2 },
-    image: '/images/products/creative-sound-blaster-katana-v2.webp',
+    image: '/images/products/creative-sound-blaster-katana-v2-1.webp',
     imageAlt: 'Barre de son Creative Sound Blaster Katana V2 avec caisson de basses',
+    gallery: [
+      '/images/products/creative-sound-blaster-katana-v2-1.webp',
+      '/images/products/creative-sound-blaster-katana-v2-2.webp',
+      '/images/products/creative-sound-blaster-katana-v2-3.webp',
+    ],
     tutorial: {
       intro:
         'La Katana V2 se pilote depuis l\'appli Sound Blaster Command ; l\'USB-C est recommandé sur PC pour profiter du Super X-Fi.',
@@ -226,8 +237,14 @@ export const soundbars: Soundbar[] = [
     hasMicrophone: false,
     hasRGB: true,
     dimensionsCm: { width: 60, height: 6, depth: 7.8 },
-    image: '/images/products/creative-sound-blaster-katana-v2x.webp',
+    image: '/images/products/creative-sound-blaster-katana-v2x-1.webp',
     imageAlt: 'Barre de son Creative Sound Blaster Katana V2X avec caisson compact',
+    gallery: [
+      '/images/products/creative-sound-blaster-katana-v2x-1.webp',
+      '/images/products/creative-sound-blaster-katana-v2x-2.webp',
+      '/images/products/creative-sound-blaster-katana-v2x-3.webp',
+      '/images/products/creative-sound-blaster-katana-v2x-4.webp',
+    ],
     tutorial: {
       intro:
         'Même prise en main que la Katana V2, avec un caisson plus facile à placer sous le bureau.',
