@@ -16,6 +16,12 @@ export const SITE = {
   /** Langue principale du contenu. */
   lang: 'fr-FR',
   locale: 'fr_FR',
+  /**
+   * Interrupteur global de non-indexation. À `true`, TOUTES les pages portent
+   * `noindex, nofollow` (site en préparation). Repasser à `false` le jour du
+   * lancement pour autoriser l'indexation par les moteurs et crawlers IA.
+   */
+  noindex: true,
   /** Auteur / éditeur du site (entité E-E-A-T). */
   author: 'La rédaction BarreSon PC',
   /** Réseaux sociaux et profils (utilisés dans le schéma Organization → sameAs). */

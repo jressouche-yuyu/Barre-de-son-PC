@@ -43,12 +43,14 @@ const origin = Astro.site ?? new URL(SITE.url);
 const canonical = new URL(Astro.url.pathname, origin).href;
 const ogImage = image.startsWith('http') ? image : new URL(url(image), origin).href;
 const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
+// `SITE.noindex` force la non-indexation sur tout le site (préparation au lancement).
+const isNoindex = SITE.noindex || noindex;
 ---
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+<meta name="robots" content={isNoindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
 
 {/* Open Graph */}
 <meta property="og:type" content={ogType} />
