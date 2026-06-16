@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CoverArt from '../../components/CoverArt.astro';
 import Faq from '../../components/Faq.astro';
+import SoundbarPicks from '../../components/SoundbarPicks.astro';
 import { guides } from '../../data/guides';
 import {
   breadcrumbSchema,
@@ -74,6 +75,12 @@ const jsonLd = [
         ))
       }
     </div>
+
+    {
+      guide.picks && guide.picks.length > 0 && (
+        <SoundbarPicks picks={guide.picks} heading={guide.picksHeading} />
+      )
+    }
 
     <Faq items={guide.faq} />
 

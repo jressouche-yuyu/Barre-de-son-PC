@@ -139,4 +139,16 @@ export interface Guide {
   /** Sections du guide (H2 + contenu en Markdown léger/HTML). */
   sections: { heading: string; body: string }[];
   faq: { question: string; answer: string }[];
+  /**
+   * Barres de son recommandées par ce guide, affichées sous forme de blocs
+   * produits (cartes) dans la page.
+   *
+   * RÈGLE ÉDITORIALE : tout guide (ou article) qui oriente le lecteur vers une
+   * sélection d'une ou plusieurs barres de son DOIT renseigner ce champ, afin
+   * d'intégrer directement les blocs des produits sélectionnés dans le contenu
+   * (et non de simples mentions textuelles). `soundbar` est le slug du produit.
+   */
+  picks?: { soundbar: string; why?: string }[];
+  /** Titre du bloc de sélection (défaut : « Notre sélection »). */
+  picksHeading?: string;
 }

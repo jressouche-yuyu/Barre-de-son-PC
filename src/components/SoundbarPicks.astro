@@ -1,0 +1,73 @@
+---
+import type { Soundbar } from '../data/types';
+import SoundbarCard from './SoundbarCard.astro';
+import { getSoundbar } from '../data/soundbars';
+
+/**
+ * Bloc « sélection de produits » à intégrer dans un contenu éditorial (guide,
+ * article) qui oriente vers une ou plusieurs barres de son. Affiche les cartes
+ * produit des références sélectionnées, chacune accompagnée d'une raison.
+ *
+ * Voir la RÈGLE ÉDITORIALE dans CLAUDE.md : tout contenu de ce type doit
+ * intégrer ces blocs plutôt que de se contenter de mentions textuelles.
+ */
+interface Props {
+  /** Liste des sélections : slug du produit + raison du choix (optionnelle). */
+  picks: { soundbar: string; why?: string }[];
+  /** Titre du bloc. */
+  heading?: string;
+}
+const { picks, heading = 'Notre sélection' } = Astro.props;
+
+// Résout les produits dans l'ordre de la sélection (ignore les slugs inconnus).
+const resolved = picks
+  .map((p) => ({ sb: getSoundbar(p.soundbar), why: p.why }))
+  .filter((x): x is { sb: Soundbar; why?: string } => Boolean(x.sb));
+---
+
+{
+  resolved.length > 0 && (
+    <section class="picks">
+      <h2>{heading}</h2>
+      <div class="picks-grid">
+        {resolved.map((item) => (
+          <div class="pick-entry">
+            <SoundbarCard soundbar={item.sb} />
+            {item.why && (
+              <p class="why">
+                <strong>Pourquoi ce choix&nbsp;:</strong> {item.why}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .picks {
+    margin-top: var(--space-12);
+  }
+  .picks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+  }
+  .pick-entry {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .why {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+</style>

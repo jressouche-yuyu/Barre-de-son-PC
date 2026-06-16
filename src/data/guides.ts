@@ -5,10 +5,35 @@ import type { Guide } from './types';
  * Ils captent les requêtes « comment choisir », « comment installer »,
  * « différence entre… » et nourrissent le maillage interne vers les
  * classements et les fiches produit.
+ *
+ * RÈGLE ÉDITORIALE — tout guide qui oriente vers une SÉLECTION d'une ou
+ * plusieurs barres de son DOIT renseigner le champ `picks` (slug produit +
+ * raison du choix). Les blocs produits (cartes) sont alors affichés
+ * directement dans la page via <SoundbarPicks>, plutôt que de se limiter à
+ * des mentions textuelles. Voir CLAUDE.md.
  */
 export const guides: Guide[] = [
   {
     slug: 'comment-choisir-barre-de-son-pc',
+    picksHeading: 'Notre sélection selon les usages',
+    picks: [
+      {
+        soundbar: 'razer-leviathan-v2-x',
+        why: 'Compacte et 100 % USB-C : le meilleur point d\'entrée gaming pour un bureau chargé, sans bloc secteur ni caisson.',
+      },
+      {
+        soundbar: 'razer-leviathan-v2',
+        why: 'Avec son caisson dédié et le RGB Chroma, l\'option immersive pour le jeu et les films sur PC.',
+      },
+      {
+        soundbar: 'creative-sound-blaster-katana-v2',
+        why: 'La plus polyvalente : connectique complète (USB-C, optique, HDMI ARC) et Super X-Fi pour relier PC, console et TV.',
+      },
+      {
+        soundbar: 'creative-sound-blaster-gs3',
+        why: 'Mini-barre à petit prix avec prise casque en façade : idéale en bureautique et pour un premier achat.',
+      },
+    ],
     title: 'Comment choisir une barre de son pour PC ?',
     description:
       'Connectique, encombrement, caisson, RGB : tous les critères pour bien choisir une barre de son adaptée à un usage informatique.',
@@ -99,6 +124,21 @@ export const guides: Guide[] = [
   },
   {
     slug: 'barre-de-son-vs-enceintes-pc',
+    picksHeading: 'Nos barres de son recommandées',
+    picks: [
+      {
+        soundbar: 'razer-leviathan-v2-x',
+        why: 'Pour gagner de la place sans renoncer au son gaming : tout passe par un seul câble USB-C.',
+      },
+      {
+        soundbar: 'razer-leviathan-v2',
+        why: 'Le caisson apporte le grave physique que des enceintes 2.0 de bureau peinent à offrir.',
+      },
+      {
+        soundbar: 'creative-sound-blaster-katana-v2',
+        why: 'Polyvalente et richement connectée, elle remplace avantageusement un kit d\'enceintes encombrant.',
+      },
+    ],
     title: 'Barre de son ou enceintes pour PC : que choisir ?',
     description:
       'Avantages, inconvénients et cas d\'usage : faut-il préférer une barre de son ou des enceintes pour votre ordinateur ?',
@@ -131,6 +171,21 @@ export const guides: Guide[] = [
   },
   {
     slug: 'barre-de-son-pc-teletravail-visio',
+    picksHeading: 'Nos recommandations pour le télétravail',
+    picks: [
+      {
+        soundbar: 'creative-stage-v2',
+        why: 'Le mode Clear Dialog renforce les voix en réunion, avec une connectique complète.',
+      },
+      {
+        soundbar: 'creative-sound-blaster-gs3',
+        why: 'Compacte, médium clair et prise casque en façade pour basculer en écoute privée.',
+      },
+      {
+        soundbar: 'creative-stage-air-v2',
+        why: 'Sur batterie : parfaite pour un poste nomade ou pour alterner entre plusieurs espaces.',
+      },
+    ],
     title: 'Quelle barre de son PC pour le télétravail et la visio ?',
     description:
       'Clarté des voix, micro, confort d\'écoute : les critères et nos recommandations de barres de son adaptées au télétravail et aux visioconférences.',
@@ -172,6 +227,21 @@ export const guides: Guide[] = [
   },
   {
     slug: 'barre-de-son-pc-sans-fil-bluetooth',
+    picksHeading: 'Nos choix pour un usage sans fil',
+    picks: [
+      {
+        soundbar: 'creative-stage-air-v2',
+        why: 'La seule à vraie batterie intégrée : un usage réellement sans câble pendant quelques heures.',
+      },
+      {
+        soundbar: 'creative-sound-blaster-katana-v2',
+        why: 'Bluetooth en appoint et USB-C en principal : le meilleur des deux mondes, sans latence pour le jeu.',
+      },
+      {
+        soundbar: 'razer-leviathan-v2',
+        why: 'Bluetooth pour le smartphone, USB-C pour le PC, et un grave assuré par son caisson.',
+      },
+    ],
     title: 'Barre de son PC sans fil : Bluetooth, batterie et limites',
     description:
       'Quand le sans-fil a-t-il du sens pour une barre de son PC ? Bluetooth, latence, autonomie sur batterie et multipoint : ce qu\'il faut savoir avant de choisir.',
@@ -213,6 +283,25 @@ export const guides: Guide[] = [
   },
   {
     slug: 'barre-de-son-petit-bureau-moniteur',
+    picksHeading: 'Nos barres compactes recommandées',
+    picks: [
+      {
+        soundbar: 'razer-leviathan-v2-x',
+        why: '40 cm, alimentée et pilotée par un seul câble USB-C : elle se glisse sous la plupart des écrans 24-27".',
+      },
+      {
+        soundbar: 'creative-sound-blaster-gs3',
+        why: 'Ultra-compacte avec prise casque : le bon compromis clarté/encombrement sur un petit bureau.',
+      },
+      {
+        soundbar: 'creative-stage-air-v2',
+        why: 'Mini-barre sur batterie, idéale pour un laptop ou un poste nomade.',
+      },
+      {
+        soundbar: 'creative-sound-blaster-katana-v2x',
+        why: 'Si l\'impact prime malgré l\'espace réduit : un caisson plus facile à caser que les gros modèles.',
+      },
+    ],
     title: 'Quelle barre de son pour un petit bureau ou un moniteur ?',
     description:
       'Largeur, hauteur sous l\'écran, alimentation par un seul câble : comment choisir une barre de son compacte adaptée à un petit bureau ou un simple moniteur.',
