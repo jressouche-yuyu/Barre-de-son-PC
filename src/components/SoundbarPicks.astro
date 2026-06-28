@@ -22,7 +22,7 @@ const { picks, heading = 'Notre sélection' } = Astro.props;
 // Résout les produits dans l'ordre de la sélection (ignore les slugs inconnus).
 const resolved = picks
   .map((p) => ({ sb: getSoundbar(p.soundbar), why: p.why }))
-  .filter((x): x is { sb: Soundbar; why?: string } => Boolean(x.sb));
+  .filter((x): x is { sb: Soundbar; why: string | undefined } => Boolean(x.sb));
 ---
 
 {
