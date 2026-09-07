@@ -26,6 +26,13 @@ export interface ScoreBreakdown {
   rapportQualitePrix: number;
 }
 
+/**
+ * État commercial d'un produit.
+ * « fin-de-commercialisation » remplace la suppression d'une fiche : supprimer
+ * une page produit jette le référencement acquis.
+ */
+export type Availability = 'disponible' | 'stock-limite' | 'fin-de-commercialisation';
+
 /** Étape d'un tutoriel d'installation / prise en main. */
 export interface TutorialStep {
   title: string;
@@ -46,11 +53,21 @@ export interface Soundbar {
   /** Nom commercial complet. */
   name: string;
   brand: string;
-  /** Prix indicatif constaté en euros (TTC). */
+  /**
+   * Prix indicatif constaté en euros (TTC).
+   * ⚠ N'EST PLUS AFFICHÉ TEL QUEL. Il sert uniquement à déduire la fourchette
+   * de gamme () et à trier les classements « pas chères ».
+   * Un prix exact affiché est faux la semaine suivante — voir prix.ts.
+   */
   price: number;
   /** Devise ISO 4217. */
   currency: 'EUR';
-  /** Note globale sur 10 (sert au tri et au schéma Review). */
+  /**
+   * Note globale sur 10 (sert au tri et au schéma Review).
+   * ⚠ CALCULÉE, jamais saisie :  de 
+   * l'applique à  au moment de l'export de . La grille de
+   * pondération est publiée sur /methodologie/.
+   */
   score: number;
   /** Détail des notes par critère. */
   scores: ScoreBreakdown;
@@ -93,6 +110,15 @@ export interface Soundbar {
   manualUrl?: string;
   /** Date de la dernière vérification éditoriale (ISO 8601). Important pour la fraîcheur SEO/GEO. */
   lastUpdated: string;
+  /**
+   * Date du dernier relevé de gamme et de disponibilité (ISO 8601).
+   * Obligatoire : le site n'affiche JAMAIS une information commerciale sans sa
+   * date. Passé  (src/lib/prix.ts), le gabarit masque la
+   * fourchette au lieu d'afficher une donnée qu'il ne peut plus garantir.
+   */
+  priceCheckedAt: string;
+  /** État commercial constaté au dernier relevé. */
+  availability: Availability;
   /** Année de sortie du produit. */
   releaseYear: number;
 }
@@ -152,3 +178,10 @@ export interface Guide {
   /** Titre du bloc de sélection (défaut : « Notre sélection »). */
   picksHeading?: string;
 }
+
+/**
+ * Forme d'une barre de son telle qu'elle est SAISIE dans  :
+ * identique à , mais sans  — la note globale est calculée à
+ * l'export depuis , elle ne se tape pas.
+ */
+export type SoundbarInput = Omit<Soundbar, 'score'>;

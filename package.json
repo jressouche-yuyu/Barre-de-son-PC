@@ -10,7 +10,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "gate": "node scripts/news-gate.mjs",
+    "article:check": "node scripts/news-check.mjs",
+    "article:record": "node scripts/news-record.mjs",
+    "article:photo": "node scripts/assign-photo.mjs",
+    "verify:render": "node scripts/verifie-rendu.mjs",
+    "verify:cadence": "node scripts/simule-cadence.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
@@ -20,6 +26,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "yaml": "^2.9.0"
   }
 }

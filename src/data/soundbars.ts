@@ -1,4 +1,5 @@
-import type { Soundbar } from './types';
+import type { Soundbar, SoundbarInput } from './types';
+import { scoreFromBreakdown } from '../lib/notation';
 
 /**
  * Jeu de données des barres de son pour PC.
@@ -11,14 +12,13 @@ import type { Soundbar } from './types';
  * Images : place les visuels dans /public/images/products/<slug>.svg (ou .jpg/.webp)
  * puis mets à jour le champ `image`. Les fichiers fournis sont des placeholders.
  */
-export const soundbars: Soundbar[] = [
+const saisie: SoundbarInput[] = [
   {
     slug: 'razer-leviathan-v2-pro',
     name: 'Razer Leviathan V2 Pro',
     brand: 'Razer',
     price: 399,
     currency: 'EUR',
-    score: 8.7,
     scores: { son: 9, basses: 9, ergonomie: 8, connectique: 7.5, rapportQualitePrix: 7.5 },
     verdict:
       'Son 3D à suivi de tête par caméra IR : l\'expérience la plus immersive du marché PC, à prix premium.',
@@ -77,6 +77,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2023,
   },
   {
@@ -85,7 +87,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Razer',
     price: 229,
     currency: 'EUR',
-    score: 8.5,
     scores: { son: 8.5, basses: 9, ergonomie: 8.5, connectique: 7, rapportQualitePrix: 8 },
     verdict:
       'La référence gaming sur bureau : caisson dédié, RGB Chroma 18 zones et THX Spatial pour un son immersif.',
@@ -142,6 +143,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2022,
   },
   {
@@ -150,7 +153,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Creative',
     price: 299,
     currency: 'EUR',
-    score: 8.6,
     scores: { son: 9, basses: 8.5, ergonomie: 8, connectique: 9.5, rapportQualitePrix: 8 },
     verdict:
       'Tri-amplifiée et ultra-connectée : la barre la plus puissante et polyvalente pour un poste hybride PC/console/TV.',
@@ -206,6 +208,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2022,
   },
   {
@@ -214,7 +218,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Creative',
     price: 199,
     currency: 'EUR',
-    score: 8.3,
     scores: { son: 8.5, basses: 8, ergonomie: 8.5, connectique: 9, rapportQualitePrix: 8.5 },
     verdict:
       'La Katana en plus compact et abordable : 90 W RMS, caisson réduit de 40 % et connectique complète.',
@@ -272,6 +275,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2022,
   },
   {
@@ -280,7 +285,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Razer',
     price: 99,
     currency: 'EUR',
-    score: 7.9,
     scores: { son: 7.5, basses: 7, ergonomie: 9, connectique: 7.5, rapportQualitePrix: 9 },
     verdict:
       'Compacte, un seul câble USB-C et du RGB : la barre gaming la plus simple à vivre sous un moniteur.',
@@ -336,6 +340,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2022,
   },
   {
@@ -344,7 +350,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Creative',
     price: 119,
     currency: 'EUR',
-    score: 8.0,
     scores: { son: 7.5, basses: 8, ergonomie: 8, connectique: 9, rapportQualitePrix: 9.5 },
     verdict:
       'Le meilleur combo barre + caisson à petit prix : 80 W RMS, Clear Dialog et une connectique étonnamment complète.',
@@ -395,6 +400,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2021,
   },
   {
@@ -403,7 +410,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Creative',
     price: 59,
     currency: 'EUR',
-    score: 7.3,
     scores: { son: 7.5, basses: 6.5, ergonomie: 8.5, connectique: 7.5, rapportQualitePrix: 8.5 },
     verdict:
       'Mini-barre RGB en USB-C avec techno SuperWide et sortie casque en façade : idéale pour désencombrer un bureau.',
@@ -454,6 +460,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2024,
   },
   {
@@ -462,7 +470,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Creative',
     price: 55,
     currency: 'EUR',
-    score: 7.0,
     scores: { son: 7, basses: 6, ergonomie: 9, connectique: 7.5, rapportQualitePrix: 8.5 },
     verdict:
       'Mini-barre nomade sur batterie : USB-C, Bluetooth 5.3 et radiateur passif pour un son honnête sans encombrer.',
@@ -508,6 +515,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-13',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2022,
   },
   {
@@ -516,7 +525,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Creative',
     price: 199,
     currency: 'EUR',
-    score: 8.2,
     scores: { son: 8.5, basses: 8.5, ergonomie: 7.5, connectique: 9, rapportQualitePrix: 8 },
     verdict:
       'Du Dolby Atmos abordable : une barre 2.1 polyvalente, idéale pour un PC, un écran ultralarge ou une TV.',
@@ -567,6 +575,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-14',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2022,
   },
   {
@@ -575,7 +585,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Logitech',
     price: 99,
     currency: 'EUR',
-    score: 7.7,
     scores: { son: 7.5, basses: 8.5, ergonomie: 7.5, connectique: 7.5, rapportQualitePrix: 8.5 },
     verdict:
       'Un 2.1 à grosses basses avec molette de contrôle sans fil : plus qu\'une barre, un vrai kit polyvalent.',
@@ -623,6 +632,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-14',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2020,
   },
   {
@@ -631,7 +642,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Edifier',
     price: 59,
     currency: 'EUR',
-    score: 7.2,
     scores: { son: 7, basses: 6, ergonomie: 9, connectique: 7.5, rapportQualitePrix: 8.5 },
     verdict:
       'Mini-barre RGB avec micro intégré : le compagnon malin pour le gaming léger et la visio sur un petit bureau.',
@@ -681,6 +691,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-14',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2024,
   },
   {
@@ -689,7 +701,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Trust',
     price: 45,
     currency: 'EUR',
-    score: 6.8,
     scores: { son: 6.5, basses: 6, ergonomie: 8, connectique: 6.5, rapportQualitePrix: 8 },
     verdict:
       'La barre RGB la moins chère pour habiller un setup gaming d\'entrée de gamme, alimentée en USB.',
@@ -731,6 +742,8 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-14',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2021,
   },
   {
@@ -739,7 +752,6 @@ export const soundbars: Soundbar[] = [
     brand: 'Edifier',
     price: 89,
     currency: 'EUR',
-    score: 7.4,
     scores: { son: 7.5, basses: 6.5, ergonomie: 8, connectique: 8, rapportQualitePrix: 8.5 },
     verdict:
       'Des mini-enceintes 2.0 RGB polyvalentes : une alternative compacte à la barre pour le jeu et la musique.',
@@ -785,9 +797,25 @@ export const soundbars: Soundbar[] = [
       ],
     },
     lastUpdated: '2026-06-14',
+    priceCheckedAt: '2026-09-07',
+    availability: 'disponible',
     releaseYear: 2023,
   },
 ];
+
+/**
+ * Jeu de données exporté.
+ *
+ * La note globale est CALCULÉE ici, depuis le détail par critère et la grille de
+ * pondération publiée sur /methodologie/. Elle n'est jamais saisie à la main :
+ * deux nombres indépendants qui décrivent la même chose finissent toujours par
+ * diverger, et une routine automatique n'aurait aucun moyen de savoir lequel
+ * fait foi.
+ */
+export const soundbars: Soundbar[] = saisie.map((sb) => ({
+  ...sb,
+  score: scoreFromBreakdown(sb.scores),
+}));
 
 /** Retourne une barre de son par son slug. */
 export function getSoundbar(slug: string): Soundbar | undefined {
@@ -799,10 +827,18 @@ export function soundbarsByScore(): Soundbar[] {
   return [...soundbars].sort((a, b) => b.score - a.score);
 }
 
-/** Formatage prix en euros, locale FR. */
-export function formatPrice(price: number, currency = 'EUR'): string {
-  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency, maximumFractionDigits: 0 }).format(price);
-}
+/*
+ * `formatPrice()` a été RETIRÉ volontairement.
+ *
+ * Il formatait un prix exact en euros. Tant qu'il existait, n'importe quelle
+ * routine automatique pouvait le rappeler et remettre un prix chiffré sur le
+ * site — c'est-à-dire une information fausse la semaine suivante. La meilleure
+ * façon d'empêcher un affichage interdit est de supprimer la fonction qui le
+ * produit, pas d'écrire une consigne en espérant qu'elle soit lue.
+ *
+ * Pour afficher une information de prix : `PrixGamme.astro`, qui rend une
+ * fourchette de gamme avec sa date de relevé et gère sa péremption.
+ */
 
 /** Libellé d'affichage de la puissance (RMS prioritaire, sinon crête, sinon n.c.). */
 export function powerLabel(sb: { powerRmsWatts?: number; powerPeakWatts?: number }): string {

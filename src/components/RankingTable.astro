@@ -1,7 +1,7 @@
 ---
 /** Tableau comparatif synthétique. Réutilisé sur les classements et le comparateur. */
 import type { Soundbar } from '../data/types';
-import { formatPrice } from '../data/soundbars';
+import PrixGamme from './PrixGamme.astro';
 import { url } from '../lib/url';
 
 interface Props {
@@ -40,7 +40,7 @@ const { soundbars: list, showRank = true } = Astro.props;
               <small style="color:var(--text-muted)">{sb.brand}</small>
             </td>
             <td><span class="score" style="color:var(--accent)">{sb.score.toFixed(1)}</span></td>
-            <td>{formatPrice(sb.price, sb.currency)}</td>
+            <td><PrixGamme sb={sb} compact /></td>
             <td>{sb.hasSubwoofer ? 'Oui' : 'Non'}</td>
             <td>{sb.connectivity.join(', ')}</td>
             <td><a class="btn btn-ghost" href={url(`/barres-de-son/${sb.slug}`)}>Test</a></td>

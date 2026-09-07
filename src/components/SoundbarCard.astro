@@ -1,6 +1,6 @@
 ---
 import type { Soundbar } from '../data/types';
-import { formatPrice } from '../data/soundbars';
+import PrixGamme from './PrixGamme.astro';
 import { url } from '../lib/url';
 
 interface Props {
@@ -36,7 +36,7 @@ const { soundbar: sb, rank } = Astro.props;
   </ul>
 
   <div class="sb-foot">
-    <span class="sb-price">{formatPrice(sb.price, sb.currency)}</span>
+    <PrixGamme sb={sb} compact />
     <a class="btn btn-ghost" href={url(`/barres-de-son/${sb.slug}`)}>Voir le test</a>
   </div>
 </article>

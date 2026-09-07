@@ -3,7 +3,8 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CoverArt from '../../components/CoverArt.astro';
-import { breadcrumbSchema, blogPostingSchema } from '../../lib/schema';
+import Faq from '../../components/Faq.astro';
+import { breadcrumbSchema, blogPostingSchema, faqSchema } from '../../lib/schema';
 import { url } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -26,6 +27,9 @@ const crumbs = [
   { name: post.data.title, path: `/blog/${post.id}` },
 ];
 
+const faq = post.data.faq ?? [];
+const sources = post.data.sources ?? [];
+
 const jsonLd = [
   breadcrumbSchema(crumbs),
   blogPostingSchema({
@@ -35,11 +39,14 @@ const jsonLd = [
     publishedAt: post.data.publishedAt,
     updatedAt: post.data.updatedAt,
   }),
+  // La FAQ du frontmatter alimente FAQPage : c'est la forme la plus reprise par
+  // les AI Overviews. Sans cette injection, le champ `faq` ne servirait à rien.
+  ...(faq.length > 0 ? [faqSchema(faq)] : []),
 ];
 ---
 
 <BaseLayout
-  title={post.data.title}
+  title={post.data.metaTitle ?? post.data.title}
   description={post.data.description}
   path={`/blog/${post.id}`}
   ogType="article"
@@ -75,6 +82,31 @@ const jsonLd = [
       <Content />
     </div>
 
+    {faq.length > 0 && <Faq items={faq} />}
+
+    {
+      sources.length > 0 && (
+        <section class="sources" aria-labelledby="sources-title">
+          <h2 id="sources-title">Sources</h2>
+          {/*
+            Le site ne teste pas physiquement les produits : sa crédibilité tient
+            entièrement à la traçabilité de ce qu'il avance. Ces liens sont donc
+            une pièce du dispositif éditorial, pas une politesse de bas de page.
+          */}
+          <ul>
+            {sources.map((source) => (
+              <li>
+                <a href={source.url} rel="nofollow noopener" target="_blank">
+                  {source.title}
+                </a>
+                {source.publisher && <span class="source-publisher"> — {source.publisher}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
     <p style="margin-top: var(--space-12)">
       <a class="btn btn-ghost" href={url('/blog')}>← Tous les articles</a>
     </p>
@@ -87,6 +119,21 @@ const jsonLd = [
   }
   .article-cover {
     margin-top: var(--space-6);
+  }
+  .sources {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+  .sources ul {
+    padding-left: var(--space-5);
+  }
+  .sources li {
+    margin-bottom: var(--space-2);
+  }
+  /* --text-muted sur --bg : 7,90:1 — bien au-delà du 4,5:1 requis. */
+  .source-publisher {
+    color: var(--text-muted);
   }
   .article-cover-img {
     width: 100%;

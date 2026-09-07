@@ -24,3 +24,6 @@ pnpm-debug.log*
 .vscode/
 .idea/
 Thumbs.db
+
+# Interrupteur local de forçage du portillon éditorial — ne pas versionner.
+scripts/force-next-publish

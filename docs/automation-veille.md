@@ -1,101 +1,91 @@
-# Playbook — Veille hebdo & Sélection du mois
+# Automatisation éditoriale — point d'entrée
 
-Ce document décrit le processus éditorial automatisé du site. Il sert de base à
-l'exécution (par un trigger Claude Code planifié, un pipeline API, ou en manuel).
+Ce document ne contient plus de procédure. **Toute la procédure détaillée vit
+désormais dans les quatre playbooks de `scripts/`**, un par routine. C'est vers
+ces fichiers, et vers eux seuls, que les routines Claude Code sont pointées.
 
-## 1. Veille hebdomadaire (chaque lundi)
+## Les quatre routines
 
-**Objectif** : repérer l'actualité des barres de son PC et produire du contenu
-frais, plus structuré et plus utile que la concurrence.
-
-**Étapes :**
-1. Rechercher l'actualité récente (7 derniers jours) via le web :
-   - Requêtes types : « nouvelle barre de son PC », « Razer Leviathan », « Creative Sound Blaster soundbar », « Edifier gaming soundbar », « best PC soundbar 2026 », annonces CES/IFA.
-   - Sources à surveiller : newsrooms Razer / Creative / Edifier / Logitech / Trust, et tests de référence (GamesRadar, Tom's Hardware, TechPowerUp, RTINGS).
-2. Pour chaque info pertinente :
-   - Si **nouveau produit** : créer/mettre à jour une fiche dans `src/data/soundbars.ts` (specs vérifiées + tutoriel + visuel placeholder).
-   - Si **tendance / sortie** : rédiger un court article dans `src/content/blog/` (frontmatter complet), avec angle « mieux que la concurrence » : tableau comparatif, FAQ, données structurées.
-3. Vérifier les faits (specs, prix) sur au moins 2 sources avant publication.
-4. `npm run build` + `npm run check` (0 erreur) puis commit & push → déploiement auto.
-
-**Garde-fous :** ne jamais inventer de specs/prix ; marquer comme « à confirmer »
-toute donnée non vérifiée ; pas d'images sous copyright.
-
-**Images d'article :** ne renseigne PAS de champ `cover` par défaut — chaque
-article reçoit automatiquement un visuel génératif unique (bandeau + vignette).
-N'ajoute un `cover: /images/blog/<fichier>` que si une image **libre de droits**
-a été déposée dans `public/images/blog/`.
-
-## 2. Sélection du mois (le 2 de chaque mois)
-
-**Objectif** : tenir à jour `src/data/monthly.json` (les éditions ; `monthly.ts`
-ne fait que l'importer et l'exposer) avec un statut clair.
-
-**Étapes :**
-1. Re-évaluer le marché vs l'édition précédente.
-2. Ajouter une nouvelle édition EN TÊTE de `monthlyEditions` :
-   - `status` : `'nouveautes'` (entrées/sorties), `'stable'` (rien de neuf), ou `'a-venir'` (sortie attendue).
-   - `headline` : phrase claire et citable (ex. « 1 nouvelle entrée ce mois-ci : … »).
-   - `picks` : 3 à 5 modèles, avec justification du mois.
-   - `newReleases` : sorties constatées (vide si aucune → le dire explicitement).
-   - `upcoming` : sorties attendues le mois suivant (vide si aucune).
-3. Build + check + commit & push.
-
-**Règle de transparence (demande client)** : toujours dire clairement s'il y a
-des nouvelles entrées, des sorties, si rien n'a changé, ou si une sortie est
-attendue le mois suivant.
-
-## 3. Cadence
-
-| Tâche | Fréquence | Fichier(s) cible(s) |
-|---|---|---|
-| Veille actu | hebdomadaire (lundi) | `src/content/blog/`, `src/data/soundbars.ts` |
-| Sélection du mois | mensuelle (le 2) | `src/data/monthly.json` |
-
-## 4. Automatisation via les schedules Claude Code
-
-Le site est tenu à jour par des **sessions Claude Code planifiées** (Claude Code
-sur le web → planification). Chaque déclencheur exécute un prompt ci-dessous :
-Claude fait la veille, met à jour les fichiers, lance `npm run build` + `npm run check`,
-puis commit & push sur `claude/soundbar-ranking-site-uwpfvi` (→ déploiement auto).
-
-### Prompt — Veille hebdomadaire (chaque lundi)
-
-> Tu es l'éditeur du site BarreSon PC. Lis `docs/automation-veille.md` puis exécute
-> la **veille hebdomadaire** : recherche sur le web l'actualité des 7 derniers jours
-> autour des barres de son et de l'audio PC (nouveaux produits, tests, tendances,
-> ce que publie la concurrence). Si une info le justifie, rédige **un** court article
-> dans `src/content/blog/` (frontmatter complet, angle « mieux que la concurrence » :
-> tableau, FAQ, données vérifiées sur 2 sources mini) et/ou ajoute un produit à
-> `src/data/soundbars.ts`. N'invente jamais prix ni specs. Puis `npm run build` +
-> `npm run check` (0 erreur) et commit & push. S'il n'y a rien de pertinent cette
-> semaine, ne publie rien et n'effectue aucun commit.
-
-### Prompt — Sélection du mois (le 2 de chaque mois)
-
-> Tu es l'éditeur du site BarreSon PC. Lis `docs/automation-veille.md` puis mets à jour
-> la **sélection du mois** : recherche l'état du marché des barres de son PC, compare à
-> l'édition précédente dans `src/data/monthly.json`, et ajoute une nouvelle édition EN
-> TÊTE du tableau (`status` = `nouveautes`/`stable`/`a-venir`, `headline` clair et citable,
-> 3 à 5 `picks` avec slugs existants, `newReleases`, `upcoming`). Dis clairement s'il y a
-> de nouvelles entrées, des sorties, si rien n'a changé, ou si une sortie est attendue le
-> mois suivant. Puis `npm run build` + `npm run check` (0 erreur) et commit & push.
-
-> ℹ️ La planification (cadence, fuseau) se règle dans l'interface Claude Code sur le web.
-> Ces prompts sont volontairement courts : toute la procédure détaillée vit dans ce fichier.
-
-### Réglages des deux déclencheurs (Claude Code sur le web → Schedules)
-
-| Déclencheur | Cadence (cron) | Branche | Prompt |
+| Routine | Playbook | Rôle | Cadence |
 |---|---|---|---|
-| Veille hebdo | `0 8 * * 1` (lundi 08:00) | `claude/soundbar-ranking-site-uwpfvi` | « Prompt — Veille hebdomadaire » ci-dessus |
-| Sélection du mois | `0 8 2 * *` (le 2 à 08:00) | `claude/soundbar-ranking-site-uwpfvi` | « Prompt — Sélection du mois » ci-dessus |
+| **R1 — Blog** | [`scripts/veille-playbook.md`](../scripts/veille-playbook.md) | veille et rédaction d'un article | 2 réveils par jour ouvré |
+| **R2 — Prix** | [`scripts/prix-playbook.md`](../scripts/prix-playbook.md) | contrôle de gamme et de disponibilité des 13 produits | hebdomadaire |
+| **R3 — Liens** | [`scripts/liens-playbook.md`](../scripts/liens-playbook.md) | santé des liens internes et des redirections `/go/` | hebdomadaire |
+| **R4 — Classements** | [`scripts/classements-playbook.md`](../scripts/classements-playbook.md) | classements, fiches produit, sélection du mois | bimensuelle |
 
-**Prérequis réseau (important)** : la veille fait des recherches web. Le déclencheur
-doit donc tourner dans un environnement dont la **politique réseau autorise l'accès
-web** (sinon Claude ne pourra pas lire l'actualité et ne publiera rien). À régler à la
-création de l'environnement/déclencheur.
+Sur un site d'affiliation, publier des articles ne suffit pas à maintenir le
+site : ce qui périme, c'est la donnée commerciale. R2 et R3 protègent le chiffre
+d'affaires, R1 est la plus visible mais pas la plus rentable — d'où l'ordre de
+mise en service ci-dessous.
 
-**Comportement attendu** : si rien de pertinent → aucun commit (pas de bruit). Sinon →
-contenu vérifié sur 2 sources mini, `npm run build` + `npm run check` à 0 erreur, puis
-push sur la branche → déploiement GitHub Pages automatique.
+## ⚠ Erreur de branche à ne pas reproduire
+
+Les versions précédentes de ce document décrivaient deux schedules Claude Code
+qui poussaient leur travail sur la branche **`claude/soundbar-ranking-site-uwpfvi`**.
+
+**Cette branche ne déploie pas.** Le commit `7fbcbbe`
+(« Deploy from main branch — consolidate production onto main ») a consolidé la
+production sur `main` sans que ce document soit mis à jour :
+`.github/workflows/deploy.yml` ne se déclenche que sur un push vers `main`.
+Tout contenu produit par ces routines n'aurait donc **jamais été publié** — il
+serait resté invisible sur une branche, en donnant l'illusion d'un site
+entretenu.
+
+Règle, désormais rappelée dans les quatre playbooks :
+
+```bash
+git push origin HEAD:main
+```
+
+Pas de branche de travail, pas de Pull Request, pas de demande de validation.
+**Un contenu resté sur une branche est un échec de la routine, pas un travail en
+attente.** Si tu ajoutes une cinquième routine un jour, la première chose à
+vérifier est cette ligne de push.
+
+## Mise en service par étapes
+
+On ne lance pas les quatre routines d'un coup : si une routine déraille, on ne
+saurait pas laquelle. Réglages à saisir sur <https://claude.ai/code/routines>.
+
+| Étape | Quand | Routine | Cron (UTC) | Ce qu'on vérifie avant de passer à la suite |
+|---|---|---|---|---|
+| **1** | maintenant | **R2 Prix** | `0 5 * * 1` | 7 jours : les `priceCheckedAt` ont avancé, aucun commit vide, aucun prix exact affiché |
+| **2** | +1 semaine | R3 Liens | `0 6 * * 4` | un rapport produit, les liens morts corrigés ou une issue ouverte |
+| **3** | +2 semaines | R1 Blog | `0 7 * * 1-5` et `0 14 * * 1-5` | un article sorti **sur `main`**, sans branche ni PR ; les deux réveils correspondent bien à `runsPerDay: 2` |
+| **4** | +1 mois | R4 Classements | `0 6 1,15 * *` | `/selection-du-mois/` porte une date du mois en cours, les classements touchés ont un `lastUpdated` frais |
+
+Pour chacune des quatre :
+
+| Réglage | Valeur |
+|---|---|
+| Prompt | « Suis scrupuleusement les instructions de `scripts/<playbook>.md`. » |
+| Dépôt | `jressouche-yuyu/Barre-de-son-PC` |
+| Environnement | **avec accès web** (indispensable pour la veille et les contrôles) |
+| Réglage critique | **activer « Allow unrestricted branch pushes »** — sans ça, rien ne se publie |
+
+**R2 est hebdomadaire et non quotidienne**, contrairement à ce que prévoyait le
+brief initial : aucun prix exact n'est affiché sur le site (aucun ASIN au
+catalogue, PA-API non accessible), donc la règle des 24 heures du contrat Amazon
+Partenaires ne s'applique pas. La justification complète et les conditions de
+bascule vers un relevé quotidien sont dans
+[`scripts/prix-playbook.md`](../scripts/prix-playbook.md).
+
+## Politique réseau et secrets, par routine
+
+| Routine | À autoriser | Secrets |
+|---|---|---|
+| R2 Prix | domaines constructeurs (`razer.com`, `creative.com`, `logitech.com`, `edifier.com`, `trust.com`) et sites de tests | — (aucun tant que PA-API n'est pas branchée) |
+| R3 Liens | les domaines sortants cités par le site — **jamais `amazon.fr`** | — |
+| R1 Blog | les domaines de `preferredSources` ; en option `api.pexels.com` et `images.pexels.com` | en option `PEXELS_API_KEY` |
+| R4 Classements | domaines constructeurs et sites de tests | — |
+
+`amazon.fr` n'est autorisé pour aucune routine : le scraping des pages Amazon
+est interdit par les conditions du programme Partenaires, et détecté.
+
+## Garde-fous
+
+Les garde-fous non négociables (aucune expérience physique revendiquée, aucune
+preuve fabriquée, aucun prix ni note en prose, `rel="sponsored nofollow"`,
+jamais de suppression de fiche produit, échec jamais silencieux, zéro PR) sont
+rappelés **dans chacun des quatre playbooks**, dans une section « Garde-fous ».
+Ils y sont volontairement dupliqués : une routine ne lit qu'un seul fichier.

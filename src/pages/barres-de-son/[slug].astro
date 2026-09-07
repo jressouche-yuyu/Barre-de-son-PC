@@ -4,7 +4,9 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProsCons from '../../components/ProsCons.astro';
 import Callout from '../../components/Callout.astro';
 import Gallery from '../../components/Gallery.astro';
-import { soundbars, formatPrice, powerLabel } from '../../data/soundbars';
+import PrixGamme from '../../components/PrixGamme.astro';
+import { soundbars, powerLabel } from '../../data/soundbars';
+import { formatCheckedAt, formatPriceBand, isPriceFresh, priceBand } from '../../lib/prix';
 import { rankingsForSoundbar } from '../../data/rankings';
 import { getGuide } from '../../data/guides';
 import { getBrand } from '../../data/brands';
@@ -42,7 +44,14 @@ const scoreRows: { label: string; value: number }[] = [
 
 const specs: { label: string; value: string }[] = [
   { label: 'Marque', value: sb.brand },
-  { label: 'Prix indicatif', value: formatPrice(sb.price, sb.currency) },
+  // Gamme et non prix exact : un prix exact affiché est faux la semaine
+  // suivante. Et jamais de gamme sans sa date de relevé.
+  ...(isPriceFresh(sb.priceCheckedAt)
+    ? [
+        { label: 'Gamme de prix', value: formatPriceBand(sb.price) },
+        { label: 'Gamme relevée le', value: formatCheckedAt(sb.priceCheckedAt) },
+      ]
+    : [{ label: 'Gamme de prix', value: 'à revérifier — voir le prix chez le marchand' }]),
   { label: 'Haut-parleurs', value: sb.driverConfig },
   ...(sb.powerRmsWatts || sb.powerPeakWatts
     ? [{ label: 'Puissance', value: powerLabel(sb) }]
@@ -178,7 +187,7 @@ const jsonLd = [
             <span class="score-out">/ 10</span>
           </div>
           <div class="buybox-buy">
-            <span class="buybox-price">{formatPrice(sb.price, sb.currency)}</span>
+            <PrixGamme sb={sb} />
             {
               AFFILIATE.enabled && (
                 <a
@@ -202,7 +211,7 @@ const jsonLd = [
         <li><strong>Point fort :</strong> {sb.pros[0]}</li>
         <li><strong>À noter :</strong> {sb.cons[0]}</li>
         <li>
-          <strong>Prix indicatif :</strong> {formatPrice(sb.price, sb.currency)} ·
+          <strong>Gamme :</strong> {priceBand(sb.price).label} ·
           <strong> Note :</strong> {sb.score.toFixed(1)}/10
         </li>
       </ul>
@@ -332,7 +341,7 @@ const jsonLd = [
                 <span class="alt-label">{a.label}</span>
                 <img src={url(a.sb.image)} alt={a.sb.name} width="320" height="180" loading="lazy" />
                 <span class="alt-name">{a.sb.name}</span>
-                <span class="alt-meta">{formatPrice(a.sb.price, a.sb.currency)} · {a.sb.score.toFixed(1)}/10</span>
+                <span class="alt-meta">{priceBand(a.sb.price).label} · {a.sb.score.toFixed(1)}/10</span>
               </a>
             ))}
           </div>

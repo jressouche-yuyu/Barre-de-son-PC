@@ -1,0 +1,245 @@
+---
+/**
+ * /contact/ — point d'entrée lecteurs, marques et presse.
+ *
+ * Le site est statique (généré par Astro, servi par GitHub Pages) : il n'y a
+ * aucun traitement côté serveur, donc aucun formulaire possible sans dépendre
+ * d'un service tiers. Le contact se fait donc par e-mail, adresse en clair.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Callout from '../components/Callout.astro';
+import { SITE } from '../consts';
+import { breadcrumbSchema } from '../lib/schema';
+import { url } from '../lib/url';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Contact', path: '/contact' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+
+const email = 'contact@barre-de-son-pc.fr';
+/** Objets d'e-mail pré-remplis : ils nous aident à trier, rien de plus. */
+const subjects = {
+  erreur: 'Signalement d’une erreur factuelle',
+  produit: 'Proposition de produit pour le comparatif',
+  pro: 'Demande commerciale ou presse',
+};
+const mailto = (subject: string) => `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+---
+
+<BaseLayout
+  title="Contact"
+  description="Signaler une erreur factuelle, proposer une barre de son pour le comparatif, ou nous joindre pour une demande commerciale ou presse."
+  path="/contact"
+  jsonLd={jsonLd}
+>
+  <div class="container narrow">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <p class="eyebrow">Nous écrire</p>
+      <h1>Contact</h1>
+      <p class="lead">
+        Une erreur à corriger, un modèle qui manque, une demande
+        professionnelle : une seule adresse, et une réponse humaine.
+      </p>
+    </header>
+
+    <Callout title="Notre adresse" icon="✉️">
+      <p>
+        <a class="mail-big" href={mailto('Contact')}>{email}</a>
+      </p>
+      <p>
+        {SITE.name} est un site statique : il n'exécute aucun traitement sur un
+        serveur et ne comporte donc <strong>aucun formulaire de contact</strong>.
+        Nous préférons afficher une adresse en clair plutôt que de faire passer
+        vos messages par un service tiers, qui en garderait une copie.
+      </p>
+    </Callout>
+
+    <section aria-labelledby="motifs-titre">
+      <h2 id="motifs-titre">Pour quel motif nous écrire</h2>
+      <p>
+        Précisez l'objet de votre message : c'est ce qui détermine la vitesse de
+        traitement. Les liens ci-dessous ouvrent votre logiciel de messagerie
+        avec l'objet déjà rempli.
+      </p>
+
+      <dl class="motifs">
+        <div class="motif-item">
+          <dt>Signaler une erreur factuelle</dt>
+          <dd>
+            <p>
+              C'est le message le plus utile que vous puissiez nous envoyer :
+              une caractéristique technique fausse, une dimension erronée, une
+              connectique mal décrite, un modèle présenté comme disponible alors
+              qu'il ne l'est plus. Indiquez si possible l'adresse de la page
+              concernée et la source qui vous permet d'affirmer le contraire.
+            </p>
+            <p>
+              <a href={mailto(subjects.erreur)}>Signaler une erreur</a>
+            </p>
+          </dd>
+        </div>
+
+        <div class="motif-item">
+          <dt>Proposer un produit pour le comparatif</dt>
+          <dd>
+            <p>
+              Notre base ne prétend pas à l'exhaustivité. Si une barre de son
+              pertinente pour un usage PC nous manque, dites-le nous : marque,
+              modèle exact et, si vous en avez, un lien vers un test
+              indépendant. Nous ne réalisons pas de test physique — voir notre
+              <a href={url('/methodologie')}>méthodologie</a> — et nous
+              n'acceptons donc pas de produit en prêt ni en dotation.
+            </p>
+            <p>
+              <a href={mailto(subjects.produit)}>Proposer un modèle</a>
+            </p>
+          </dd>
+        </div>
+
+        <div class="motif-item">
+          <dt>Demande commerciale ou presse</dt>
+          <dd>
+            <p>
+              Marques, agences, journalistes : écrivez-nous en précisant votre
+              demande. Deux réponses sont acquises d'avance et vous feront
+              gagner du temps : nous ne publions <strong>ni article
+              sponsorisé, ni lien payant, ni contenu fourni par un
+              fabricant</strong>, et aucune place de classement n'est à vendre.
+              Le fonctionnement économique du site est décrit dans notre
+              <a href={url('/politique-affiliation')}>politique d'affiliation</a>.
+            </p>
+            <p>
+              <a href={mailto(subjects.pro)}>Nous contacter</a>
+            </p>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="delai-titre">
+      <h2 id="delai-titre">Délai de réponse</h2>
+      <p>
+        {SITE.name} est édité par une équipe réduite, sans service client. Nos
+        délais indicatifs, annoncés honnêtement :
+      </p>
+      <ul>
+        <li>
+          <strong>Signalement d'erreur factuelle : sous 5 jours ouvrés.</strong>
+          Ces messages sont traités en priorité, et la correction est publiée dès
+          qu'elle est vérifiée.
+        </li>
+        <li>
+          <strong>Proposition de produit : sous 15 jours</strong>, le temps de
+          réunir les sources nécessaires. Une proposition n'entraîne pas
+          automatiquement l'ajout d'une fiche.
+        </li>
+        <li>
+          <strong>Demande commerciale ou presse : sous 15 jours</strong>, et nous
+          ne répondons pas aux sollicitations commerciales non ciblées.
+        </li>
+      </ul>
+      <p>
+        Nous ne garantissons pas une réponse à chaque message. En revanche, une
+        erreur factuelle signalée et vérifiée est <em>toujours</em> corrigée,
+        même quand nous n'avons pas le temps de vous répondre.
+      </p>
+    </section>
+
+    <section aria-labelledby="rectification-titre">
+      <h2 id="rectification-titre">Droit de réponse et rectification</h2>
+      <p>
+        Si vous estimez qu'un contenu publié sur ce site vous porte préjudice ou
+        comporte une inexactitude vous concernant — vous, votre marque, un de vos
+        produits — vous pouvez exercer votre <strong>droit de réponse</strong>.
+        Écrivez-nous à <a href={mailto('Droit de réponse')}>{email}</a> en
+        indiquant l'adresse de la page, le passage contesté et les éléments
+        factuels que vous souhaitez voir pris en compte.
+      </p>
+      <p>
+        Nous nous engageons à examiner la demande et, lorsque l'inexactitude est
+        établie, à corriger la page et à mettre à jour sa date de vérification.
+        Lorsque le désaccord porte sur une appréciation éditoriale et non sur un
+        fait, nous pouvons publier votre position en regard de la nôtre plutôt
+        que de retirer la nôtre.
+      </p>
+      <p>
+        Pour toute demande relative à vos données personnelles (accès,
+        rectification, effacement, opposition), voyez notre
+        <a href={url('/confidentialite')}>politique de confidentialité</a>, qui
+        décrit la procédure et vos recours.
+      </p>
+    </section>
+
+    <section aria-labelledby="hors-titre" style="padding-bottom: var(--space-16)">
+      <h2 id="hors-titre">Ce que nous ne pouvons pas faire pour vous</h2>
+      <p>
+        Autant le dire tout de suite, pour éviter une attente inutile :
+      </p>
+      <ul>
+        <li>
+          <strong>Aucun service après-vente.</strong> Nous ne vendons rien, nous
+          n'expédions rien et nous n'avons accès à aucune commande. Pour un
+          retour, un remboursement ou une garantie, adressez-vous au marchand
+          chez qui vous avez acheté.
+        </li>
+        <li>
+          <strong>Aucun dépannage individuel.</strong> Nous ne pouvons pas
+          diagnostiquer une panne ni un problème de pilote audio à distance.
+          Notre <a href={url('/guides')}>section guides</a> et les tutoriels
+          d'installation de chaque fiche produit couvrent les réglages les plus
+          fréquents.
+        </li>
+        <li>
+          <strong>Aucun conseil d'achat personnalisé au cas par cas.</strong>
+          Nos <a href={url('/classements')}>classements</a> et notre
+          <a href={url('/comparateur')}>comparateur</a> sont faits pour cela, et
+          ils sont consultables sans nous écrire.
+        </li>
+      </ul>
+      <p>
+        Les informations relatives à l'éditeur du site figurent dans les
+        <a href={url('/mentions-legales')}>mentions légales</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 820px;
+  }
+  .mail-big {
+    font-size: 1.25rem;
+    font-weight: 700;
+    word-break: break-word;
+  }
+  .motifs {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+  .motif-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+  }
+  .motifs dt {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: var(--space-2);
+  }
+  .motifs dd {
+    margin: 0;
+    color: var(--text);
+  }
+  .motifs dd p:last-child {
+    margin-bottom: 0;
+  }
+</style>

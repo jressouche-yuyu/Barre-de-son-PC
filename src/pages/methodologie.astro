@@ -1,0 +1,454 @@
+---
+/**
+ * /methodologie/ — comment le site évalue les produits.
+ *
+ * Les pondérations affichées ci-dessous sont LUES depuis `src/lib/notation.ts`
+ * (SCORING_GRID + weightPercent). Elles ne sont jamais réécrites en dur dans le
+ * HTML : la page publiée et le calcul de la note ne peuvent donc pas diverger.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../consts';
+import { breadcrumbSchema, faqSchema } from '../lib/schema';
+import { url } from '../lib/url';
+import { SCORING_GRID, weightPercent, GRID_WEIGHT_SUM } from '../lib/notation';
+import { soundbars } from '../data/soundbars';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Méthodologie', path: '/methodologie' },
+];
+
+/** Somme des pondérations, affichée en pied de tableau (doit valoir 100 %). */
+const weightSumPercent = Math.round(GRID_WEIGHT_SUM * 100);
+/** Nombre de produits réellement présents dans la base. */
+const productCount = soundbars.length;
+/** Formule de la note, écrite depuis la grille et non à la main. */
+const formula = SCORING_GRID.map((c) => `(${c.label} × ${weightPercent(c)} %)`).join(' + ');
+/** Rappel des pondérations en une ligne, pour la FAQ (donc pour le JSON-LD). */
+const weightsInline = SCORING_GRID.map((c) => `${c.label} ${weightPercent(c)} %`).join(', ');
+/** Critère « rapport qualité-prix », cité nommément dans le texte. */
+const priceCriterion = SCORING_GRID.find((c) => c.key === 'rapportQualitePrix');
+
+const faq = [
+  {
+    question: 'Testez-vous les produits vous-mêmes ?',
+    answer:
+      "Non. Nous ne réalisons aucun test physique : nous n'écoutons pas les barres de son et nous ne procédons à aucune mesure acoustique. Notre comparatif est éditorial — il confronte les caractéristiques constructeur et les mesures publiées par des laboratoires et des testeurs indépendants, puis les applique à une grille de notation publique, identique pour tous les produits.",
+  },
+  {
+    question: 'Comment la note est-elle calculée ?',
+    answer: `La note sur 10 est la moyenne pondérée de cinq critères, arrondie au dixième : ${weightsInline}. La grille est publiée sur cette page et s'applique aux ${productCount} modèles de la base, sans exception ni ajustement au cas par cas.`,
+  },
+  {
+    question: "L'affiliation influence-t-elle le classement ?",
+    answer:
+      "Non. La rémunération d'un lien n'entre dans aucun des cinq critères de notation, et la commission perçue est de même nature quel que soit le modèle acheté. Nos liens marchands sont rémunérés, mais les notes et l'ordre des classements découlent uniquement de la grille. Le détail de la relation commerciale est publié sur notre page de politique d'affiliation.",
+  },
+  {
+    question: 'À quelle fréquence les données sont-elles mises à jour ?',
+    answer:
+      "La fourchette de gamme et la disponibilité sont les données qui se périment le plus vite : elles portent leur date de relevé, et la page cesse d'afficher la fourchette lorsque ce relevé sort de sa fenêtre de validité. Les caractéristiques techniques sont revues à chaque évolution de gamme constructeur, et les classements à l'arrivée d'un nouveau modèle. Chaque fiche produit, chaque classement et chaque guide porte sa propre date de dernière vérification, affichée en clair sur la page.",
+  },
+];
+
+const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
+---
+
+<BaseLayout
+  title="Méthodologie : comment nous notons les barres de son"
+  description="Notre grille de notation en cinq critères pondérés, le calcul de la note sur 10, nos sources — et ce que nous ne faisons pas : aucun test physique."
+  path="/methodologie"
+  jsonLd={jsonLd}
+>
+  <div class="container narrow">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <p class="eyebrow">Transparence</p>
+      <h1>Notre méthodologie</h1>
+      <p class="lead">
+        Comment {SITE.name} évalue une barre de son pour PC : cinq critères
+        pondérés, une note calculée toujours de la même façon, des sources
+        citées — et une limite assumée, écrite noir sur blanc.
+      </p>
+    </header>
+
+    <Callout title="L'essentiel en quatre points" icon="⚡">
+      <ul>
+        <li>
+          <strong>Comparatif éditorial, pas de test physique.</strong> Nous
+          n'écoutons pas les produits et nous ne les mesurons pas.
+        </li>
+        <li>
+          <strong>Une grille publique</strong> de cinq critères pondérés,
+          appliquée à l'identique aux {productCount} modèles de la base.
+        </li>
+        <li>
+          <strong>Deux sources indépendantes minimum</strong> avant d'affirmer
+          une caractéristique technique.
+        </li>
+        <li>
+          <strong>Aucune influence de l'affiliation</strong> sur les notes ni sur
+          l'ordre des classements.
+        </li>
+      </ul>
+    </Callout>
+
+    <section aria-labelledby="grille-titre">
+      <h2 id="grille-titre">La grille de notation</h2>
+      <p>
+        Chaque barre de son reçoit une note de 0 à 10 sur cinq critères. La
+        pondération est fixe : elle ne varie ni selon la marque, ni selon le
+        prix, ni selon le classement dans lequel le produit apparaît. Les
+        pourcentages du tableau ci-dessous sont lus directement dans le code qui
+        définit la grille — la page que vous lisez et le calcul réel ne peuvent
+        donc pas se contredire.
+      </p>
+
+      <div class="table-wrap">
+        <table class="grid-table">
+          <caption class="sr-only">
+            Grille de notation : critères, pondération et ce que chaque critère
+            mesure
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Critère</th>
+              <th scope="col">Pondération</th>
+              <th scope="col">Ce que le critère mesure</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              SCORING_GRID.map((criterion) => (
+                <tr>
+                  <th scope="row">{criterion.label}</th>
+                  <td class="weight-cell">{weightPercent(criterion)} %</td>
+                  <td>{criterion.description}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Total</th>
+              <td class="weight-cell">{weightSumPercent} %</td>
+              <td>Somme des pondérations de la grille.</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      {
+        priceCriterion && (
+          <p>
+            Le rapport qualité-prix ne pèse que {weightPercent(priceCriterion)} %,
+            et c'est volontaire : la note juge l'appareil, pas l'affaire du
+            moment. Le budget est traité ailleurs — par les classements dédiés
+            (modèles pas chers, modèles avec caisson) et par la fourchette de
+            gamme affichée sur chaque fiche. Deux choses qui bougent, alors que
+            la qualité intrinsèque d'une barre de son ne bouge pas.
+          </p>
+        )
+      }
+    </section>
+
+    <section aria-labelledby="calcul-titre">
+      <h2 id="calcul-titre">Comment la note globale est calculée</h2>
+      <p>
+        La note sur 10 affichée sur chaque fiche est la
+        <strong>moyenne pondérée</strong> des cinq notes de critère, arrondie au
+        dixième. Rien d'autre n'entre dans le calcul : ni le prix du jour, ni la
+        notoriété de la marque, ni la disponibilité du produit, ni la
+        rémunération d'un lien.
+      </p>
+
+      <p class="formula">Note = {formula}</p>
+
+      <p>
+        Cette note n'est pas saisie à la main : elle est
+        <strong>calculée par le code du site</strong> depuis le détail par
+        critère, au moment où les pages sont générées. Il n'existe donc pas deux
+        nombres décrivant la même chose, dont l'un pourrait dériver de l'autre au
+        fil des mises à jour. La grille du tableau ci-dessus est littéralement
+        celle qui sert au calcul — et vous pouvez refaire ce calcul vous-même
+        depuis les cinq notes de critère affichées sur chaque fiche : vous
+        retrouverez exactement la note publiée.
+      </p>
+
+      <p>
+        <strong>D'où viennent ces pondérations.</strong> Elles n'ont pas été
+        posées a priori. Elles ont été retrouvées par régression sur les notes
+        attribuées produit par produit au lancement du site, qu'elles
+        reproduisent avec un écart maximal de 0,2 point — les pondérations plus
+        « plates » s'en écartaient jusqu'à 0,4 point. Autrement dit : la grille
+        décrit le jugement éditorial qui a été porté, elle ne l'a pas remplacé.
+      </p>
+
+      <p>
+        Nous ne pratiquons pas la note d'ensemble « à l'impression ». Si une note
+        de critère change, la note globale change avec elle ; et si la note d'un
+        produit bouge, c'est qu'au moins une note de critère a bougé — la date de
+        vérification de la fiche est alors mise à jour le même jour.
+      </p>
+    </section>
+
+    <section aria-labelledby="jamais-titre">
+      <h2 id="jamais-titre">Ce que nous ne faisons pas</h2>
+      <p>
+        C'est la section la plus importante de cette page. Beaucoup de sites
+        comparatifs écrivent « testé pendant trois semaines » sans qu'aucun
+        lecteur ne puisse le vérifier. Nous préférons dire exactement où
+        s'arrête notre travail.
+      </p>
+
+      <dl class="claims">
+        <div class="claims-item claims-no">
+          <dt><span class="claims-tag">Non</span> Aucun test physique</dt>
+          <dd>
+            Nous ne recevons pas les produits, nous ne les branchons pas et nous
+            ne les écoutons pas. Aucune phrase de ce site ne doit être lue comme
+            un compte rendu d'écoute.
+          </dd>
+        </div>
+        <div class="claims-item claims-no">
+          <dt><span class="claims-tag">Non</span> Aucune mesure maison</dt>
+          <dd>
+            Pas de mesure acoustique, pas de courbe de réponse en fréquence, pas
+            de relevé de niveau sonore réalisés par nous. Les mesures que nous
+            citons proviennent toujours de laboratoires ou de testeurs
+            identifiés, que nous nommons.
+          </dd>
+        </div>
+        <div class="claims-item claims-no">
+          <dt><span class="claims-tag">Non</span> Aucun avis client</dt>
+          <dd>
+            Nous ne publions ni témoignage, ni note d'utilisateur, ni moyenne
+            d'avis marchands. Une note d'avis agrégée est invérifiable et
+            manipulable : nous n'en affichons aucune.
+          </dd>
+        </div>
+        <div class="claims-item claims-no">
+          <dt><span class="claims-tag">Non</span> Aucun classement rémunéré</dt>
+          <dd>
+            Aucune marque ne peut acheter une place, une note, une mention ou un
+            encart. Nous ne publions ni article sponsorisé, ni contenu fourni par
+            un fabricant.
+          </dd>
+        </div>
+      </dl>
+
+      <p>
+        Notre travail est donc un <strong>comparatif éditorial</strong> : il
+        confronte les caractéristiques annoncées par les constructeurs et les
+        mesures publiées par des laboratoires et des testeurs indépendants, puis
+        les fait passer dans une grille identique pour tous les modèles.
+      </p>
+      <p>
+        Cette position est moins flatteuse qu'un test maison, mais elle a un
+        avantage décisif : elle est <strong>vérifiable</strong>. Un « testé
+        pendant trois semaines » ne vous donne aucun moyen de contrôler quoi que
+        ce soit — ni le protocole, ni le matériel, ni même que l'écoute ait eu
+        lieu. Vous pouvez au contraire remonter à chacune de nos sources, et
+        refaire notre calcul avec notre grille. Nous préférons une limite
+        annoncée à une compétence supposée.
+      </p>
+    </section>
+
+    <section aria-labelledby="sources-titre">
+      <h2 id="sources-titre">Nos sources</h2>
+      <p>Deux familles de sources, et une règle qui les encadre.</p>
+      <ul>
+        <li>
+          <strong>Les fiches et documentations constructeur</strong> — dimensions,
+          configuration des haut-parleurs, puissance annoncée, connectique,
+          réponse en fréquence, contenu de la boîte. C'est la référence pour tout
+          ce qui est factuel et stable, mais c'est aussi une source
+          commercialement intéressée : nous la traitons comme telle.
+        </li>
+        <li>
+          <strong>Les tests et mesures de publications indépendantes</strong> —
+          nous consultons en priorité Les Numériques, Frandroid, Clubic, Tom's
+          Hardware, RTINGS et SoundGuys. Ce sont eux qui écoutent et qui
+          mesurent ; nous rapportons leurs constats, nous ne les refaisons pas.
+        </li>
+      </ul>
+
+      <p>
+        <strong>Règle des deux sources.</strong> Une caractéristique technique
+        n'est affirmée sur ce site que si elle est confirmée par au moins deux
+        sources indépendantes, dont au maximum une venant du constructeur. Quand
+        une donnée n'existe que chez le fabricant, elle est présentée comme telle
+        (« puissance annoncée par le constructeur »). Quand elle n'existe nulle
+        part, la fiche indique l'information comme non communiquée : nous ne
+        comblons pas un trou par une estimation.
+      </p>
+      <p>
+        Quand deux sources se contredisent, nous retenons la mesure indépendante
+        et nous signalons l'écart, plutôt que de trancher en silence.
+      </p>
+    </section>
+
+    <section aria-labelledby="fraicheur-titre">
+      <h2 id="fraicheur-titre">Fraîcheur des informations</h2>
+      <p>
+        Une donnée juste et périmée est une donnée fausse. Chaque type
+        d'information a donc son propre rythme de revue.
+      </p>
+      <dl class="claims">
+        <div class="claims-item claims-rythme">
+          <dt>Fourchette de gamme et disponibilité</dt>
+          <dd>
+            Les données les plus volatiles. Nous n'affichons jamais de prix
+            exact, seulement une fourchette de gamme accompagnée de sa date de
+            relevé ; passé un délai de validité, la page cesse d'elle-même
+            d'afficher la fourchette plutôt que de vous montrer une information
+            que nous ne pouvons plus garantir. Le prix qui vous sera facturé est
+            celui affiché par le marchand au moment de votre achat.
+          </dd>
+        </div>
+        <div class="claims-item claims-rythme">
+          <dt>Caractéristiques techniques</dt>
+          <dd>
+            Revues à chaque évolution de gamme constructeur : nouvelle révision
+            matérielle, changement de connectique, mise à jour de firmware
+            modifiant une fonction annoncée.
+          </dd>
+        </div>
+        <div class="claims-item claims-rythme">
+          <dt>Notes et classements</dt>
+          <dd>
+            Revus à l'arrivée d'un nouveau modèle dans la catégorie, ou lorsqu'une
+            source indépendante publie une mesure qui contredit ce que nous
+            écrivions.
+          </dd>
+        </div>
+        <div class="claims-item claims-rythme">
+          <dt>Modèles retirés du marché</dt>
+          <dd>
+            Une fiche n'est jamais supprimée : elle est signalée comme fin de
+            commercialisation, avec un renvoi vers le modèle qui la remplace.
+          </dd>
+        </div>
+      </dl>
+      <p>
+        Chaque fiche produit, chaque classement et chaque guide porte sa
+        <strong>date de dernière vérification</strong>, affichée en clair sur la
+        page. Si vous constatez une donnée périmée ou fausse,
+        <a href={url('/contact')}>signalez-la nous</a> : c'est la contribution la
+        plus utile que vous puissiez nous apporter.
+      </p>
+    </section>
+
+    <section aria-labelledby="independance-titre">
+      <h2 id="independance-titre">Indépendance et rémunération</h2>
+      <p>
+        Ce site est financé par l'affiliation : nous percevons une commission
+        lorsqu'un achat est effectué via nos liens marchands, sans surcoût pour
+        vous. Cette rémunération n'entre dans aucun des cinq critères ci-dessus,
+        et elle est de même nature quel que soit le modèle acheté — nous n'avons
+        donc rien à gagner à pousser un produit plutôt qu'un autre. Le détail de
+        cette relation commerciale est publié sur la page
+        <a href={url('/politique-affiliation')}>politique d'affiliation</a>.
+      </p>
+    </section>
+
+    <Faq items={faq} />
+
+    <section aria-labelledby="correction-titre" style="padding-bottom: var(--space-16)">
+      <h2 id="correction-titre">Une erreur, une correction ?</h2>
+      <p>
+        Notre méthode ne vaut que si elle est corrigible. Une caractéristique
+        erronée, une source mal lue, un modèle qui manque à un classement :
+        écrivez-nous à
+        <a href="mailto:contact@barre-de-son-pc.fr">contact@barre-de-son-pc.fr</a>
+        ou passez par la <a href={url('/contact')}>page contact</a>. Les
+        corrections factuelles sont traitées en priorité, et la date de
+        vérification de la page concernée est mise à jour le jour même.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 820px;
+  }
+
+  /* Le tableau global descend à 0.95rem : on le ramène à 1rem (16 px) pour
+     rester au-dessus du plancher de taille de texte retenu pour le site. */
+  .grid-table {
+    font-size: 1rem;
+  }
+  .grid-table th[scope='row'] {
+    background: transparent;
+    white-space: normal;
+    font-weight: 700;
+  }
+  .weight-cell {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .grid-table tfoot th,
+  .grid-table tfoot td {
+    background: var(--bg-soft);
+    border-bottom: none;
+  }
+
+  /* Formule de calcul. */
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+
+  /* Listes de définition « ce que nous ne faisons pas » et « fraîcheur ».
+     L'information est portée par le mot « Non » et par l'intitulé, jamais par
+     la couleur de la bordure seule. */
+  .claims {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+  .claims-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+  }
+  .claims-no {
+    border-left: 4px solid var(--warning);
+  }
+  .claims-rythme {
+    border-left: 4px solid var(--accent);
+  }
+  .claims dt {
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+  .claims dd {
+    margin: 0;
+    color: var(--text);
+  }
+  .claims-tag {
+    display: inline-block;
+    border: 1px solid var(--warning);
+    border-radius: var(--radius-sm);
+    padding: 0 0.45rem;
+    margin-right: var(--space-2);
+    color: var(--warning);
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>

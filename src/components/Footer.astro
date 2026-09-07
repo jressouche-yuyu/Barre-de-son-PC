@@ -2,6 +2,20 @@
 import { SITE, NAV } from '../consts';
 import { url } from '../lib/url';
 const year = new Date().getFullYear();
+
+/**
+ * Liens légaux et de transparence, obligatoires en pied de page.
+ * `/methodologie` et `/politique-affiliation` y figurent au même titre que les
+ * mentions légales : ce sont les pages qui rendent le site vérifiable.
+ */
+const LEGAL_LINKS: { label: string; href: string }[] = [
+  { label: 'Méthodologie', href: '/methodologie' },
+  { label: "Politique d'affiliation", href: '/politique-affiliation' },
+  { label: 'Mentions légales', href: '/mentions-legales' },
+  { label: 'Confidentialité', href: '/confidentialite' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'À propos', href: '/a-propos' },
+];
 ---
 
 <footer class="site-footer">
@@ -31,9 +45,21 @@ const year = new Date().getFullYear();
       </ul>
     </nav>
     <div class="footer-legal">
+      <nav aria-label="Informations légales">
+        <ul class="footer-legal-links">
+          {
+            LEGAL_LINKS.map((item) => (
+              <li>
+                <a href={url(item.href)}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
       <p>
         Site éditorial indépendant. Certains liens peuvent être affiliés ; cela
-        n'influence pas nos classements.
+        n'influence pas nos classements —
+        <a href={url('/politique-affiliation')}>notre politique d'affiliation</a>.
       </p>
       <p>© {year} {SITE.name}. Tous droits réservés.</p>
     </div>
@@ -75,5 +101,24 @@ const year = new Date().getFullYear();
   .footer-legal p {
     color: var(--text-muted);
     font-size: 0.85rem;
+  }
+  /* Liens légaux : 1rem (16 px), au-dessus du plancher de taille de texte, et
+     séparateur décoratif masqué aux lecteurs d'écran. */
+  .footer-legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+    font-size: 1rem;
+  }
+  .footer-legal-links li {
+    margin-bottom: 0;
+  }
+  .footer-legal-links li:not(:last-child)::after {
+    content: '·';
+    margin-left: var(--space-3);
+    color: var(--text-muted);
   }
 </style>

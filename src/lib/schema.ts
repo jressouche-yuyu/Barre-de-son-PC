@@ -9,6 +9,7 @@
  */
 import { SITE } from '../consts';
 import type { Soundbar, Ranking, Guide } from '../data/types';
+import { AVAILABILITY_SCHEMA, priceBand } from './prix';
 
 const abs = (path: string) => new URL(path, SITE.url).href;
 
@@ -63,11 +64,21 @@ export function productReviewSchema(sb: Soundbar) {
     category: 'Barre de son PC',
     description: sb.summary,
     image: abs(sb.image),
+    /**
+     * AggregateOffer et non Offer : le site ne connaît pas le prix du jour et
+     * n'a pas le droit de l'affirmer. Ce qu'il peut affirmer, c'est la
+     * fourchette de gamme dans laquelle il classe le produit — une information
+     * éditoriale qui reste vraie d'une semaine à l'autre. Publier un
+     * `offers.price` figé depuis des mois expose les résultats enrichis à une
+     * incohérence prix page / prix marchand.
+     */
     offers: {
-      '@type': 'Offer',
-      price: sb.price,
+      '@type': 'AggregateOffer',
+      lowPrice: priceBand(sb.price).low,
+      highPrice: priceBand(sb.price).high,
       priceCurrency: sb.currency,
-      availability: 'https://schema.org/InStock',
+      offerCount: 1,
+      availability: AVAILABILITY_SCHEMA[sb.availability],
       url: abs(`/barres-de-son/${sb.slug}`),
     },
     review: {

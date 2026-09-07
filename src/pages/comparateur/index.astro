@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { soundbarsByScore, formatPrice, powerLabel } from '../../data/soundbars';
+import PrixGamme from '../../components/PrixGamme.astro';
+import { soundbarsByScore, powerLabel } from '../../data/soundbars';
 import { breadcrumbSchema } from '../../lib/schema';
 import { url } from '../../lib/url';
 
@@ -96,7 +97,7 @@ const jsonLd = [breadcrumbSchema(crumbs)];
                   <small style="color:var(--text-muted)">{sb.brand}</small>
                 </td>
                 <td><span class="score" style="color:var(--accent)">{sb.score.toFixed(1)}</span></td>
-                <td>{formatPrice(sb.price, sb.currency)}</td>
+                <td><PrixGamme sb={sb} compact /></td>
                 <td>{powerLabel(sb)}</td>
                 <td>{sb.hasSubwoofer ? 'Oui' : 'Non'}</td>
                 <td>{sb.hasRGB ? 'Oui' : 'Non'}</td>

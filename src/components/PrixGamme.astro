@@ -1,0 +1,110 @@
+---
+/**
+ * Affichage commercial d'un produit : fourchette de gamme + date de relevé.
+ *
+ * C'EST LE SEUL ENDROIT DU SITE QUI AFFICHE UNE INFORMATION DE PRIX.
+ * Toute la règle de péremption vit ici, dans le rendu, et non dans une routine :
+ * si la routine de relevé tombe en panne, ce composant cesse de lui-même
+ * d'afficher une gamme qu'il ne peut plus garantir. Une règle portée par le
+ * gabarit tient même quand plus rien ne tourne — une règle portée par une
+ * routine tombe avec elle.
+ *
+ * Le site n'affiche jamais de prix exact : voir l'en-tête de `src/lib/prix.ts`.
+ */
+import type { Soundbar } from '../data/types';
+import {
+  AVAILABILITY_LABELS,
+  formatCheckedAt,
+  formatPriceBand,
+  isPriceFresh,
+} from '../lib/prix';
+
+interface Props {
+  sb: Soundbar;
+  /** Version resserrée pour une cellule de tableau. */
+  compact?: boolean;
+}
+
+const { sb, compact = false } = Astro.props;
+
+const fresh = isPriceFresh(sb.priceCheckedAt);
+const band = formatPriceBand(sb.price);
+const checked = formatCheckedAt(sb.priceCheckedAt);
+const availabilityLabel = AVAILABILITY_LABELS[sb.availability];
+const showAvailability = sb.availability !== 'disponible';
+---
+
+<div class:list={['prix', { 'prix-compact': compact }]}>
+  {
+    fresh ? (
+      <>
+        <span class="prix-gamme">{band}</span>
+        <span class="prix-date">Gamme relevée le {checked}</span>
+      </>
+    ) : (
+      <>
+        <span class="prix-gamme prix-gamme-perimee">Gamme à revérifier</span>
+        <span class="prix-date">
+          Dernier relevé le {checked} — nous préférons ne rien afficher plutôt qu'une
+          information que nous ne pouvons plus garantir.
+        </span>
+      </>
+    )
+  }
+  {
+    showAvailability && (
+      <span class="prix-dispo" data-etat={sb.availability}>
+        {/* Libellé explicite : l'information n'est jamais portée par la couleur seule. */}
+        {availabilityLabel}
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .prix {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .prix-gamme {
+    font-weight: 700;
+    /* --text sur --bg : 16,31:1 · sur --bg-soft : 14,95:1 */
+    color: var(--text);
+    font-size: 1rem;
+  }
+  .prix-gamme-perimee {
+    font-weight: 600;
+    /* --text-muted sur --bg : 7,90:1 · sur --bg-soft : 7,24:1 */
+    color: var(--text-muted);
+  }
+  .prix-date {
+    /* --text-muted : 7,90:1 sur --bg. 0.8125rem = 13px, réservé à une mention
+       secondaire toujours doublée par le libellé de gamme au-dessus. */
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+  .prix-dispo {
+    align-self: flex-start;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm, 6px);
+    padding: 0.125rem var(--space-2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  /* La bordure change, mais le libellé textuel reste la source d'information. */
+  .prix-dispo[data-etat='stock-limite'] {
+    border-color: var(--warning);
+  }
+  .prix-dispo[data-etat='fin-de-commercialisation'] {
+    border-color: var(--danger);
+  }
+  .prix-compact .prix-gamme {
+    font-size: 0.9375rem;
+  }
+  .prix-compact .prix-date {
+    font-size: 0.75rem;
+  }
+</style>

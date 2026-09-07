@@ -1,0 +1,265 @@
+---
+/**
+ * /politique-affiliation/ — divulgation de la relation commerciale.
+ *
+ * Page exigée par le contrat du programme Amazon Partenaires : elle décrit la
+ * RELATION COMMERCIALE (commission, absence de surcoût, absence d'influence sur
+ * les notes), pas l'identité de l'éditeur — celle-ci vit sur /mentions-legales/.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Callout from '../components/Callout.astro';
+import { SITE, AFFILIATE } from '../consts';
+import { breadcrumbSchema } from '../lib/schema';
+import { url } from '../lib/url';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: "Politique d'affiliation", path: '/politique-affiliation' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+
+/** Marchand affilié, lu dans la configuration plutôt qu'écrit en dur. */
+const marketplaceHost = AFFILIATE.marketplace.replace(/^https?:\/\//, '');
+---
+
+<BaseLayout
+  title="Politique d'affiliation"
+  description="Comment ce site est rémunéré : programme Amazon Partenaires, absence de surcoût pour le lecteur, et pourquoi la commission n'influence ni les notes ni les classements."
+  path="/politique-affiliation"
+  jsonLd={jsonLd}
+>
+  <div class="container narrow">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <p class="eyebrow">Transparence commerciale</p>
+      <h1>Politique d'affiliation</h1>
+      <p class="lead">
+        {SITE.name} est un site gratuit financé par l'affiliation. Voici, sans
+        détour, comment nous gagnons de l'argent et ce que cela change — ou ne
+        change pas — pour vous.
+      </p>
+    </header>
+
+    <Callout title="Mention légale du programme" icon="📢">
+      <p>
+        En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats
+        remplissant les conditions requises.
+      </p>
+    </Callout>
+
+    <section aria-labelledby="programme-titre">
+      <h2 id="programme-titre">Notre participation au programme Amazon Partenaires</h2>
+      <p>
+        Ce site participe au <strong>programme Amazon Partenaires</strong>
+        (Amazon EU S.à r.l.), un programme d'affiliation conçu pour permettre à
+        des sites d'être rémunérés en plaçant des liens vers
+        {' '}{marketplaceHost}. Les boutons et liens marchands que vous trouvez
+        sur nos fiches produit, nos classements et nos guides sont des
+        <strong> liens affiliés</strong>.
+      </p>
+      <p>
+        Concrètement : lorsque vous cliquez sur un de ces liens et que vous
+        effectuez un achat remplissant les conditions du programme, nous
+        percevons une <strong>commission</strong> versée par Amazon, calculée en
+        pourcentage du montant de la commande. C'est notre unique source de
+        revenus : nous ne vendons aucun produit, nous n'hébergeons aucune régie
+        publicitaire et nous ne facturons rien à nos lecteurs.
+      </p>
+    </section>
+
+    <section aria-labelledby="surcout-titre">
+      <h2 id="surcout-titre">Cela ne change rien au prix que vous payez</h2>
+      <p>
+        La commission est prélevée sur la marge du marchand, pas ajoutée à votre
+        panier. <strong
+          >Le prix que vous payez est exactement le même que si vous étiez arrivé
+          sur la page du produit par vous-même</strong
+        >, sans passer par nous. Il n'y a ni surcoût, ni frais de service, ni
+        majoration d'aucune sorte.
+      </p>
+      <p>
+        Nous ne vous demandons jamais de créer un compte, de nous communiquer une
+        donnée personnelle ou d'utiliser un code particulier pour que le lien
+        « compte ». Un clic suffit, et vous achetez ensuite directement auprès du
+        marchand, aux conditions du marchand.
+      </p>
+    </section>
+
+    <section aria-labelledby="influence-titre">
+      <h2 id="influence-titre">La commission n'influence ni les notes ni les classements</h2>
+      <p>
+        C'est le point sur lequel nous nous engageons le plus clairement. Nos
+        notes sont produites par une grille publique de cinq critères pondérés,
+        publiée sur la page
+        <a href={url('/methodologie')}>méthodologie</a> : qualité sonore, basses,
+        ergonomie de bureau, connectique et rapport qualité-prix. La rémunération
+        d'un lien <strong>n'est pas un critère</strong> et n'entre dans aucun
+        calcul de note.
+      </p>
+      <p>L'ordre de nos classements découle des notes, et rien d'autre :</p>
+      <ul>
+        <li>
+          aucune marque ne peut acheter une place, une note, une mention ou un
+          encart ;
+        </li>
+        <li>
+          nous ne publions ni article sponsorisé, ni contenu rédigé ou relu par
+          un fabricant ;
+        </li>
+        <li>
+          nous ne trions jamais un classement par taux de commission, ni par
+          montant de panier moyen ;
+        </li>
+        <li>
+          un produit peut être recommandé sans être disponible chez notre
+          marchand affilié, et un produit disponible peut être déconseillé.
+        </li>
+      </ul>
+      <p>
+        Il faut aussi être précis sur ce que l'affiliation implique
+        structurellement : notre rémunération dépend du fait que des lecteurs
+        achètent. Notre protection contre ce biais n'est pas une promesse de
+        vertu, c'est un dispositif : une grille de notation publique, les mêmes
+        pondérations pour tous les modèles, et des sources citées que vous pouvez
+        aller vérifier. Nous préférons vous donner les moyens de nous contrôler
+        plutôt que de vous demander de nous croire.
+      </p>
+    </section>
+
+    <section aria-labelledby="liens-titre">
+      <h2 id="liens-titre">Comment nos liens marchands sont signalés</h2>
+      <p>
+        Un lien affilié doit être identifiable, par vous comme par un moteur de
+        recherche. Nous appliquons donc trois règles techniques, sur la totalité
+        de nos liens sortants marchands.
+      </p>
+      <dl class="rules">
+        <div class="rules-item">
+          <dt>Attribut <code>rel="sponsored nofollow"</code></dt>
+          <dd>
+            Tout lien marchand porte cet attribut. C'est la déclaration
+            standardisée d'un lien rémunéré : elle indique aux moteurs de
+            recherche que le lien est commercial et qu'il ne doit pas transmettre
+            de valeur de référencement.
+          </dd>
+        </div>
+        <div class="rules-item">
+          <dt>Passage par une page de redirection <code>/go/</code></dt>
+          <dd>
+            Nos boutons d'achat ne pointent pas directement vers le marchand :
+            ils passent par une page intermédiaire de notre site, à l'adresse
+            <code>/go/&lt;produit&gt;/</code>, qui vous redirige immédiatement.
+            Ce point de passage unique nous permet de changer une destination
+            sans toucher au contenu éditorial.
+          </dd>
+        </div>
+        <div class="rules-item">
+          <dt>Ces pages de redirection ne sont pas indexées</dt>
+          <dd>
+            Les pages <code>/go/</code> portent une directive
+            <code>noindex, nofollow</code>, sont exclues de notre plan de site et
+            interdites au crawl dans notre fichier <code>robots.txt</code>. Elles
+            n'ont aucune existence éditoriale : elles ne servent qu'à vous
+            emmener chez le marchand.
+          </dd>
+        </div>
+      </dl>
+      <p>
+        Vous pouvez donc toujours savoir, avant de cliquer, qu'un bouton
+        d'achat est un lien rémunéré : c'est écrit ici, c'est rappelé dans notre
+        pied de page, et c'est inscrit dans le code de chaque lien.
+      </p>
+    </section>
+
+    <section aria-labelledby="prix-titre">
+      <h2 id="prix-titre">Nous n'affichons aucun prix chiffré</h2>
+      <p>
+        Un prix relevé un jour est faux le lendemain. Les tarifs, les promotions
+        et les frais de livraison changent en permanence chez les marchands, et
+        nous ne sommes pas connectés à leurs systèmes en temps réel. Publier un
+        chiffre présenté comme « le prix » du produit serait donc, la plupart du
+        temps, une information fausse — et une information fausse qui pousse à
+        l'achat est le pire service que nous puissions vous rendre.
+      </p>
+      <p>
+        Notre règle est donc nette : <strong
+          >aucun prix exact n'est affiché sur ce site</strong
+        >. Chaque fiche indique uniquement une <strong
+          >fourchette de gamme</strong
+        > — entrée, milieu ou haut de gamme, avec ses bornes approximatives en
+        euros — <strong>accompagnée de la date à laquelle elle a été relevée</strong
+        >. Une gamme, contrairement à un prix, ne bouge pas d'une semaine à
+        l'autre : c'est une information qui reste vraie assez longtemps pour être
+        publiée.
+      </p>
+      <p>
+        Cette fourchette a elle-même une durée de validité. Passé ce délai, la
+        page <strong>cesse d'elle-même de l'afficher</strong> et indique que la
+        gamme est à revérifier : nous préférons ne rien montrer plutôt que de
+        vous montrer une information que nous ne pouvons plus garantir. Nous ne
+        recopions par ailleurs jamais un montant dans un texte rédactionnel — un
+        chiffre écrit dans une phrase reste visible et faux longtemps après que
+        le marché a bougé.
+      </p>
+      <p>
+        <strong
+          >Le seul prix qui s'applique est celui affiché sur la page du marchand
+          au moment où vous validez votre commande</strong
+        >, frais de livraison compris. C'est exactement pour cette raison que nos
+        boutons s'intitulent « Voir le prix sur Amazon » et non « Acheter à tel
+        prix » : le prix se lit chez le marchand, jamais chez nous.
+      </p>
+    </section>
+
+    <section aria-labelledby="questions-titre" style="padding-bottom: var(--space-16)">
+      <h2 id="questions-titre">Une question sur cette politique ?</h2>
+      <p>
+        Si un point vous semble ambigu, ou si vous constatez un lien marchand mal
+        signalé sur une de nos pages, écrivez-nous à
+        <a href="mailto:contact@barre-de-son-pc.fr">contact@barre-de-son-pc.fr</a>
+        ou via la <a href={url('/contact')}>page contact</a>. Les informations
+        relatives à l'éditeur du site figurent dans les
+        <a href={url('/mentions-legales')}>mentions légales</a>, et le traitement
+        de vos données dans notre
+        <a href={url('/confidentialite')}>politique de confidentialité</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 820px;
+  }
+  .rules {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+  .rules-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+  }
+  .rules dt {
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+  .rules dd {
+    margin: 0;
+    color: var(--text);
+  }
+  .rules code,
+  .narrow code {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+  }
+</style>

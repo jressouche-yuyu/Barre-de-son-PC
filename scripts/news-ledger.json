@@ -1,0 +1,49 @@
+{
+  "published": [
+    {
+      "slug": "5-reglages-windows-ameliorer-son-barre",
+      "title": "5 réglages Windows pour améliorer le son de votre barre de son",
+      "date": "2026-06-10",
+      "origin": "manuel",
+      "sourceUrls": [],
+      "topic": "windows, réglages, tutoriel"
+    },
+    {
+      "slug": "barre-de-son-ou-casque-teletravail",
+      "title": "Barre de son ou casque pour le télétravail ?",
+      "date": "2026-05-28",
+      "origin": "manuel",
+      "sourceUrls": [],
+      "topic": "télétravail, visio, conseils"
+    },
+    {
+      "slug": "comprendre-puissance-barre-de-son-watts",
+      "title": "Watts, RMS et crête : comprendre la puissance d'une barre de son",
+      "date": "2026-06-14",
+      "origin": "manuel",
+      "sourceUrls": [
+        "https://www.sonelec-musique.com/electronique_theorie_audio_puissances.html",
+        "https://www.rtings.com/soundbar/tests/sound-quality/stereo-frequency-response",
+        "https://www.son-video.com/guide/comprendre-la-difference-entre-puissance-rms-nominale-et-crete",
+        "https://fr.wikipedia.org/wiki/Valeur_efficace"
+      ],
+      "topic": "technique, conseils"
+    },
+    {
+      "slug": "son-spatial-pc-thx-super-x-fi",
+      "title": "Le son spatial sur PC : THX Spatial vs Super X-Fi",
+      "date": "2026-06-14",
+      "origin": "manuel",
+      "sourceUrls": [],
+      "topic": "son spatial, gaming, technique"
+    },
+    {
+      "slug": "usb-jack-bluetooth-quelle-connexion-audio-pc",
+      "title": "USB-C, jack ou Bluetooth : quelle connexion audio pour votre PC ?",
+      "date": "2026-06-02",
+      "origin": "manuel",
+      "sourceUrls": [],
+      "topic": "connectique, conseils, technique"
+    }
+  ]
+}

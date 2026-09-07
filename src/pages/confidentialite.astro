@@ -1,0 +1,533 @@
+---
+/**
+ * /confidentialite/ — politique de confidentialité (RGPD).
+ *
+ * RÈGLE APPLIQUÉE ICI : ne décrire QUE ce qui existe réellement dans le dépôt.
+ *
+ * Vérifié dans le code au moment de la rédaction :
+ * - aucun script de mesure d'audience (grep gtag / analytics / plausible /
+ *   matomo / umami / fathom / hotjar / clarity / posthog → 0 résultat) ;
+ * - aucun appel à document.cookie, localStorage, sessionStorage ou indexedDB ;
+ * - aucune ressource externe chargée par les gabarits (pas de police Google,
+ *   pas d'iframe, pas de reCAPTCHA) : tous les assets sont locaux ;
+ * - aucun formulaire, aucun compte utilisateur, aucun traitement serveur.
+ *
+ * Tout traitement dont la présence ne peut pas être vérifiée depuis le dépôt
+ * (journaux de l'hébergeur, boîte e-mail, éventuel outil ajouté plus tard)
+ * porte un marqueur « [À COMPLÉTER — … ] » visible à l'écran, plutôt qu'une
+ * affirmation de présence ou d'absence qui serait invérifiable.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Callout from '../components/Callout.astro';
+import { SITE } from '../consts';
+import { breadcrumbSchema } from '../lib/schema';
+import { url } from '../lib/url';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Confidentialité', path: '/confidentialite' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+
+const email = 'contact@barre-de-son-pc.fr';
+/** Date de rédaction de la présente politique (à mettre à jour à chaque révision). */
+const lastRevision = '7 septembre 2026';
+---
+
+<BaseLayout
+  title="Politique de confidentialité"
+  description="Quelles données ce site collecte réellement, pourquoi, pendant combien de temps, qui y a accès, et comment exercer vos droits RGPD."
+  path="/confidentialite"
+  jsonLd={jsonLd}
+>
+  <div class="container narrow">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <p class="eyebrow">Vos données</p>
+      <h1>Politique de confidentialité</h1>
+      <p class="lead">
+        Ce que {SITE.name} fait — et ne fait pas — de vos données personnelles,
+        en application du règlement (UE) 2016/679 (RGPD) et de la loi
+        Informatique et Libertés.
+      </p>
+      <p class="revision">Dernière mise à jour : {lastRevision}.</p>
+    </header>
+
+    <Callout title="Page en cours de complétion" icon="⚠">
+      <p>
+        Certaines informations ci-dessous portent la mention
+        <strong>[À COMPLÉTER]</strong>. Ce sont soit des données d'identité que
+        seul l'éditeur détient, soit des traitements dont la présence ne peut pas
+        être constatée depuis le code du site (journaux de l'hébergeur, boîte
+        e-mail). Elles n'ont pas été remplies par approximation : affirmer
+        l'absence d'un traitement qu'on n'a pas vérifié est aussi trompeur que
+        d'en inventer un.
+      </p>
+    </Callout>
+
+    <section aria-labelledby="responsable-titre">
+      <h2 id="responsable-titre">Responsable du traitement</h2>
+      <p>
+        Le responsable du traitement des données collectées via ce site est
+        l'éditeur du site :
+      </p>
+      <dl class="legal">
+        <div class="legal-row">
+          <dt>Responsable du traitement</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — identité et coordonnées postales du responsable de
+              traitement, identiques à celles de l'éditeur dans les mentions
+              légales]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Contact pour toute question</dt>
+          <dd><a href={`mailto:${email}`}>{email}</a></dd>
+        </div>
+        <div class="legal-row">
+          <dt>Délégué à la protection des données</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — désigner un délégué à la protection des données
+              (DPO) si l'éditeur y est tenu, ou indiquer qu'aucune désignation
+              n'est obligatoire]</span
+            >
+          </dd>
+        </div>
+      </dl>
+      <p>
+        Les autres informations relatives à l'éditeur figurent dans les
+        <a href={url('/mentions-legales')}>mentions légales</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="principe-titre">
+      <h2 id="principe-titre">Le principe : ce site ne collecte rien par lui-même</h2>
+      <p>
+        {SITE.name} est un <strong>site statique</strong> : ses pages sont
+        générées une fois pour toutes, puis servies telles quelles. Il n'exécute
+        aucun programme sur un serveur pendant votre visite. Cette architecture a
+        une conséquence directe et vérifiable sur vos données.
+      </p>
+      <ul class="facts">
+        <li>
+          <strong>Aucun compte utilisateur.</strong> Il n'existe ni inscription,
+          ni connexion, ni espace personnel, ni newsletter.
+        </li>
+        <li>
+          <strong>Aucun formulaire.</strong> Le site ne comporte aucun champ de
+          saisie transmis à un serveur. Le contact se fait par e-mail, à une
+          adresse affichée en clair.
+        </li>
+        <li>
+          <strong>Aucun cookie déposé par le site.</strong> Le code du site
+          n'écrit ni cookie, ni donnée en stockage local
+          (<code>localStorage</code>, <code>sessionStorage</code>) dans votre
+          navigateur.
+        </li>
+        <li>
+          <strong>Aucune ressource tierce chargée.</strong> Les images, les
+          styles et les scripts sont hébergés avec le site. Il n'y a ni police
+          d'écriture externe, ni vidéo intégrée, ni bouton de réseau social
+          traçant, ni service de protection anti-robot.
+        </li>
+        <li>
+          <strong>Aucun profilage, aucune décision automatisée</strong> vous
+          concernant, et aucune revente ou location de données à quiconque.
+        </li>
+      </ul>
+      <p>
+        Ces cinq points ont été vérifiés dans le code source du site. Ils ne
+        dispensent pas d'examiner deux traitements qui, eux, existent
+        nécessairement : les journaux techniques de l'hébergeur, et les messages
+        que vous nous envoyez par e-mail.
+      </p>
+    </section>
+
+    <section aria-labelledby="donnees-titre">
+      <h2 id="donnees-titre">Données réellement traitées</h2>
+
+      <div class="table-wrap">
+        <table class="rgpd-table">
+          <caption class="sr-only">
+            Registre des traitements : données, finalité, base légale, durée de
+            conservation et destinataires
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Donnée</th>
+              <th scope="col">Finalité</th>
+              <th scope="col">Base légale</th>
+              <th scope="col">Conservation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                Journaux techniques de l'hébergeur : adresse IP, date et heure,
+                page demandée, type de navigateur
+              </th>
+              <td>
+                Livrer les pages demandées, assurer la sécurité et la stabilité
+                du service, détecter les abus.
+              </td>
+              <td>
+                Intérêt légitime de l'éditeur à faire fonctionner et à sécuriser
+                le site (art. 6.1.f du RGPD).
+              </td>
+              <td>
+                <span class="todo"
+                  ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                    class="sr-only">Information manquante :</span
+                  > [À COMPLÉTER — durée de conservation des journaux de connexion
+                  appliquée par l'hébergeur GitHub Pages, à recopier depuis sa
+                  documentation officielle]</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                Contenu de vos e-mails : adresse d'expédition, nom si vous le
+                donnez, contenu du message
+              </th>
+              <td>
+                Répondre à votre demande, traiter un signalement d'erreur
+                factuelle, instruire une demande commerciale ou un droit de
+                réponse.
+              </td>
+              <td>
+                Intérêt légitime à répondre à une sollicitation que vous avez
+                vous-même initiée (art. 6.1.f du RGPD).
+              </td>
+              <td>
+                <span class="todo"
+                  ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                    class="sr-only">Information manquante :</span
+                  > [À COMPLÉTER — fournisseur de la boîte e-mail de contact et
+                  durée de conservation des messages reçus, par exemple 12 mois
+                  après le dernier échange]</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Mesure d'audience</th>
+              <td>
+                Comprendre quelles pages sont consultées, sans identifier les
+                personnes.
+              </td>
+              <td colspan="2">
+                <span class="todo"
+                  ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                    class="sr-only">Information à confirmer :</span
+                  > [À COMPLÉTER — confirmer la présence ou l'absence d'un outil de
+                  mesure d'audience (Google Analytics, Matomo, Plausible…) :
+                  aucun script de ce type n'a été trouvé dans le code du site au
+                  moment de la rédaction. Si un outil est ajouté, préciser
+                  l'outil, la base légale, la durée et le recueil du
+                  consentement]</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Publicité et cookies publicitaires</th>
+              <td>Sans objet à ce jour.</td>
+              <td colspan="2">
+                <span class="todo"
+                  ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                    class="sr-only">Information à confirmer :</span
+                  > [À COMPLÉTER — confirmer l'absence de régie publicitaire et de
+                  cookie publicitaire tiers ; le site est monétisé par
+                  affiliation, sans affichage de bannières]</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Nous ne vous demandons jamais de donnée sensible, et nous n'avons aucun
+        besoin de votre identité pour vous laisser consulter le site. Aucune
+        donnée n'est collectée auprès de tiers pour être recoupée avec votre
+        visite.
+      </p>
+    </section>
+
+    <section aria-labelledby="destinataires-titre">
+      <h2 id="destinataires-titre">Destinataires et sous-traitants</h2>
+      <p>
+        Nous ne communiquons vos données ni à des partenaires commerciaux, ni à
+        des courtiers en données. Les seuls tiers qui peuvent techniquement y
+        avoir accès sont les prestataires qui font fonctionner le site :
+      </p>
+      <dl class="legal">
+        <div class="legal-row">
+          <dt>Hébergeur du site</dt>
+          <dd>
+            GitHub, Inc. (service GitHub Pages), qui traite les journaux
+            techniques décrits ci-dessus en qualité de sous-traitant.
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information à confirmer :</span
+              > [À COMPLÉTER — confirmer les données de journalisation réellement
+              collectées par GitHub Pages et le cadre de transfert applicable,
+              d'après sa documentation officielle]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Messagerie électronique</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — nom du fournisseur de messagerie hébergeant
+              l'adresse de contact, et son pays d'établissement]</span
+            >
+          </dd>
+        </div>
+      </dl>
+      <p>
+        Nous pouvons par ailleurs être tenus de transmettre des informations sur
+        réquisition d'une autorité judiciaire ou administrative compétente.
+      </p>
+    </section>
+
+    <section aria-labelledby="transferts-titre">
+      <h2 id="transferts-titre">Transferts hors Union européenne</h2>
+      <p>
+        L'hébergeur du site, GitHub, Inc., est une société de droit américain.
+        Les journaux techniques associés à votre visite peuvent donc être
+        traités, en tout ou partie, <strong>en dehors de l'Union
+        européenne</strong>. Un tel transfert doit être encadré par un mécanisme
+        prévu par le chapitre V du RGPD : décision d'adéquation, clauses
+        contractuelles types, ou adhésion à un cadre reconnu.
+      </p>
+      <p>
+        <span class="todo"
+          ><span class="todo-icon" aria-hidden="true">⚠</span><span
+            class="sr-only">Information à confirmer :</span
+          > [À COMPLÉTER — préciser le mécanisme de transfert hors UE effectivement
+          applicable à l'hébergeur et à la messagerie, tel qu'il figure dans
+          leurs conditions ou leur avenant de traitement des données]</span
+        >
+      </p>
+    </section>
+
+    <section aria-labelledby="cookies-titre">
+      <h2 id="cookies-titre">Cookies et traceurs</h2>
+      <p>
+        <strong>Le site ne dépose aucun cookie et n'utilise aucun traceur.</strong>
+        C'est pourquoi vous ne voyez pas de bandeau de consentement : il n'y a
+        rien à consentir. Le code du site n'écrit ni cookie, ni entrée en
+        stockage local dans votre navigateur, et aucune ressource n'est chargée
+        depuis un domaine tiers pendant la navigation.
+      </p>
+      <p>
+        Une nuance importante, en revanche, sur les liens marchands. Lorsque vous
+        cliquez sur un bouton d'achat, vous quittez notre site et arrivez chez le
+        marchand — c'est <strong>lui</strong> qui dépose alors ses propres
+        cookies, dont un cookie d'affiliation qui lui permet de nous attribuer la
+        vente. Ce dépôt relève de la politique de confidentialité du marchand,
+        qui s'applique dès l'instant où sa page s'affiche. Notre
+        <a href={url('/politique-affiliation')}>politique d'affiliation</a>
+        décrit le mécanisme, et vous pouvez toujours consulter un produit sans
+        cliquer sur un lien marchand.
+      </p>
+      <p>
+        Si un outil de mesure ou un traceur venait à être ajouté au site, un
+        bandeau de consentement conforme serait mis en place et la présente
+        politique serait mise à jour avant toute activation.
+      </p>
+    </section>
+
+    <section aria-labelledby="droits-titre">
+      <h2 id="droits-titre">Vos droits</h2>
+      <p>
+        Conformément aux articles 15 à 22 du RGPD, vous disposez des droits
+        suivants sur les données qui vous concernent :
+      </p>
+      <ul>
+        <li>
+          <strong>Droit d'accès</strong> — obtenir la confirmation que des
+          données vous concernant sont traitées, et en recevoir une copie.
+        </li>
+        <li>
+          <strong>Droit de rectification</strong> — faire corriger une donnée
+          inexacte ou incomplète.
+        </li>
+        <li>
+          <strong>Droit à l'effacement</strong> — demander la suppression de vos
+          données, notamment de la correspondance échangée.
+        </li>
+        <li>
+          <strong>Droit d'opposition</strong> — vous opposer à un traitement
+          fondé sur l'intérêt légitime.
+        </li>
+        <li>
+          <strong>Droit à la limitation</strong> — demander le gel d'un
+          traitement pendant l'examen d'une contestation.
+        </li>
+        <li>
+          <strong>Droit à la portabilité</strong> — recevoir dans un format
+          structuré et lisible par machine les données que vous nous avez
+          fournies.
+        </li>
+        <li>
+          <strong>Droit de retirer votre consentement</strong> à tout moment,
+          lorsqu'un traitement repose sur celui-ci.
+        </li>
+      </ul>
+      <p>
+        <strong>Comment les exercer.</strong> Écrivez à
+        <a href={`mailto:${email}`}>{email}</a> en précisant votre demande. Nous
+        y répondons dans un délai maximal d'un mois à compter de sa réception,
+        prolongeable de deux mois pour une demande complexe, auquel cas vous en
+        serez informé. Nous pouvons être amenés à vous demander un élément
+        permettant de vérifier que la demande émane bien de vous, sans jamais
+        exiger de copie de pièce d'identité.
+      </p>
+      <p>
+        <strong>Réclamation.</strong> Si vous estimez, après nous avoir
+        contactés, que vos droits ne sont pas respectés, vous pouvez introduire
+        une réclamation auprès de l'autorité de contrôle française, la
+        <strong>Commission nationale de l'informatique et des libertés
+        (CNIL)</strong> : 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07,
+        ou en ligne sur <a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="securite-titre">
+      <h2 id="securite-titre">Sécurité et conservation</h2>
+      <p>
+        Le site est servi exclusivement en HTTPS, ce qui chiffre les échanges
+        entre votre navigateur et l'hébergeur. Comme aucune donnée n'est
+        collectée par le site lui-même, il n'existe aucune base de données de
+        visiteurs susceptible d'être compromise : le principal enjeu de sécurité
+        porte sur la boîte e-mail de contact et sur le compte d'hébergement, dont
+        l'accès est protégé par authentification.
+      </p>
+      <p>
+        Les messages reçus sont conservés le temps nécessaire au traitement de la
+        demande, puis supprimés dans les délais indiqués dans le tableau
+        ci-dessus. Une correspondance relative à un signalement d'erreur peut
+        être conservée plus longtemps si elle documente une correction apportée à
+        une page.
+      </p>
+    </section>
+
+    <section aria-labelledby="evolution-titre" style="padding-bottom: var(--space-16)">
+      <h2 id="evolution-titre">Évolution de cette politique</h2>
+      <p>
+        Cette politique peut être modifiée, notamment si un nouvel outil est
+        ajouté au site. La date de dernière mise à jour figure en haut de page.
+        Toute modification substantielle — ajout d'un traceur, d'un outil de
+        mesure, d'un formulaire — sera signalée sur cette page
+        <strong>avant</strong> sa mise en œuvre, et accompagnée du mécanisme de
+        consentement requis le cas échéant.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 820px;
+  }
+  .revision {
+    color: var(--text-muted);
+  }
+
+  /* Faits vérifiables : liste lisible, sans dépendance à la couleur. */
+  .facts li {
+    margin-bottom: var(--space-3);
+  }
+
+  /* Tableau du registre des traitements — ramené à 1rem (16 px). */
+  .rgpd-table {
+    font-size: 1rem;
+    min-width: 46rem;
+  }
+  .rgpd-table th[scope='row'] {
+    background: transparent;
+    white-space: normal;
+    font-weight: 700;
+    vertical-align: top;
+  }
+  .rgpd-table td {
+    vertical-align: top;
+  }
+
+  /* Tableau d'identité : intitulé / valeur. */
+  .legal {
+    display: grid;
+    gap: 0;
+    margin: var(--space-6) 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .legal-row {
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .legal-row:last-child {
+    border-bottom: none;
+  }
+  .legal dt {
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+  .legal dd {
+    margin: 0;
+    color: var(--text);
+  }
+  @media (min-width: 640px) {
+    .legal-row {
+      display: grid;
+      grid-template-columns: 15rem 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+    .legal dt {
+      margin-bottom: 0;
+    }
+  }
+
+  /* Marqueur d'information manquante.
+     L'information n'est JAMAIS portée par la couleur seule : crochets, libellé
+     « À COMPLÉTER », icône textuelle « ⚠ » et bordure épaisse. */
+  .todo {
+    display: inline-block;
+    background: var(--surface-2);
+    border: 1px dashed var(--warning);
+    border-left: 4px solid var(--warning);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .todo-icon {
+    margin-right: var(--space-2);
+    font-weight: 700;
+  }
+
+  .narrow code {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+  }
+</style>

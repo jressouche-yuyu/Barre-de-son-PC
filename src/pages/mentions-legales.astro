@@ -1,0 +1,408 @@
+---
+/**
+ * /mentions-legales/ — obligations de l'article 6-III de la LCEN.
+ *
+ * ATTENTION : les champs d'identité de l'éditeur ne sont PAS inventés. Chaque
+ * donnée que seul le propriétaire du site détient est remplacée par un marqueur
+ * « [À COMPLÉTER — … ] » VISIBLE À L'ÉCRAN, jamais par une valeur plausible.
+ * Un SIRET inventé est pire qu'un champ vide : il est faux tout en ayant l'air
+ * vrai, et il engage la responsabilité de l'éditeur.
+ *
+ * Le seul champ pré-rempli est l'hébergeur : le dépôt se déploie sur GitHub
+ * Pages (.github/workflows/deploy.yml + public/CNAME). Il reste assorti d'un
+ * marqueur de confirmation, et son adresse postale n'est pas devinée.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Callout from '../components/Callout.astro';
+import { SITE } from '../consts';
+import { breadcrumbSchema } from '../lib/schema';
+import { url } from '../lib/url';
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Mentions légales', path: '/mentions-legales' },
+];
+const jsonLd = [breadcrumbSchema(crumbs)];
+
+const email = 'contact@barre-de-son-pc.fr';
+const domain = SITE.url.replace(/^https?:\/\//, '');
+---
+
+<BaseLayout
+  title="Mentions légales"
+  description="Éditeur du site, directeur de la publication, hébergeur, propriété intellectuelle et limitation de responsabilité."
+  path="/mentions-legales"
+  jsonLd={jsonLd}
+>
+  <div class="container narrow">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="section" style="padding-bottom: var(--space-4)">
+      <p class="eyebrow">Informations légales</p>
+      <h1>Mentions légales</h1>
+      <p class="lead">
+        Informations publiées en application de l'article 6-III de la loi
+        n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique
+        (LCEN).
+      </p>
+    </header>
+
+    <Callout title="Page en cours de complétion" icon="⚠">
+      <p>
+        Les informations d'identité de l'éditeur et de l'hébergeur ci-dessous
+        sont signalées par la mention <strong>[À COMPLÉTER]</strong> lorsqu'elles
+        n'ont pas encore été renseignées. Elles n'ont volontairement pas été
+        remplies avec des valeurs approchantes : une donnée légale inexacte
+        engage la responsabilité de l'éditeur plus lourdement qu'une donnée
+        absente. Ces champs doivent être renseignés avant l'ouverture au public.
+      </p>
+    </Callout>
+
+    <section aria-labelledby="editeur-titre">
+      <h2 id="editeur-titre">Éditeur du site</h2>
+      <p>
+        Le site <strong>{SITE.name}</strong>, accessible à l'adresse
+        <a href={SITE.url}>{domain}</a>, est édité par :
+      </p>
+
+      <dl class="legal">
+        <div class="legal-row">
+          <dt>Nom ou raison sociale</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — nom ou raison sociale de l'éditeur]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Forme juridique</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — forme juridique : personne physique, entrepreneur
+              individuel, micro-entreprise, SASU, SARL…]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Immatriculation</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — numéro SIRET et ville du RCS si l'éditeur est
+              professionnel ; sinon indiquer « éditeur non professionnel, non
+              immatriculé »]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Capital social</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — montant du capital social, uniquement si l'éditeur
+              est une société ; sinon supprimer cette ligne]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Numéro de TVA intracommunautaire</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — numéro de TVA intracommunautaire si l'éditeur y est
+              assujetti ; sinon supprimer cette ligne]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Siège social ou domicile</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — adresse postale complète du siège social ou du
+              domicile de l'éditeur]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Adresse électronique</dt>
+          <dd><a href={`mailto:${email}`}>{email}</a></dd>
+        </div>
+        <div class="legal-row">
+          <dt>Téléphone</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — numéro de téléphone de contact de l'éditeur]</span
+            >
+          </dd>
+        </div>
+      </dl>
+
+      <p>
+        Un éditeur non professionnel peut ne pas rendre publiques ses coordonnées
+        personnelles, à condition de les avoir communiquées à son hébergeur et de
+        publier le nom de celui-ci. Ce choix, prévu par la LCEN, doit être
+        arbitré par l'éditeur avant la mise en ligne.
+      </p>
+    </section>
+
+    <section aria-labelledby="publication-titre">
+      <h2 id="publication-titre">Directeur de la publication</h2>
+      <dl class="legal">
+        <div class="legal-row">
+          <dt>Directeur de la publication</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — nom et prénom du directeur de la publication]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Responsable de la rédaction</dt>
+          <dd>{SITE.author}</dd>
+        </div>
+        <div class="legal-row">
+          <dt>Contact rédaction</dt>
+          <dd><a href={`mailto:${email}`}>{email}</a></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="hebergeur-titre">
+      <h2 id="hebergeur-titre">Hébergeur</h2>
+      <p>
+        Le site est un site statique publié par GitHub Pages, d'après la
+        configuration de déploiement du dépôt. Les coordonnées ci-dessous sont
+        donc <strong>pré-remplies à confirmer</strong> par l'éditeur, et son
+        adresse postale n'a pas été devinée.
+      </p>
+      <dl class="legal">
+        <div class="legal-row">
+          <dt>Hébergeur</dt>
+          <dd>
+            GitHub, Inc. (service GitHub Pages)
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information à confirmer :</span
+              > [À COMPLÉTER — confirmer l'hébergeur : GitHub, Inc. (GitHub Pages),
+              pré-rempli d'après .github/workflows/deploy.yml et public/CNAME]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Adresse postale de l'hébergeur</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — adresse postale complète de l'hébergeur, à recopier
+              depuis ses conditions de service officielles]</span
+            >
+          </dd>
+        </div>
+        <div class="legal-row">
+          <dt>Téléphone de l'hébergeur</dt>
+          <dd>
+            <span class="todo"
+              ><span class="todo-icon" aria-hidden="true">⚠</span><span
+                class="sr-only">Information manquante :</span
+              > [À COMPLÉTER — numéro de téléphone de l'hébergeur, à recopier
+              depuis ses conditions de service officielles]</span
+            >
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="pi-titre">
+      <h2 id="pi-titre">Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus produits pour ce site — textes éditoriaux,
+        classements, grille de notation, guides, illustrations et visuels
+        génératifs, structure et code du site — est protégé par le droit
+        d'auteur. Toute reproduction, représentation, adaptation ou
+        réutilisation, totale ou partielle, est interdite sans autorisation
+        écrite préalable de l'éditeur, à l'exception des courtes citations sous
+        réserve de mentionner clairement la source et d'insérer un lien vers la
+        page d'origine.
+      </p>
+      <p>
+        Les <strong>marques, logos et noms de produits</strong> cités
+        (Razer, Creative, Edifier, Logitech, Trust, Amazon, et toute autre marque
+        mentionnée) demeurent la propriété exclusive de leurs titulaires
+        respectifs. Ils sont utilisés à des fins d'identification et de
+        description des produits comparés, dans le cadre d'un usage éditorial et
+        informatif, sans autorisation ni parrainage de ces titulaires, et sans
+        prétendre à un quelconque partenariat avec eux.
+      </p>
+      <p>
+        Les visuels de produits proviennent des ressources mises à disposition
+        par les fabricants ou de visuels génératifs produits pour ce site. Si
+        vous êtes titulaire de droits sur un contenu publié ici et que sa
+        présence n'est pas justifiée, écrivez-nous à
+        <a href={`mailto:${email}`}>{email}</a> : le contenu sera retiré ou
+        crédité sans délai après vérification.
+      </p>
+    </section>
+
+    <section aria-labelledby="responsabilite-titre">
+      <h2 id="responsabilite-titre">Limitation de responsabilité</h2>
+      <p>
+        <strong>Caractéristiques produit.</strong> Les informations techniques
+        publiées sur ce site (dimensions, puissance, connectique, réponse en
+        fréquence, contenu de la boîte) proviennent des fiches constructeur et de
+        mesures publiées par des laboratoires et testeurs indépendants. Elles
+        sont fournies à titre <strong>indicatif</strong>. Un fabricant peut
+        modifier une révision matérielle, une connectique ou une fonction
+        annoncée sans préavis. Ces informations ne constituent donc ni une
+        garantie, ni un engagement contractuel : <strong
+          >seules les caractéristiques indiquées par le fabricant et par le
+          marchand au moment de votre achat font foi</strong
+        >.
+      </p>
+      <p>
+        <strong>Prix et disponibilité.</strong> Aucun prix exact n'est publié sur
+        ce site : les fiches n'indiquent qu'une fourchette de gamme, assortie de
+        sa date de relevé, et aucune fourchette ne constitue un prix garanti. Le
+        tarif, les promotions, les frais de livraison et la disponibilité d'un
+        produit relèvent exclusivement du marchand et évoluent en permanence. Le
+        prix qui s'applique est celui affiché sur la page du marchand au moment
+        de la validation de votre commande. Voir notre
+        <a href={url('/politique-affiliation')}>politique d'affiliation</a>.
+      </p>
+      <p>
+        <strong>Notes et recommandations.</strong> Les notes attribuées sont des
+        <strong>appréciations éditoriales</strong> résultant de la grille publiée
+        sur notre page <a href={url('/methodologie')}>méthodologie</a>. Elles ne
+        reposent sur aucun test physique réalisé par nous : nous n'écoutons pas
+        et ne mesurons pas les produits. Elles ne sauraient constituer un conseil
+        d'achat personnalisé et n'engagent pas la responsabilité de l'éditeur
+        quant à la satisfaction procurée par un produit.
+      </p>
+      <p>
+        <strong>Liens sortants.</strong> Ce site comporte des liens vers des
+        sites tiers, notamment des liens marchands rémunérés. L'éditeur n'exerce
+        aucun contrôle sur le contenu, les conditions de vente ou les pratiques
+        de confidentialité de ces sites, et ne saurait en être tenu responsable.
+      </p>
+      <p>
+        <strong>Disponibilité du service.</strong> L'éditeur s'efforce de
+        maintenir le site accessible, sans obligation de résultat. L'accès peut
+        être interrompu à tout moment pour maintenance, mise à jour, panne de
+        l'hébergeur ou cas de force majeure, sans que cela ouvre droit à
+        indemnisation.
+      </p>
+    </section>
+
+    <section aria-labelledby="donnees-titre">
+      <h2 id="donnees-titre">Données personnelles et cookies</h2>
+      <p>
+        Le traitement des données personnelles et l'usage éventuel de cookies
+        sont décrits dans notre
+        <a href={url('/confidentialite')}>politique de confidentialité</a>, qui
+        précise les données collectées, leurs finalités, leurs durées de
+        conservation et les modalités d'exercice de vos droits.
+      </p>
+    </section>
+
+    <section aria-labelledby="signalement-titre">
+      <h2 id="signalement-titre">Signalement d'un contenu</h2>
+      <p>
+        Tout contenu que vous estimeriez illicite, diffamatoire, inexact ou
+        portant atteinte à vos droits peut être signalé à
+        <a href={`mailto:${email}`}>{email}</a>. Précisez l'adresse de la page,
+        le passage concerné et le motif du signalement, afin que la demande
+        puisse être instruite. Les modalités du droit de réponse figurent sur
+        notre <a href={url('/contact')}>page contact</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="droit-titre" style="padding-bottom: var(--space-16)">
+      <h2 id="droit-titre">Droit applicable</h2>
+      <p>
+        Les présentes mentions légales et l'utilisation du site sont soumises au
+        <strong>droit français</strong>. En cas de litige, et à défaut de
+        résolution amiable préalable, les tribunaux français seront seuls
+        compétents, dans les conditions prévues par les règles de compétence en
+        vigueur. Le consommateur conserve la faculté de saisir la juridiction du
+        lieu de son domicile.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 820px;
+  }
+
+  /* Tableau d'identité légale : intitulé / valeur. */
+  .legal {
+    display: grid;
+    gap: 0;
+    margin: var(--space-6) 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .legal-row {
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .legal-row:last-child {
+    border-bottom: none;
+  }
+  .legal dt {
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+  .legal dd {
+    margin: 0;
+    color: var(--text);
+  }
+  @media (min-width: 640px) {
+    .legal-row {
+      display: grid;
+      grid-template-columns: 15rem 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+    .legal dt {
+      margin-bottom: 0;
+    }
+  }
+
+  /* Marqueur d'information manquante.
+     L'information n'est JAMAIS portée par la couleur seule : elle est portée
+     par les crochets, par le libellé « À COMPLÉTER », par l'icône textuelle
+     « ⚠ » et par la bordure épaisse. La couleur ne fait que renforcer. */
+  .todo {
+    display: inline-block;
+    background: var(--surface-2);
+    border: 1px dashed var(--warning);
+    border-left: 4px solid var(--warning);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .todo-icon {
+    margin-right: var(--space-2);
+    font-weight: 700;
+  }
+</style>
