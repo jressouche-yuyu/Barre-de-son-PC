@@ -84,8 +84,8 @@ export const rankings: Ranking[] = [
       'Améliorer le son de son PC ne coûte pas forcément cher. Sous la barre des 120 €, on trouve un combo barre + caisson complet, des barres compactes RGB et des modèles nomades idéaux pour remplacer les haut-parleurs intégrés d\'un moniteur ou d\'un laptop. Voici les meilleurs choix à petit prix.',
     items: [
       { soundbar: 'creative-stage-v2', why: 'Combo barre + caisson le plus complet sous 120 €.' },
-      { soundbar: 'razer-leviathan-v2-x', why: 'Barre gaming compacte USB-C avec RGB à ~99 €.' },
-      { soundbar: 'creative-sound-blaster-gs3', why: 'Mini-barre RGB avec SuperWide et prise casque à ~59 €.' },
+      { soundbar: 'razer-leviathan-v2-x', why: 'Barre gaming compacte USB-C avec RGB, la plus abordable des Razer.' },
+      { soundbar: 'creative-sound-blaster-gs3', why: 'Mini-barre RGB avec SuperWide et prise casque, la plus compacte du classement.' },
       { soundbar: 'creative-stage-air-v2', why: 'Barre nomade sur batterie pour les petits espaces.' },
     ],
     faq: [
