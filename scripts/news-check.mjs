@@ -157,10 +157,18 @@ const internalLinks = [];
 // ═══ 9. Lien vers la page pilier ════════════════════════════════════════════
 {
   const pillar = config.strategicPage.url.replace(/\/$/, '');
+  const linked = internalLinks.find((l) => l.url === pillar);
   check(
-    internalLinks.some((l) => l.url === pillar),
+    Boolean(linked),
     `Lien vers la page pilier ${config.strategicPage.url}`,
-    internalLinks.length ? 'absent parmi les liens internes' : 'aucun lien interne',
+    // Le détail doit décrire ce qui a été constaté, pas ce qu'on redoutait :
+    // un « absent » affiché à côté d'un ✓ envoie sur une fausse piste quand on
+    // relit le journal d'une routine des semaines plus tard.
+    linked
+      ? `ancre « ${linked.anchor} »`
+      : internalLinks.length
+        ? 'absent parmi les liens internes'
+        : 'aucun lien interne',
   );
 }
 
