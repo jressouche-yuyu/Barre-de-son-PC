@@ -89,7 +89,10 @@ Règles de remplissage :
 - **Chaque note par critère s'appuie sur une source**, pas sur une impression :
   caractéristiques constructeur et mesures publiées par des laboratoires
   indépendants. Note les URLs consultées dans le message de commit.
-- `priceRange` et `priceCheckedAt` : renseigne la gamme et la date du jour.
+- `price` et `priceCheckedAt` : `price` est un prix indicatif qui sert UNIQUEMENT à déduire
+  la fourchette de gamme via `priceBand()` (`src/lib/prix.ts`) — il n'est jamais affiché.
+  `priceCheckedAt` porte la date du relevé. ⚠ Le champ `priceRange` **n'existe pas** dans
+  `src/data/types.ts` : l'écrire fait échouer `npm run check`.
   **Aucun prix exact.** Voir `scripts/prix-playbook.md`.
 - `availability` : une valeur autorisée par `src/data/types.ts`.
 - `lastUpdated` : la date du jour.
@@ -248,7 +251,7 @@ trois autres (`veille-playbook.md`, `prix-playbook.md`, `liens-playbook.md`).
 2. **Aucune preuve ne se fabrique.** Pas d'avis client inventé, pas de
    témoignage de remplissage, pas de « recommandé par » sans source vérifiable.
 3. **Aucun prix ni aucune note écrits dans une prose.** Toujours rendus depuis
-   la donnée (`priceRange`, `priceCheckedAt`, `scores` → `scoreFromBreakdown`),
+   la donnée (`price` → `priceBand()`, `priceCheckedAt`, `scores` → `scoreFromBreakdown`),
    toujours datés. Une note globale ne s'écrit jamais à la main.
 4. **`rel="sponsored nofollow"` sur tout lien sortant marchand**, passage
    obligatoire par `/go/<slug>/`, et `Disallow: /go/` maintenu dans
