@@ -27,8 +27,8 @@ const workDir = mkdtempSync(join(tmpdir(), 'cadence-'));
 const ledgerPath = join(workDir, 'news-ledger.json');
 const published = [];
 
-/** Créneaux de réveil : reflète le cron R1 (`0 7` et `0 14` UTC). */
-const RUN_HOURS_UTC = [7, 14];
+/** Créneaux de réveil : reflète le cron R1 (`0 7 * * 2,5` UTC). */
+const RUN_HOURS_UTC = [7];
 
 if (RUN_HOURS_UTC.length !== config.runsPerDay) {
   console.error(
@@ -106,7 +106,7 @@ console.log(`Moyenne              : ${(total / Math.max(1, weeksWithOutput)).toF
 const problems = [];
 if (min < config.minPerWeek) problems.push(`une semaine est descendue à ${min} (plancher ${config.minPerWeek})`);
 if (max > boostMax) problems.push(`une semaine est montée à ${max} (plafond ${boostMax})`);
-if (weeksWithOutput < 45) problems.push(`seulement ${weeksWithOutput} semaines sur ~52 ont produit un article`);
+if (weeksWithOutput < 50) problems.push(`seulement ${weeksWithOutput} semaines sur ~52 ont produit un article`);
 
 if (problems.length) {
   console.log('');

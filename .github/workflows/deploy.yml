@@ -7,6 +7,17 @@ on:
   push:
     branches:
       - main
+  # Reconstruction programmée, tous les lundis à 4 h UTC.
+  #
+  # Ce n'est pas un doublon du déclencheur ci-dessus : plusieurs règles du site
+  # dépendent de la date du build, pas du contenu du dépôt. La péremption des
+  # fourchettes de prix (45 jours, src/lib/prix.ts) en est l'exemple central —
+  # elle est évaluée au rendu, donc elle ne s'arme jamais si plus rien ne
+  # reconstruit. Sans ce cron, une machinerie éditoriale en panne ferait servir
+  # indéfiniment une donnée commerciale que le site ne peut plus garantir : le
+  # filet de sécurité dépendrait de ce qu'il est censé rattraper.
+  schedule:
+    - cron: '0 4 * * 1'
   workflow_dispatch:
 
 permissions:

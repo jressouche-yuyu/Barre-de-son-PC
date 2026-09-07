@@ -134,7 +134,7 @@ function readLedger() {
  * Les bornes sont des `MM-JJ`, comparables littéralement.
  */
 function weeklyBounds(paris) {
-  let { minPerWeek, maxPerWeek } = config;
+  let { minPerWeek, maxPerWeek, sessionChanceCap } = config;
   const today = `${String(paris.month).padStart(2, '0')}-${String(paris.day).padStart(2, '0')}`;
   for (const window of config.seasonalBoost ?? []) {
     const inWindow =
@@ -144,9 +144,10 @@ function weeklyBounds(paris) {
     if (inWindow) {
       minPerWeek = window.minPerWeek ?? minPerWeek;
       maxPerWeek = window.maxPerWeek ?? maxPerWeek;
+      sessionChanceCap = window.sessionChanceCap ?? sessionChanceCap;
     }
   }
-  return { minPerWeek, maxPerWeek };
+  return { minPerWeek, maxPerWeek, sessionChanceCap };
 }
 
 /**
@@ -191,6 +192,10 @@ if (existsSync(FORCE_FILE)) {
 if (!config.activeDays.includes(paris.isoWeekday)) {
   decide('SKIP', `jour ${paris.isoWeekday} hors des jours actifs (heure de Paris)`);
 }
+const mmdd = `${String(paris.month).padStart(2, '0')}-${String(paris.day).padStart(2, '0')}`;
+if ((config.holidays ?? []).includes(mmdd)) {
+  decide('SKIP', `jour férié (${mmdd}) — une rédaction ne publie pas ce jour-là`);
+}
 if (paris.hour < config.publishHours.start || paris.hour >= config.publishHours.end) {
   const { start, end } = config.publishHours;
   decide('SKIP', `${paris.hour} h à Paris, hors de la plage ${start} h – ${end} h`);
@@ -198,8 +203,14 @@ if (paris.hour < config.publishHours.start || paris.hour >= config.publishHours.
 
 // 3. Objectif de la semaine : tiré au hasard, mais identique pour tous les
 //    réveils de la même semaine ISO.
-const { minPerWeek, maxPerWeek } = weeklyBounds(paris);
-const target = seededInt(`objectif:${weekKey}`, minPerWeek, maxPerWeek);
+//
+//    Le tirage part de 1 même quand `minPerWeek` vaut 0 : un objectif nul
+//    condamnerait la semaine entière au silence dès le lundi, alors que ce que
+//    l'on veut, c'est un objectif modeste que l'étape de veille pourra ensuite
+//    refuser faute de matière. `minPerWeek: 0` ne veut pas dire « viser zéro »,
+//    il veut dire « ne jamais forcer » — voir le point 5.
+const { minPerWeek, maxPerWeek, sessionChanceCap } = weeklyBounds(paris);
+const target = seededInt(`objectif:${weekKey}`, Math.max(1, minPerWeek), maxPerWeek);
 
 // 4. Ce qui a déjà été publié automatiquement cette semaine.
 const ledger = readLedger();
@@ -220,20 +231,41 @@ if (needed <= 0) {
   decide('SKIP', `objectif de la semaine ${weekKey} atteint (${publishedThisWeek}/${target})`);
 }
 
-// 5. Garantie du minimum : au dernier réveil de la semaine, si le plancher n'est
-//    pas atteint, on publie sans tirage.
+// 5. Plancher hebdomadaire — DÉSACTIVÉ quand `minPerWeek` vaut 0.
+//
+//    C'était le défaut de conception le plus grave de cette machinerie : forcer
+//    un GO pour tenir un quota, c'est mettre l'agent de veille sous pression de
+//    production alors qu'il n'a peut-être rien à dire. Un site de créneau qui
+//    doit publier « parce que c'est la fin de la semaine » produit du
+//    remplissage, et le remplissage cannibalise ses propres pages.
+//
+//    Le portillon ne fait donc qu'AUTORISER. C'est l'étape de veille qui décide,
+//    et elle a un droit de veto : pas d'actualité ni de donnée fraîche, pas de
+//    publication — quel que soit l'objectif de la semaine.
 const runsLeft = remainingRuns(paris);
-if (runsLeft <= 1 && publishedThisWeek < minPerWeek) {
-  decide('GO', `dernier réveil de ${weekKey} et minimum non atteint (${publishedThisWeek}/${minPerWeek})`);
-}
-if (runsLeft <= needed) {
-  decide('GO', `${needed} article(s) à publier pour ${runsLeft} réveil(s) restant(s)`);
+if (minPerWeek > 0) {
+  if (runsLeft <= 1 && publishedThisWeek < minPerWeek) {
+    decide('GO', `dernier réveil de ${weekKey} et plancher non atteint (${publishedThisWeek}/${minPerWeek})`);
+  }
+  if (runsLeft <= needed) {
+    decide('GO', `${needed} article(s) à publier pour ${runsLeft} réveil(s) restant(s)`);
+  }
 }
 
 // 6. Tirage : on répartit la probabilité sur les réveils restants, et on bride
 //    fortement un second article le même jour.
 let probability = needed / runsLeft;
 let cap = '';
+
+// Plafond par séance. Sans lui, `needed / runsLeft` atteint 1 dès que l'objectif
+// égale le nombre de séances restantes, et le portillon publie mécaniquement à
+// chaque séance : un rythme de script, pas d'une rédaction. Le plafond garantit
+// qu'aucune séance n'est jamais acquise d'avance.
+if (probability > sessionChanceCap) {
+  probability = sessionChanceCap;
+  cap = `, plafonné à ${sessionChanceCap} par séance`;
+}
+
 if (publishedToday > 0) {
   probability = Math.min(probability, config.sameDayChance);
   cap = `, bridé à ${config.sameDayChance} car ${publishedToday} article(s) déjà publié(s) aujourd'hui`;
