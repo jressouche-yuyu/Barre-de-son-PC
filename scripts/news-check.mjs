@@ -13,6 +13,14 @@
  *   14 — la routine n'a jamais écouté ces barres de son ;
  *   15 — un superlatif absolu est une affirmation invérifiable.
  *
+ * ⚠ LES 17 CONTRÔLES SONT NUMÉROTÉS PAR POSITION. Aujourd'hui chaque section
+ * `═══ N.` produit exactement une ligne de rapport, donc les deux numérotations
+ * concordent — et les playbooks s'appuient dessus. Si tu insères un contrôle au
+ * milieu, renumérote les commentaires ET vérifie les renvois de
+ * `scripts/veille-playbook.md`, qui cite nommément les contrôles 5, 13, 14, 15,
+ * 16 et 17. Le même décalage a déjà induit un playbook en erreur sur
+ * `verifie-rendu.mjs`.
+ *
  * Usage : node scripts/news-check.mjs src/content/blog/<slug>.md
  * Sortie : une ligne ✓ ou ✗ par contrôle, puis un total.
  * Code de sortie : 1 s'il reste un seul ✗, 0 sinon.

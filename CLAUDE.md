@@ -98,9 +98,9 @@ est le seul fichier vers lequel la routine est pointée.
 | `scripts/news-ledger.json` + `news-record.mjs` | mémoire anti-doublon, versionnée dans Git |
 | `scripts/assign-photo.mjs` | illustration à trois étages, repli génératif garanti |
 | `scripts/faits-produits.md` | base anti-hallucination des 13 produits + désambiguïsation |
-| `scripts/verifie-rendu.mjs` | 12 contrôles sur le HTML réellement servi, après build |
+| `scripts/verifie-rendu.mjs` | 17 contrôles sur le HTML réellement servi, après build |
 | `scripts/simule-cadence.mjs` | rejoue une année de réveils pour valider la cadence |
-| `scripts/{veille,prix,liens,classements}-playbook.md` | les quatre playbooks de routine |
+| `scripts/{veille,produits,classements,liens}-playbook.md` | les quatre playbooks de routine (R1 blog, R2 fiches produits, R3 classements et sélection du mois, R4 liens) |
 
 **Branche de déploiement : `main`.** `.github/workflows/deploy.yml` ne se déclenche que sur
 `main`. Les routines poussent directement dessus : ni branche de travail, ni Pull Request,
