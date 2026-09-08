@@ -1,6 +1,6 @@
 # Playbook — R3 Classements et sélection du mois
 
-**Routine R3 — Classements & sélection du mois — cadence bimensuelle — cron `0 6 1,15 * *` (UTC).**
+**Routine R3 — Classements & sélection du mois — cadence bimensuelle — cron `23 6 1,15 * *` (UTC).**
 
 Deux missions, dans cet ordre d'importance :
 
@@ -16,6 +16,21 @@ de validation. Un classement mis à jour ailleurs n'est pas publié.
 **Un seul chantier par exécution** (garde-fou 10) : **le 1er, l'édition
 mensuelle ; le 15, la reprise des classements.** Jamais les deux dans le même
 passage, ni l'un des deux plus la page saisonnière.
+
+### Un passage hors calendrier ne publie RIEN
+
+Si la date du jour n'est ni le 1er ni le 15 — déclenchement manuel, cron rattrapé
+en retard, test de mise en service — tu es en **passage de vérification** :
+
+1. Fais l'étape 1 en entier (se placer sur `main`, relever l'état réel).
+2. Lance `npm ci && npm run check && npm run build && node scripts/verifie-rendu.mjs`.
+3. Rends compte de ce que tu ferais au prochain passage du 1er et du 15.
+4. **N'écris aucun fichier, ne commit pas, ne pousse pas.** Termine là.
+
+C'est volontaire : la valeur d'un passage hors calendrier est de prouver que la
+chaîne fonctionne — clonage, lecture du playbook, build, contrôles — pas de
+publier une édition à une date qui ne correspond à rien. Une édition « octobre »
+créée le 8 septembre serait une fausse date, et les archives ne se réécrivent pas.
 
 ---
 
