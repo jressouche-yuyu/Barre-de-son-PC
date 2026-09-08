@@ -10,6 +10,7 @@
 import { SITE } from '../consts';
 import type { Soundbar, Ranking, Guide } from '../data/types';
 import { AVAILABILITY_SCHEMA, priceBand } from './prix';
+import { resolveRankingItems } from '../data/rankings';
 
 const abs = (path: string) => new URL(path, SITE.url).href;
 
@@ -114,15 +115,15 @@ export function rankingItemListSchema(ranking: Ranking, resolve: (slug: string) 
     description: ranking.metaDescription,
     itemListOrder: 'https://schema.org/ItemListOrderDescending',
     numberOfItems: ranking.items.length,
-    itemListElement: ranking.items.map((item, i) => {
-      const sb = resolve(item.soundbar);
-      return {
-        '@type': 'ListItem',
-        position: i + 1,
-        name: sb?.name ?? item.soundbar,
-        url: abs(`/barres-de-son/${item.soundbar}`),
-      };
-    }),
+    // Même ordre que la page : les produits indisponibles y descendent aussi,
+    // sinon les données structurées annonceraient un n°1 que la page n'affiche
+    // pas en premier — une incohérence directement vérifiable par un moteur.
+    itemListElement: resolveRankingItems(ranking, resolve).map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.sb.name,
+      url: abs(`/barres-de-son/${item.sb.slug}`),
+    })),
   };
 }
 

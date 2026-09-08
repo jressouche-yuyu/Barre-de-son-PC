@@ -1,5 +1,5 @@
 import { annee } from '../lib/millesime';
-import type { Ranking } from './types';
+import type { Soundbar, Ranking } from './types';
 
 /**
  * Classements éditoriaux. Chaque classement cible une intention de recherche
@@ -232,4 +232,37 @@ export function getRanking(slug: string) {
 /** Classements dans lesquels figure une barre de son (maillage interne). */
 export function rankingsForSoundbar(slug: string) {
   return rankings.filter((r) => r.items.some((i) => i.soundbar === slug));
+}
+
+/**
+ * Résout les items d'un classement, en faisant DESCENDRE d'office tout produit
+ * qui n'est plus disponible.
+ *
+ * POURQUOI CE TRI EST DANS LE CODE ET PAS DANS UN PLAYBOOK
+ * -------------------------------------------------------
+ * La routine qui bascule un produit en « fin de commercialisation » tourne le
+ * lundi ; celle qui réordonne les classements ne se réveille que le 1er et le
+ * 15. Entre les deux, jusqu'à quatorze jours pendant lesquels un classement
+ * pouvait recommander en position 1, avec un argumentaire qui le vend, un
+ * produit que le lecteur ne peut plus acheter.
+ *
+ * Une règle portée par une routine dépend de son calendrier et de sa bonne
+ * santé. Portée par le rendu, elle est vraie en permanence — y compris si la
+ * routine tombe en panne, et sans attendre son prochain passage.
+ *
+ * L'ordre éditorial est conservé À L'INTÉRIEUR de chaque groupe : on ne
+ * réordonne pas le jugement, on écarte seulement ce qui n'est plus achetable.
+ * Les slugs inconnus sont ignorés silencieusement.
+ */
+export function resolveRankingItems(
+  ranking: Ranking,
+  resolve: (slug: string) => Soundbar | undefined,
+): { sb: Soundbar; why: string }[] {
+  const resolved = ranking.items
+    .map((item) => ({ sb: resolve(item.soundbar), why: item.why }))
+    .filter((x): x is { sb: Soundbar; why: string } => Boolean(x.sb));
+
+  const disponibles = resolved.filter((x) => x.sb.availability === 'disponible');
+  const autres = resolved.filter((x) => x.sb.availability !== 'disponible');
+  return [...disponibles, ...autres];
 }

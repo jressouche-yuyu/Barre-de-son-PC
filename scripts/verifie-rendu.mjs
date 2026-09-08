@@ -7,6 +7,11 @@
  * celui-ci ouvre le HTML de `dist/` et vérifie les invariants du site sur le
  * produit fini. C'est le seul niveau où une régression de gabarit se voit.
  *
+ * ⚠ LES NUMÉROS DU RAPPORT SONT POSITIONNELS. Ils se décalent dès qu'un contrôle
+ * est ajouté au milieu, et trois sections de ce fichier en émettent plusieurs.
+ * Ne cite JAMAIS « le contrôle 13 » dans un playbook : cite son libellé. Chaque
+ * section indique en commentaire les lignes du rapport qu'elle produit.
+ *
  * Usage : npm run build && node scripts/verifie-rendu.mjs
  * Code de sortie : 1 si un contrôle échoue.
  */
@@ -59,7 +64,7 @@ const read = (file) => readFileSync(file, 'utf-8');
 const routeOf = (file) =>
   `/${file.slice(DIST.length + 1).split(/[\\/]/).join('/').replace(/index\.html$/, '').replace(/\.html$/, '')}`;
 
-// ── 1. Les URLs de news.config.mjs existent bel et bien ─────────────────────
+// ── [rapport 1] Les URLs de news.config.mjs existent bel et bien ─────────────────────
 {
   const missing = [];
   const targets = [config.strategicPage.url, ...config.secondaryLinks.map((l) => l.url)];
@@ -75,7 +80,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 2. Les six pages de conformité sont servies ─────────────────────────────
+// ── [rapport 2] Les six pages de conformité sont servies ─────────────────────────────
 {
   const required = [
     'methodologie',
@@ -91,7 +96,7 @@ const routeOf = (file) =>
   check(missing.length === 0, 'Les six pages de conformité sont servies', missing.length ? `absentes : ${missing.join(', ')}` : '');
 }
 
-// ── 3. llms.txt est servi et renvoie vers la méthodologie ───────────────────
+// ── [rapport 3-4] llms.txt est servi et renvoie vers la méthodologie ───────────────────
 {
   const candidates = [join(DIST, 'llms.txt'), join(DIST, 'llms.txt', 'index.html')];
   const found = candidates.find((c) => existsSync(c));
@@ -104,7 +109,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 4. Aucune fiche produit n'affiche une gamme sans sa date ────────────────
+// ── [rapport 5] Aucune fiche produit n'affiche une gamme sans sa date ────────────────
 {
   const productPages = pages.filter((f) => routeOf(f).startsWith('/barres-de-son/') && routeOf(f) !== '/barres-de-son/');
   const offenders = [];
@@ -121,7 +126,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 5. Le schéma Product n'affirme plus de prix exact ──────────────────────
+// ── [rapport 6] Le schéma Product n'affirme plus de prix exact ──────────────────────
 {
   const offenders = [];
   for (const file of pages) {
@@ -141,7 +146,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 6. Tout lien marchand sortant porte rel="sponsored nofollow" ───────────
+// ── [rapport 7] Tout lien marchand sortant porte rel="sponsored nofollow" ───────────
 {
   const merchant = /href="https?:\/\/(?:www\.)?(?:amazon|amzn)\.[^"]*"/g;
   const offenders = [];
@@ -165,14 +170,14 @@ const routeOf = (file) =>
   );
 }
 
-// ── 7. robots.txt bloque toujours /go/ ─────────────────────────────────────
+// ── [rapport 8] robots.txt bloque toujours /go/ ─────────────────────────────────────
 {
   const robots = join(DIST, 'robots.txt');
   const body = existsSync(robots) ? read(robots) : '';
   check(/Disallow:\s*\/go\//.test(body), 'robots.txt contient Disallow: /go/', body ? '' : 'robots.txt absent');
 }
 
-// ── 8. Les pages /go/ restent hors sitemap et en noindex ───────────────────
+// ── [rapport 9-10] Les pages /go/ restent hors sitemap et en noindex ───────────────────
 {
   const goPages = pages.filter((f) => routeOf(f).startsWith('/go/'));
   const notNoindex = goPages.filter((f) => !/name="robots"[^>]*noindex/.test(read(f)));
@@ -187,7 +192,7 @@ const routeOf = (file) =>
   check(leaked.length === 0, 'Aucune page /go/ dans les sitemaps', leaked.length ? `fuite dans ${leaked.join(', ')}` : '');
 }
 
-// ── 9. Aucune revendication de test physique sur tout le site ──────────────
+// ── [rapport 11] Aucune revendication de test physique sur tout le site ──────────────
 {
   const pattern = /nous avons (?:testé|écouté|mesuré)|testé pendant \d|à l'écoute, nous|après \d+ (?:semaines|jours) d'utilisation/i;
   const offenders = pages.filter((f) => pattern.test(read(f).replace(/<[^>]+>/g, ' ')));
@@ -198,7 +203,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 10. La mention d'affiliation est reliée à sa page ──────────────────────
+// ── [rapport 12] La mention d'affiliation est reliée à sa page ──────────────────────
 {
   // Trois familles de pages n'ont volontairement aucun contenu éditorial, donc
   // aucune mention d'affiliation : les redirections /go/ (noindex, sans pied de
@@ -215,7 +220,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 11. Chaque édition de la sélection du mois a son adresse permanente ────
+// ── [rapport 13-15] Chaque édition de la sélection du mois a son adresse permanente ────
 {
   const editionsPath = join(HERE, '..', 'src', 'data', 'monthly.json');
   const editions = existsSync(editionsPath) ? JSON.parse(read(editionsPath)) : [];
@@ -254,7 +259,7 @@ const routeOf = (file) =>
   );
 }
 
-// ── 12. Aucun millésime périmé dans une balise title ──────────────────────
+// ── [rapport 16] Aucun millésime périmé dans une balise title ──────────────────────
 {
   // Le millésime des titres est calculé au build (`src/lib/millesime.ts`).
   // Ce contrôle empêche qu'une année soit réintroduite en dur : elle passerait
@@ -274,6 +279,38 @@ const routeOf = (file) =>
   check(
     offenders.length === 0,
     `Aucune balise title n'annonce une année antérieure à ${thisYear}`,
+    offenders.length ? offenders.slice(0, 3).join(' · ') : '',
+  );
+}
+
+// ── [rapport 17] Aucun produit indisponible au-dessus d'un disponible ─────
+{
+  // Garantie structurelle apportée par `resolveRankingItems()` : la routine qui
+  // bascule un produit en indisponible tourne le lundi, celle qui réordonne les
+  // classements le 1er et le 15. Sans ce tri au rendu, un classement pouvait
+  // recommander en position 1, pendant deux semaines, un produit non achetable.
+  const dataPath = join(HERE, '..', 'src', 'data', 'soundbars.ts');
+  const src = existsSync(dataPath) ? read(dataPath) : '';
+  const slugs = [...src.matchAll(/slug: '([^']+)'/g)].map((m) => m[1]);
+  const avails = [...src.matchAll(/availability: '([^']+)'/g)].map((m) => m[1]);
+  const etat = new Map(slugs.map((s, i) => [s, avails[i]]));
+
+  const offenders = [];
+  for (const file of pages.filter((f) => /^\/classements\/./.test(routeOf(f)))) {
+    // Ordre d'apparition des fiches produit dans le corps de la page.
+    const order = [];
+    for (const m of read(file).matchAll(/href="[^"]*\/barres-de-son\/([a-z0-9-]+)"/g)) {
+      if (!order.includes(m[1]) && etat.has(m[1])) order.push(m[1]);
+    }
+    const firstUnavailable = order.findIndex((s) => etat.get(s) !== 'disponible');
+    const lastAvailable = order.reduce((acc, s, i) => (etat.get(s) === 'disponible' ? i : acc), -1);
+    if (firstUnavailable !== -1 && firstUnavailable < lastAvailable) {
+      offenders.push(`${routeOf(file)} → ${order[firstUnavailable]} avant ${order[lastAvailable]}`);
+    }
+  }
+  check(
+    offenders.length === 0,
+    "Aucun classement ne place un produit indisponible avant un disponible",
     offenders.length ? offenders.slice(0, 3).join(' · ') : '',
   );
 }
