@@ -254,6 +254,30 @@ const routeOf = (file) =>
   );
 }
 
+// ── 12. Aucun millésime périmé dans une balise title ──────────────────────
+{
+  // Le millésime des titres est calculé au build (`src/lib/millesime.ts`).
+  // Ce contrôle empêche qu'une année soit réintroduite en dur : elle passerait
+  // le build, puis annoncerait l'année précédente à partir du 1er janvier.
+  // Les pages d'archive de la sélection du mois sont exemptées : leur titre
+  // porte volontairement le mois qu'elles décrivent.
+  const thisYear = new Date().getUTCFullYear();
+  const offenders = [];
+  for (const file of pages) {
+    const route = routeOf(file);
+    if (/^\/selection-du-mois\/\d{4}-\d{2}/.test(route)) continue;
+    const title = (read(file).match(/<title>([^<]*)<\/title>/) ?? [, ''])[1];
+    for (const m of title.matchAll(/\b(20\d{2})\b/g)) {
+      if (Number(m[1]) < thisYear) offenders.push(`${route} → « ${title.slice(0, 50)} »`);
+    }
+  }
+  check(
+    offenders.length === 0,
+    `Aucune balise title n'annonce une année antérieure à ${thisYear}`,
+    offenders.length ? offenders.slice(0, 3).join(' · ') : '',
+  );
+}
+
 // ── Rapport ────────────────────────────────────────────────────────────────
 console.log(`Vérification du rendu — ${pages.length} pages HTML dans dist/\n`);
 results.forEach((r, i) => {

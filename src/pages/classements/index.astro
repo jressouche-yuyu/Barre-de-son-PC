@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { rankings } from '../../data/rankings';
 import { breadcrumbSchema } from '../../lib/schema';
+import { annee } from '../../lib/millesime';
 import { url } from '../../lib/url';
 
 const crumbs = [
@@ -13,7 +14,7 @@ const jsonLd = [breadcrumbSchema(crumbs)];
 ---
 
 <BaseLayout
-  title="Meilleures barres de son PC : nos classements 2026"
+  title={`Meilleures barres de son PC : nos classements ${annee()}`}
   description="Nos classements des meilleures barres de son PC par usage : général, gaming, petit budget, compactes et polyvalentes. Sélections indépendantes et à jour."
   path="/classements"
   jsonLd={jsonLd}

@@ -1,3 +1,4 @@
+import { annee } from '../lib/millesime';
 import type { Ranking } from './types';
 
 /**
@@ -8,12 +9,12 @@ import type { Ranking } from './types';
 export const rankings: Ranking[] = [
   {
     slug: 'meilleures-barres-de-son-pc',
-    title: 'Les meilleures barres de son pour PC en 2026',
+    title: `Les meilleures barres de son pour PC en ${annee()}`,
     subtitle: 'Notre classement général, toutes catégories confondues',
     cover: '/images/rankings/meilleures-barres-de-son-pc.webp',
     coverAlt: 'Barre de son sur un podium, classement de référence',
     metaDescription:
-      'Classement 2026 des meilleures barres de son pour PC. Comparatif indépendant : son, basses, connectique et rapport qualité-prix.',
+      `Classement ${annee()} des meilleures barres de son pour PC. Comparatif indépendant : son, basses, connectique et rapport qualité-prix.`,
     intro:
       'Choisir une barre de son pour PC, c\'est arbitrer entre encombrement sur le bureau, qualité sonore et connectique adaptée à un usage informatique (USB-C, Bluetooth, jack). Ce classement général réunit nos meilleures recommandations toutes catégories confondues, du modèle premium à son 3D au combo abordable, après évaluation sur cinq critères pondérés.',
     items: [
@@ -25,7 +26,7 @@ export const rankings: Ranking[] = [
     ],
     faq: [
       {
-        question: 'Quelle est la meilleure barre de son pour PC en 2026 ?',
+        question: `Quelle est la meilleure barre de son pour PC en ${annee()} ?`,
         answer:
           'Pour l\'immersion gaming, la Razer Leviathan V2 Pro arrive en tête grâce à son audio 3D à suivi de tête. Pour la polyvalence et la connectique (PC, console, TV), la Creative Sound Blaster Katana V2 est notre référence. À budget contenu, la Razer Leviathan V2 et la Creative Stage V2 offrent le meilleur compromis.',
       },
@@ -49,7 +50,7 @@ export const rankings: Ranking[] = [
     cover: '/images/rankings/meilleures-barres-de-son-pc-gaming.webp',
     coverAlt: 'Setup gaming avec barre de son et ambiance RGB',
     metaDescription:
-      'Comparatif des meilleures barres de son gaming pour PC : audio immersif, basses puissantes et éclairage RGB. Sélection 2026.',
+      `Comparatif des meilleures barres de son gaming pour PC : audio immersif, basses puissantes et éclairage RGB. Sélection ${annee()}.`,
     intro:
       'Pour le jeu, on attend d\'une barre de son une spatialisation convaincante (THX Spatial, Super X-Fi), des basses qui retranscrivent les explosions et, souvent, un éclairage RGB raccord avec le setup. Voici notre sélection orientée gaming, des modèles à son 3D aux options RGB compactes.',
     items: [
@@ -139,7 +140,7 @@ export const rankings: Ranking[] = [
     cover: '/images/rankings/meilleures-barres-de-son-pc-polyvalentes.webp',
     coverAlt: 'Barre de son reliée à un PC, une TV et une console',
     metaDescription:
-      'Barres de son PC polyvalentes : USB, HDMI ARC, optique et Bluetooth pour passer du PC à la console et à la TV. Comparatif 2026.',
+      `Barres de son PC polyvalentes : USB, HDMI ARC, optique et Bluetooth pour passer du PC à la console et à la TV. Comparatif ${annee()}.`,
     intro:
       'Un même bureau sert souvent de poste de jeu, de salle de cinéma et parfois de coin TV. Les barres dotées d\'une connectique riche (USB-C, HDMI ARC, optique, Bluetooth) basculent d\'une source à l\'autre sans rebrancher quoi que ce soit. Voici les plus polyvalentes.',
     items: [
@@ -168,7 +169,7 @@ export const rankings: Ranking[] = [
     cover: '/images/rankings/meilleures-barres-de-son-pc-sans-fil.webp',
     coverAlt: 'Barre de son PC diffusant des ondes Bluetooth sans fil',
     metaDescription:
-      'Comparatif des meilleures barres de son PC sans fil (Bluetooth) : connexion mobile facile, modèles compacts et nomades. Sélection 2026.',
+      `Comparatif des meilleures barres de son PC sans fil (Bluetooth) : connexion mobile facile, modèles compacts et nomades. Sélection ${annee()}.`,
     intro:
       'Le sans-fil ne remplace pas l\'USB pour le jeu (latence), mais le Bluetooth est idéal en appoint : garder le PC branché et diffuser ponctuellement depuis un smartphone, ou opter pour un modèle nomade sur batterie. Voici nos barres de son PC les plus pratiques en Bluetooth.',
     items: [
@@ -198,7 +199,7 @@ export const rankings: Ranking[] = [
     cover: '/images/rankings/meilleures-barres-de-son-pc-avec-caisson.webp',
     coverAlt: 'Barre de son PC accompagnée d\'un caisson de basses lumineux',
     metaDescription:
-      'Comparatif des meilleures barres de son PC avec caisson de basses : impact, profondeur et immersion pour le gaming et les films. Sélection 2026.',
+      `Comparatif des meilleures barres de son PC avec caisson de basses : impact, profondeur et immersion pour le gaming et les films. Sélection ${annee()}.`,
     intro:
       'Un caisson de basses dédié change tout pour le jeu et le cinéma : explosions, ambiances et bandes-son gagnent en impact physique. Voici nos barres de son PC livrées avec un caisson, de la référence premium au combo abordable.',
     items: [

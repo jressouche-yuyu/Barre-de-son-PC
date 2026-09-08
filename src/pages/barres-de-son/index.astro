@@ -5,6 +5,7 @@ import SoundbarCard from '../../components/SoundbarCard.astro';
 import { soundbarsByScore } from '../../data/soundbars';
 import { brands } from '../../data/brands';
 import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+import { annee } from '../../lib/millesime';
 import { url } from '../../lib/url';
 
 const all = soundbarsByScore();
@@ -25,7 +26,7 @@ const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
 ---
 
 <BaseLayout
-  title="Barres de son PC : tous nos tests et avis (2026)"
+  title={`Barres de son PC : tous nos tests et avis (${annee()})`}
   description="Toutes les barres de son pour PC testées et notées sur 5 critères, classées par note : Razer, Creative, Edifier, Logitech… Fiches détaillées, prix et avis."
   path="/barres-de-son"
   jsonLd={jsonLd}

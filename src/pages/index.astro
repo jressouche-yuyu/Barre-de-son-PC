@@ -8,6 +8,7 @@ import { availableSoundbarsByScore } from '../data/soundbars';
 import { rankings } from '../data/rankings';
 import { guides } from '../data/guides';
 import { faqSchema, breadcrumbSchema, soundbarsItemListSchema } from '../lib/schema';
+import { annee } from '../lib/millesime';
 import { url } from '../lib/url';
 
 // Le top de la page d'accueil est une RECOMMANDATION : on n'y met que des
@@ -32,7 +33,7 @@ const homeFaq = [
       'Regardez d\'abord la connectique (USB-C idéal sur PC, Bluetooth en appoint), la présence ou non d\'un caisson de basses, l\'encombrement sous votre moniteur, et les options gaming (RGB, son spatial). Fixez ensuite un budget : nos classements par usage et notre comparateur facilitent le choix.',
   },
   {
-    question: 'Quelle est la meilleure barre de son PC en 2026 ?',
+    question: `Quelle est la meilleure barre de son PC en ${annee()} ?`,
     answer:
       'Pour l\'immersion gaming, la Razer Leviathan V2 Pro est notre référence. Pour la polyvalence (PC, console, TV), la Creative Sound Blaster Katana V2. À petit budget, la Creative Stage V2 offre le meilleur rapport qualité-prix. Voir notre classement général pour le détail.',
   },
@@ -66,7 +67,7 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title="Barre de son PC : comparatif et meilleurs modèles 2026"
+  title={`Barre de son PC : comparatif et meilleurs modèles ${annee()}`}
   description="Quelle barre de son pour PC choisir ? Comparatif indépendant, classements par usage et guides d'achat des meilleures barres de son PC : gaming, télétravail, petit budget."
   path="/"
   jsonLd={jsonLd}
@@ -84,14 +85,14 @@ const jsonLd = [
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-text">
-        <p class="eyebrow">Comparatif indépendant · Mis à jour en 2026</p>
+        <p class="eyebrow">Comparatif indépendant · Mis à jour en {annee()}</p>
         <h1>La meilleure barre de son pour PC</h1>
         <p class="lead">
           Classements par usage, tests détaillés et guides d'achat pour choisir
           la barre de son PC idéale : gaming, télétravail, musique ou petit budget.
         </p>
         <div class="hero-actions">
-          <a class="btn" href={url('/classements/meilleures-barres-de-son-pc')}>Voir le classement 2026</a>
+          <a class="btn" href={url('/classements/meilleures-barres-de-son-pc')}>Voir le classement {annee()}</a>
           <a class="btn btn-ghost" href={url('/comparateur')}>Comparer les modèles</a>
         </div>
       </div>
