@@ -24,6 +24,15 @@ interface Props {
   publishedTime?: string;
   /** Date de modification ISO (articles). */
   modifiedTime?: string;
+  /**
+   * Force l'URL canonique vers un autre chemin que celui de la page.
+   *
+   * Utile quand deux URL servent volontairement le même contenu : l'édition
+   * courante de la sélection du mois vit à la fois sur `/selection-du-mois/`
+   * (la page d'atterrissage, qui a l'historique) et sur son URL d'archive
+   * permanente. Sans canonique explicite, ce sont deux pages en doublon.
+   */
+  canonicalPath?: string;
 }
 
 const {
@@ -35,12 +44,26 @@ const {
   jsonLd = [],
   publishedTime,
   modifiedTime,
+  canonicalPath,
 } = Astro.props;
 
 // Origine du déploiement courant (domaine de prod, ou github.io en préversion).
 const origin = Astro.site ?? new URL(SITE.url);
 // `Astro.url.pathname` inclut déjà le base path éventuel → URL canonique fiable.
-const canonical = new URL(Astro.url.pathname, origin).href;
+/**
+ * URL canonique.
+ *
+ * Le slash final est normalisé : les pages du site sont servies avec (Astro
+ * génère `<chemin>/index.html`), donc un canonique sans slash désignerait une
+ * autre URL que la page visée — et un canonique qui ne pointe pas exactement
+ * sur la page cible ne sert à rien.
+ */
+const withTrailingSlash = (path: string) =>
+  path.endsWith('/') || /\.[a-z0-9]+$/i.test(path) ? path : `${path}/`;
+const canonical = new URL(
+  withTrailingSlash(canonicalPath ? url(canonicalPath) : Astro.url.pathname),
+  origin,
+).href;
 const ogImage = image.startsWith('http') ? image : new URL(url(image), origin).href;
 const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
 // `SITE.noindex` force la non-indexation sur tout le site (préparation au lancement).

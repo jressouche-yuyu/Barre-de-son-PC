@@ -1,32 +1,69 @@
 ---
+/**
+ * Page d'atterrissage de « Notre sélection du mois ».
+ *
+ * Affiche l'édition en cours, et donne accès aux éditions archivées, qui ont
+ * chacune leur URL permanente (`selection-du-mois/[id].astro`). C'est cette
+ * page qui porte l'historique de référencement de la rubrique : elle reste donc
+ * la version canonique de l'édition courante.
+ */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CoverArt from '../../components/CoverArt.astro';
-import SoundbarCard from '../../components/SoundbarCard.astro';
+import MonthlyEdition from '../../components/MonthlyEdition.astro';
 import { monthlyEditions, latestEdition, statusLabel } from '../../data/monthly';
-import { getSoundbar } from '../../data/soundbars';
-import type { Soundbar } from '../../data/types';
 import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+import { SITE } from '../../consts';
+import { url } from '../../lib/url';
 
 const edition = latestEdition();
-const picks = edition.picks
-  .map((p) => ({ sb: getSoundbar(p.soundbar), note: p.note }))
-  .filter((x): x is { sb: Soundbar; note: string } => Boolean(x.sb));
+const archives = monthlyEditions.slice(1);
 
 const crumbs = [
   { name: 'Accueil', path: '/' },
   { name: 'Sélection du mois', path: '/selection-du-mois' },
 ];
 
+const dateFmt = (iso: string) =>
+  new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeZone: 'UTC' }).format(
+    new Date(`${iso.slice(0, 10)}T12:00:00Z`),
+  );
+
 const faq = [
   {
     question: 'À quelle fréquence la sélection est-elle mise à jour ?',
     answer:
-      'Notre sélection du mois est actualisée le 2 de chaque mois. Nous indiquons clairement s\'il y a de nouvelles entrées, des sorties récentes, ou si le marché est resté stable.',
+      "Notre sélection du mois est actualisée au début de chaque mois. Nous indiquons clairement s'il y a de nouvelles entrées, des sorties récentes, ou si le marché est resté stable.",
+  },
+  {
+    question: 'Peut-on consulter les sélections des mois précédents ?',
+    answer:
+      "Oui. Chaque édition conserve son adresse permanente et n'est jamais réécrite : vous pouvez comparer l'état du marché d'un mois à l'autre depuis la liste des éditions précédentes.",
+  },
+  {
+    question: 'Que se passe-t-il un mois sans nouveauté ?',
+    answer:
+      "Nous le disons. Un mois sans sortie est publié avec le statut « marché stable » et la sélection reste la même : inventer une nouveauté pour remplir la rubrique n'aiderait personne.",
   },
 ];
 
-const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
+// Liste ordonnée des éditions — surface de citation pour les moteurs génératifs,
+// et signal explicite que la rubrique a bien une histoire mensuelle.
+const editionsList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Éditions de la sélection du mois',
+  numberOfItems: monthlyEditions.length,
+  itemListOrder: 'https://schema.org/ItemListOrderDescending',
+  itemListElement: monthlyEditions.map((e, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: `Sélection du mois — ${e.label}`,
+    url: new URL(url(`/selection-du-mois/${e.id}`), SITE.url).href,
+  })),
+};
+
+const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq), editionsList];
 ---
 
 <BaseLayout
@@ -47,47 +84,24 @@ const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
       <p class="lead">{edition.intro}</p>
     </header>
 
-    <div class={`status status-${edition.status}`}>
-      <span class="status-tag">{statusLabel(edition.status)}</span>
-      <p>{edition.headline}</p>
-    </div>
-
-    <h2>La sélection</h2>
-    <div class="grid grid-3">
-      {picks.map((p, i) => <SoundbarCard soundbar={p.sb} rank={i + 1} />)}
-    </div>
-
-    <div class="grid grid-2" style="margin-top: var(--space-8)">
-      <section class="panel">
-        <h2 style="margin-top:0">🆕 Sorties &amp; nouveautés</h2>
-        {
-          edition.newReleases.length > 0 ? (
-            <ul>{edition.newReleases.map((r) => <li>{r}</li>)}</ul>
-          ) : (
-            <p class="muted">Aucune nouvelle sortie ce mois-ci.</p>
-          )
-        }
-      </section>
-      <section class="panel">
-        <h2 style="margin-top:0">🔮 À venir</h2>
-        {
-          edition.upcoming.length > 0 ? (
-            <ul>{edition.upcoming.map((r) => <li>{r}</li>)}</ul>
-          ) : (
-            <p class="muted">Rien d'annoncé pour le moment.</p>
-          )
-        }
-      </section>
-    </div>
+    <MonthlyEdition edition={edition} />
 
     {
-      monthlyEditions.length > 1 && (
+      archives.length > 0 && (
         <section style="margin-top: var(--space-12)">
           <h2>Éditions précédentes</h2>
+          <p class="muted">
+            Chaque édition garde son adresse et n'est jamais réécrite : c'est ce qui permet de
+            comparer l'état du marché d'un mois à l'autre.
+          </p>
           <ul class="archive">
-            {monthlyEditions.slice(1).map((e) => (
+            {archives.map((e) => (
               <li>
-                <strong>{e.label}</strong> — {statusLabel(e.status)} : {e.headline}
+                <a class="archive-link" href={url(`/selection-du-mois/${e.id}`)}>
+                  <span class="archive-month">{e.label}</span>
+                  <span class="archive-status">{statusLabel(e.status)}</span>
+                </a>
+                <p class="archive-headline">{e.headline}</p>
               </li>
             ))}
           </ul>
@@ -96,7 +110,8 @@ const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
     }
 
     <p class="muted" style="margin-top: var(--space-12)">
-      Rubrique actualisée le 2 de chaque mois. Dernière mise à jour : {edition.publishedAt}.
+      Rubrique actualisée au début de chaque mois. Édition en cours publiée le
+      {' '}{dateFmt(edition.publishedAt)}.
     </p>
   </div>
 </BaseLayout>
@@ -105,62 +120,42 @@ const jsonLd = [breadcrumbSchema(crumbs), faqSchema(faq)];
   .sel-cover {
     margin-top: var(--space-6);
   }
-  .status {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--space-4) var(--space-6);
-    margin-bottom: var(--space-8);
-  }
-  .status p {
-    margin: 0;
-    font-weight: 600;
-  }
-  .status-tag {
-    align-self: flex-start;
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-  }
-  .status-stable {
-    background: rgba(154, 166, 192, 0.08);
-    border-color: var(--border);
-  }
-  .status-stable .status-tag {
-    background: var(--surface-2);
-    color: var(--text-muted);
-  }
-  .status-nouveautes {
-    background: rgba(37, 208, 164, 0.08);
-    border-color: rgba(37, 208, 164, 0.35);
-  }
-  .status-nouveautes .status-tag {
-    background: rgba(37, 208, 164, 0.18);
-    color: var(--accent);
-  }
-  .status-a-venir {
-    background: rgba(255, 180, 84, 0.08);
-    border-color: rgba(255, 180, 84, 0.35);
-  }
-  .status-a-venir .status-tag {
-    background: rgba(255, 180, 84, 0.18);
-    color: var(--warning);
-  }
-  .panel {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--space-6);
-    background: var(--surface);
-  }
   .muted {
     color: var(--text-muted);
   }
   .archive {
-    padding-left: 1.1rem;
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-6);
+  }
+  .archive > li {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .archive > li:last-child {
+    border-bottom: none;
+  }
+  .archive-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-weight: 700;
+  }
+  .archive-month {
+    font-size: 1.0625rem;
+  }
+  /* Le statut est un libellé, jamais une couleur seule. */
+  .archive-status {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+  }
+  .archive-headline {
+    margin: var(--space-2) 0 0;
+    color: var(--text-muted);
+    line-height: 1.6;
   }
 </style>

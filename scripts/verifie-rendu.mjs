@@ -215,6 +215,45 @@ const routeOf = (file) =>
   );
 }
 
+// ── 11. Chaque édition de la sélection du mois a son adresse permanente ────
+{
+  const editionsPath = join(HERE, '..', 'src', 'data', 'monthly.json');
+  const editions = existsSync(editionsPath) ? JSON.parse(read(editionsPath)) : [];
+  const missing = editions.filter((e) => !existsSync(join(DIST, 'selection-du-mois', e.id, 'index.html')));
+  check(
+    editions.length > 0 && missing.length === 0,
+    `Les ${editions.length} éditions de la sélection du mois ont leur page d'archive`,
+    missing.length ? `absentes : ${missing.map((e) => e.id).join(', ')}` : '',
+  );
+
+  // L'édition courante est servie à deux adresses : sans canonique explicite
+  // vers la page d'atterrissage, ce sont deux pages en doublon.
+  const latest = editions[0];
+  const latestFile = latest && join(DIST, 'selection-du-mois', latest.id, 'index.html');
+  const canonical = latestFile && existsSync(latestFile)
+    ? (read(latestFile).match(/<link rel="canonical" href="([^"]*)"/) ?? [, ''])[1]
+    : '';
+  check(
+    canonical.endsWith('/selection-du-mois/'),
+    "L'édition courante pointe son canonique vers /selection-du-mois/",
+    canonical || 'canonique introuvable',
+  );
+
+  // Une archive retouchée n'est plus une archive : son lastmod ne doit pas
+  // porter une date postérieure à sa publication.
+  const drifted = editions.slice(1).filter((e) => {
+    const file = join(DIST, 'selection-du-mois', e.id, 'index.html');
+    if (!existsSync(file)) return false;
+    const mod = (read(file).match(/property="article:modified_time" content="([^"]*)"/) ?? [, ''])[1];
+    return mod && mod.slice(0, 10) > String(e.publishedAt).slice(0, 10);
+  });
+  check(
+    drifted.length === 0,
+    'Aucune édition archivée ne porte une date de modification postérieure',
+    drifted.length ? `dérive sur : ${drifted.map((e) => e.id).join(', ')}` : '',
+  );
+}
+
 // ── Rapport ────────────────────────────────────────────────────────────────
 console.log(`Vérification du rendu — ${pages.length} pages HTML dans dist/\n`);
 results.forEach((r, i) => {

@@ -1,0 +1,143 @@
+---
+/**
+ * Corps d'une édition de « Notre sélection du mois ».
+ *
+ * Partagé par la page d'atterrissage `/selection-du-mois/` (qui affiche
+ * l'édition courante) et par chaque page d'archive `/selection-du-mois/<id>/`.
+ * Une seule implémentation : sans ça, l'archive et la page courante finiraient
+ * par diverger — l'une afficherait un champ que l'autre a oublié de rendre.
+ */
+import SoundbarCard from './SoundbarCard.astro';
+import { statusLabel } from '../data/monthly';
+import type { MonthlyEdition } from '../data/monthly';
+import { getSoundbar } from '../data/soundbars';
+import type { Soundbar } from '../data/types';
+
+interface Props {
+  edition: MonthlyEdition;
+}
+
+const { edition } = Astro.props;
+
+// Les slugs inconnus sont ignorés silencieusement : une archive doit continuer
+// de s'afficher même si un produit a été renommé depuis sa publication.
+const picks = edition.picks
+  .map((p) => ({ sb: getSoundbar(p.soundbar), note: p.note }))
+  .filter((x): x is { sb: Soundbar; note: string } => Boolean(x.sb));
+---
+
+<div class={`status status-${edition.status}`}>
+  <span class="status-tag">{statusLabel(edition.status)}</span>
+  <p>{edition.headline}</p>
+</div>
+
+<h2>La sélection</h2>
+<div class="grid grid-3">
+  {picks.map((p, i) => <SoundbarCard soundbar={p.sb} rank={i + 1} />)}
+</div>
+
+<ul class="pick-notes">
+  {
+    picks.map((p, i) => (
+      <li>
+        <strong>{i + 1}. {p.sb.name}</strong> — {p.note}
+      </li>
+    ))
+  }
+</ul>
+
+<div class="grid grid-2" style="margin-top: var(--space-8)">
+  <section class="panel">
+    <h2 style="margin-top:0">Sorties &amp; nouveautés</h2>
+    {
+      edition.newReleases.length > 0 ? (
+        <ul>{edition.newReleases.map((r) => <li>{r}</li>)}</ul>
+      ) : (
+        <p class="muted">Aucune nouvelle sortie sur ce mois.</p>
+      )
+    }
+  </section>
+  <section class="panel">
+    <h2 style="margin-top:0">À venir</h2>
+    {
+      edition.upcoming.length > 0 ? (
+        <ul>{edition.upcoming.map((r) => <li>{r}</li>)}</ul>
+      ) : (
+        <p class="muted">Rien d'annoncé à la date de cette édition.</p>
+      )
+    }
+  </section>
+</div>
+
+<style>
+  .status {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+  .status p {
+    margin: 0;
+    font-weight: 600;
+  }
+  /* Le statut est porté par le LIBELLÉ, pas par la couleur : la pastille reste
+     lisible et explicite en niveaux de gris comme pour un lecteur d'écran. */
+  .status-tag {
+    align-self: flex-start;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+  .status-stable {
+    background: rgba(154, 166, 192, 0.08);
+    border-color: var(--border);
+  }
+  .status-stable .status-tag {
+    background: var(--surface-2);
+    /* --text-muted sur --surface-2 : 6,53:1 */
+    color: var(--text-muted);
+  }
+  .status-nouveautes {
+    background: rgba(37, 208, 164, 0.08);
+    border-color: rgba(37, 208, 164, 0.35);
+  }
+  .status-nouveautes .status-tag {
+    background: rgba(37, 208, 164, 0.18);
+    /* --accent #25d0a4 sur ce fond : 8,4:1 */
+    color: var(--accent);
+  }
+  .status-a-venir {
+    background: rgba(255, 180, 84, 0.08);
+    border-color: rgba(255, 180, 84, 0.35);
+  }
+  .status-a-venir .status-tag {
+    background: rgba(255, 180, 84, 0.18);
+    /* --warning #ffb454 sur ce fond : 10,1:1 */
+    color: var(--warning);
+  }
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    background: var(--surface);
+  }
+  .muted {
+    color: var(--text-muted);
+  }
+  /* Les justifications de chaque choix, en clair dans le HTML : c'est le texte
+     que reprend un moteur génératif, et les cartes produit ne le portent pas. */
+  .pick-notes {
+    margin-top: var(--space-6);
+    padding-left: 1.1rem;
+  }
+  .pick-notes li {
+    margin-bottom: var(--space-3);
+    line-height: 1.6;
+  }
+</style>

@@ -20,6 +20,7 @@ import { soundbars } from '../data/soundbars.ts';
 import { rankings } from '../data/rankings.ts';
 import { guides } from '../data/guides.ts';
 import { brands } from '../data/brands.ts';
+import { monthlyEditions } from '../data/monthly';
 
 export interface SitemapMeta {
   /** Date ISO de dernière modification (W3C datetime). */
@@ -183,11 +184,27 @@ export function buildSitemapLookup(): Map<string, SitemapMeta> {
     changefreq: 'weekly',
     priority: 0.9,
   });
+  // La page d'atterrissage porte la date de l'édition en cours — et pas la date
+  // de fraîcheur globale du site : c'est cette édition que la page affiche, et
+  // un `lastmod` qui bouge sans que le contenu change est un signal creux.
+  const latestMonthly = monthlyEditions[0];
   map.set('selection-du-mois', {
-    lastmod: globalMax,
+    lastmod: toIso(latestMonthly?.publishedAt) ?? globalMax,
     changefreq: 'monthly',
     priority: 0.8,
   });
+
+  // Une entrée par édition archivée. Elles ne changent plus jamais : `never`.
+  // L'édition la plus récente est canonique sur la page d'atterrissage, elle
+  // n'entre donc pas au sitemap sous son URL d'archive.
+  for (const [index, e] of monthlyEditions.entries()) {
+    if (index === 0) continue;
+    map.set(`selection-du-mois/${e.id}`, {
+      lastmod: toIso(e.publishedAt),
+      changefreq: 'never',
+      priority: 0.4,
+    });
+  }
   map.set('barres-de-son', {
     lastmod: productsMax,
     changefreq: 'weekly',

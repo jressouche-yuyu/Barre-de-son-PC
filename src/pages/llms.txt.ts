@@ -28,6 +28,7 @@ import { rankings } from '../data/rankings';
 import { soundbarsByScore } from '../data/soundbars';
 import { guides } from '../data/guides';
 import { brands } from '../data/brands';
+import { monthlyEditions, statusLabel } from '../data/monthly';
 
 /** Page statique : générée au build, servie comme un fichier. */
 export const prerender = true;
@@ -96,12 +97,6 @@ export async function GET(context: APIContext): Promise<Response> {
       path: '/comparateur',
       description:
         'Tableau comparatif filtrable de tous les modèles : notes, gamme de prix, connectique, caisson, micro, dimensions.',
-    },
-    {
-      title: 'Sélection du mois',
-      path: '/selection-du-mois',
-      description:
-        "Édition mensuelle : modèles retenus du moment et état du marché des barres de son PC.",
     },
     {
       title: 'Contact',
@@ -181,6 +176,21 @@ export async function GET(context: APIContext): Promise<Response> {
     ...posts.map((p) => entry(p.data.title, `/blog/${p.id}`, p.data.description)),
     '',
     `- [Tous les articles](${abs('/blog')}) : index du blog.`,
+    '',
+    `## Sélection du mois (${monthlyEditions.length} édition${monthlyEditions.length > 1 ? 's' : ''})`,
+    '',
+    "État du marché mois par mois. Chaque édition garde son adresse permanente et n'est jamais réécrite : c'est ce qui permet de comparer l'état du marché d'un mois à l'autre. Un mois sans nouveauté est publié comme tel plutôt que rempli artificiellement.",
+    '',
+    `- [Édition en cours](${abs('/selection-du-mois')}) : ${monthlyEditions[0].label} — ${monthlyEditions[0].headline}`,
+    ...monthlyEditions
+      .slice(1)
+      .map((e) =>
+        entry(
+          `Sélection du mois — ${e.label}`,
+          `/selection-du-mois/${e.id}`,
+          `${statusLabel(e.status)}. ${e.headline}`,
+        ),
+      ),
     '',
     '## Pages de référence',
     '',

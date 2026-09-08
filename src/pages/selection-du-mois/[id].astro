@@ -1,0 +1,145 @@
+---
+/**
+ * Page d'archive d'une édition de « Notre sélection du mois ».
+ *
+ * POURQUOI CES PAGES EXISTENT
+ * ---------------------------
+ * La rubrique produit douze éditions par an. Sans URL propre, onze d'entre
+ * elles étaient réduites à une ligne de résumé sur la page d'atterrissage :
+ * l'intro, les justifications de chaque choix, les sorties constatées — tout
+ * disparaissait au passage du mois suivant. Une routine qui écrase le travail
+ * du mois précédent ne construit rien.
+ *
+ * Chaque édition a donc son adresse permanente `/selection-du-mois/<AAAA-MM>/`.
+ * L'édition la plus récente est servie aux DEUX adresses (ici et sur la page
+ * d'atterrissage) : elle porte donc un canonique explicite vers
+ * `/selection-du-mois/` pour ne pas créer de doublon.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverArt from '../../components/CoverArt.astro';
+import MonthlyEdition from '../../components/MonthlyEdition.astro';
+import { monthlyEditions, statusLabel } from '../../data/monthly';
+import { breadcrumbSchema } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+export function getStaticPaths() {
+  return monthlyEditions.map((edition, index) => ({
+    params: { id: edition.id },
+    props: {
+      edition,
+      // Les éditions sont rangées de la plus récente à la plus ancienne.
+      isLatest: index === 0,
+      newer: monthlyEditions[index - 1],
+      older: monthlyEditions[index + 1],
+    },
+  }));
+}
+
+const { edition, isLatest, newer, older } = Astro.props;
+
+const crumbs = [
+  { name: 'Accueil', path: '/' },
+  { name: 'Sélection du mois', path: '/selection-du-mois' },
+  { name: edition.label, path: `/selection-du-mois/${edition.id}` },
+];
+
+const dateFmt = (iso: string) =>
+  new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeZone: 'UTC' }).format(
+    new Date(`${iso.slice(0, 10)}T12:00:00Z`),
+  );
+---
+
+<BaseLayout
+  title={`Sélection du mois — ${edition.label}`}
+  description={edition.headline}
+  path={`/selection-du-mois/${edition.id}`}
+  canonicalPath={isLatest ? '/selection-du-mois' : undefined}
+  ogType="article"
+  publishedTime={edition.publishedAt}
+  modifiedTime={edition.publishedAt}
+  jsonLd={[breadcrumbSchema(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <CoverArt seed={`selection-${edition.id}`} variant="banner" icon="🗓️" class="sel-cover" />
+
+    <header class="section" style="padding-top: var(--space-6); padding-bottom: var(--space-4)">
+      <p class="eyebrow">Archive · édition du {dateFmt(edition.publishedAt)}</p>
+      <h1>Sélection du mois — {edition.label}</h1>
+      <p class="lead">{edition.intro}</p>
+    </header>
+
+    {
+      !isLatest && (
+        <p class="archive-warning">
+          {/* Un lecteur qui arrive ici par un moteur doit savoir immédiatement
+              qu'il lit un état du marché daté, pas la recommandation du jour. */}
+          <strong>Cette édition est archivée.</strong> Elle décrit le marché tel qu'il était en
+          {' '}{edition.label.toLowerCase()} et n'a pas été modifiée depuis. Pour nos
+          recommandations à jour, voir{' '}
+          <a href={url('/selection-du-mois')}>la sélection du mois en cours</a>.
+        </p>
+      )
+    }
+
+    <MonthlyEdition edition={edition} />
+
+    <nav class="edition-nav" aria-label="Navigation entre les éditions">
+      {
+        older ? (
+          <a class="btn btn-ghost" href={url(`/selection-du-mois/${older.id}`)}>
+            ← {older.label}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      <a class="btn btn-ghost" href={url('/selection-du-mois')}>Toutes les éditions</a>
+      {
+        newer ? (
+          <a class="btn btn-ghost" href={url(`/selection-du-mois/${newer.id}`)}>
+            {newer.label} →
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+
+    <p class="muted" style="margin-top: var(--space-8)">
+      Édition publiée le {dateFmt(edition.publishedAt)} · statut du marché :
+      {' '}{statusLabel(edition.status).toLowerCase()}. Les éditions archivées ne sont jamais
+      réécrites : une archive retouchée n'est plus une archive.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .sel-cover {
+    margin-top: var(--space-6);
+  }
+  .archive-warning {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--warning);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-8);
+    /* --text sur --bg-soft : 14,95:1 */
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  .edition-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+  .muted {
+    color: var(--text-muted);
+  }
+</style>

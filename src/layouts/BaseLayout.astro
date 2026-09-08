@@ -22,6 +22,8 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   publishedTime?: string;
   modifiedTime?: string;
+  /** Force l'URL canonique (voir Seo.astro). */
+  canonicalPath?: string;
 }
 
 const props = Astro.props;
