@@ -4,13 +4,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SoundbarCard from '../components/SoundbarCard.astro';
 import CoverArt from '../components/CoverArt.astro';
 import Faq from '../components/Faq.astro';
-import { soundbarsByScore } from '../data/soundbars';
+import { availableSoundbarsByScore } from '../data/soundbars';
 import { rankings } from '../data/rankings';
 import { guides } from '../data/guides';
 import { faqSchema, breadcrumbSchema, soundbarsItemListSchema } from '../lib/schema';
 import { url } from '../lib/url';
 
-const top = soundbarsByScore().slice(0, 3);
+// Le top de la page d'accueil est une RECOMMANDATION : on n'y met que des
+// produits qu'un lecteur peut effectivement acheter.
+const top = availableSoundbarsByScore().slice(0, 3);
 
 const latestPosts = (await getCollection('blog', (p) => !p.data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())

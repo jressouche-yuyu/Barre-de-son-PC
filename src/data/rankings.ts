@@ -17,11 +17,11 @@ export const rankings: Ranking[] = [
     intro:
       'Choisir une barre de son pour PC, c\'est arbitrer entre encombrement sur le bureau, qualité sonore et connectique adaptée à un usage informatique (USB-C, Bluetooth, jack). Ce classement général réunit nos meilleures recommandations toutes catégories confondues, du modèle premium à son 3D au combo abordable, après évaluation sur cinq critères pondérés.',
     items: [
-      { soundbar: 'razer-leviathan-v2-pro', why: 'L\'expérience la plus immersive grâce au son 3D à suivi de tête.' },
       { soundbar: 'creative-sound-blaster-katana-v2', why: 'La plus puissante et polyvalente, connectique exemplaire.' },
       { soundbar: 'razer-leviathan-v2', why: 'Le meilleur équilibre immersion / prix pour un bureau gaming.' },
       { soundbar: 'creative-sound-blaster-katana-v2x', why: 'La polyvalence Katana en plus compact et abordable.' },
-      { soundbar: 'creative-stage-v2', why: 'Le meilleur rapport qualité-prix avec caisson inclus.' },
+      { soundbar: 'razer-leviathan-v2-pro', why: 'Techniquement la plus impressionnante du marché PC, mais Razer ne la distribue plus en France : à ne considérer qu\'en stock résiduel.' },
+      { soundbar: 'creative-stage-v2', why: 'Creative ne la commercialise plus : conservée ici pour la comparaison, plus comme recommandation d\'achat.' },
     ],
     faq: [
       {
@@ -40,7 +40,7 @@ export const rankings: Ranking[] = [
           'La plupart des modèles récents se branchent en USB-C : un seul câble gère l\'audio numérique et, sur les modèles compacts, l\'alimentation. Le Bluetooth dépanne pour le smartphone, et certaines barres ajoutent jack, optique ou HDMI ARC pour la TV et les consoles.',
       },
     ],
-    lastUpdated: '2026-06-13',
+    lastUpdated: '2026-09-07',
   },
   {
     slug: 'meilleures-barres-de-son-pc-gaming',
@@ -53,10 +53,10 @@ export const rankings: Ranking[] = [
     intro:
       'Pour le jeu, on attend d\'une barre de son une spatialisation convaincante (THX Spatial, Super X-Fi), des basses qui retranscrivent les explosions et, souvent, un éclairage RGB raccord avec le setup. Voici notre sélection orientée gaming, des modèles à son 3D aux options RGB compactes.',
     items: [
-      { soundbar: 'razer-leviathan-v2-pro', why: 'Son 3D à suivi de tête : l\'immersion ultime en solo.' },
       { soundbar: 'razer-leviathan-v2', why: 'Caisson efficace, THX Spatial et RGB Chroma 18 zones.' },
       { soundbar: 'creative-sound-blaster-katana-v2', why: 'Puissance tri-amplifiée et Super X-Fi pour le jeu et les films.' },
       { soundbar: 'razer-leviathan-v2-x', why: 'L\'option RGB compacte la plus accessible en USB-C.' },
+      { soundbar: 'razer-leviathan-v2-pro', why: 'Techniquement la plus impressionnante du marché PC, mais Razer ne la distribue plus en France : à ne considérer qu\'en stock résiduel.' },
     ],
     faq: [
       {
@@ -70,7 +70,7 @@ export const rankings: Ranking[] = [
           'Le suivi de tête de la Leviathan V2 Pro améliore réellement le repérage spatial en jeu solo. En multijoueur compétitif, un bon casque reste souvent préférable pour la précision et le chat vocal.',
       },
     ],
-    lastUpdated: '2026-06-13',
+    lastUpdated: '2026-09-07',
   },
   {
     slug: 'meilleures-barres-de-son-pc-pas-cheres',
@@ -83,10 +83,10 @@ export const rankings: Ranking[] = [
     intro:
       'Améliorer le son de son PC ne coûte pas forcément cher. Sous la barre des 120 €, on trouve un combo barre + caisson complet, des barres compactes RGB et des modèles nomades idéaux pour remplacer les haut-parleurs intégrés d\'un moniteur ou d\'un laptop. Voici les meilleurs choix à petit prix.',
     items: [
-      { soundbar: 'creative-stage-v2', why: 'Combo barre + caisson le plus complet sous 120 €.' },
       { soundbar: 'razer-leviathan-v2-x', why: 'Barre gaming compacte USB-C avec RGB, la plus abordable des Razer.' },
       { soundbar: 'creative-sound-blaster-gs3', why: 'Mini-barre RGB avec SuperWide et prise casque, la plus compacte du classement.' },
       { soundbar: 'creative-stage-air-v2', why: 'Barre nomade sur batterie pour les petits espaces.' },
+      { soundbar: 'creative-stage-v2', why: 'Creative ne la commercialise plus : conservée ici pour la comparaison, plus comme recommandation d\'achat.' },
     ],
     faq: [
       {
@@ -100,7 +100,7 @@ export const rankings: Ranking[] = [
           'Oui : face aux haut-parleurs intégrés d\'un moniteur ou d\'un PC portable, un modèle comme la Creative Stage V2 ou la Razer Leviathan V2 X apporte un gain de clarté et de basses immédiatement perceptible.',
       },
     ],
-    lastUpdated: '2026-06-13',
+    lastUpdated: '2026-09-07',
   },
   {
     slug: 'meilleures-barres-de-son-pc-compactes',
@@ -130,7 +130,7 @@ export const rankings: Ranking[] = [
           'Sans caisson, les basses restent limitées mais les radiateurs passifs (Leviathan V2 X, GS3, Stage Air V2) apportent un grave honnête. Pour un vrai impact, optez pour une compacte avec caisson comme la Katana V2X.',
       },
     ],
-    lastUpdated: '2026-06-13',
+    lastUpdated: '2026-09-07',
   },
   {
     slug: 'meilleures-barres-de-son-pc-polyvalentes',
@@ -145,7 +145,7 @@ export const rankings: Ranking[] = [
     items: [
       { soundbar: 'creative-sound-blaster-katana-v2', why: 'Connectique exemplaire et puissance pour tous les usages.' },
       { soundbar: 'creative-sound-blaster-katana-v2x', why: 'La même polyvalence, plus compacte et abordable.' },
-      { soundbar: 'creative-stage-v2', why: 'Connectique complète et HDMI ARC à petit prix.' },
+      { soundbar: 'creative-stage-v2', why: 'Creative ne la commercialise plus : conservée ici pour la comparaison, plus comme recommandation d\'achat.' },
     ],
     faq: [
       {
@@ -159,7 +159,7 @@ export const rankings: Ranking[] = [
           'L\'HDMI ARC relie la barre à une TV compatible et permet de piloter le volume avec la télécommande du téléviseur, tout en faisant transiter le son de la TV vers la barre par un seul câble.',
       },
     ],
-    lastUpdated: '2026-06-13',
+    lastUpdated: '2026-09-07',
   },
   {
     slug: 'meilleures-barres-de-son-pc-sans-fil',
@@ -175,7 +175,7 @@ export const rankings: Ranking[] = [
       { soundbar: 'creative-stage-air-v2', why: 'Bluetooth 5.3 + batterie intégrée : la plus nomade et autonome.' },
       { soundbar: 'creative-sound-blaster-gs3', why: 'Bluetooth 5.4, compacte, avec prise casque pratique.' },
       { soundbar: 'razer-leviathan-v2-x', why: 'Compacte gaming, USB-C + Bluetooth 5.0 et RGB.' },
-      { soundbar: 'edifier-mg300', why: 'Bluetooth 5.3 et micro intégré, idéale visio.' },
+      { soundbar: 'edifier-mg300', why: 'Jamais portée sur le marché français : la série MG n\'y est pas distribuée, elle reste difficile à obtenir en France.' },
     ],
     faq: [
       {
@@ -189,7 +189,7 @@ export const rankings: Ranking[] = [
           'La Creative Stage Air V2 intègre une batterie et le Bluetooth 5.3, ce qui permet un usage réellement sans câble pendant quelques heures — pratique avec un PC portable en déplacement.',
       },
     ],
-    lastUpdated: '2026-06-14',
+    lastUpdated: '2026-09-07',
   },
   {
     slug: 'meilleures-barres-de-son-pc-avec-caisson',
@@ -202,10 +202,10 @@ export const rankings: Ranking[] = [
     intro:
       'Un caisson de basses dédié change tout pour le jeu et le cinéma : explosions, ambiances et bandes-son gagnent en impact physique. Voici nos barres de son PC livrées avec un caisson, de la référence premium au combo abordable.',
     items: [
-      { soundbar: 'razer-leviathan-v2-pro', why: 'Caisson 13,3 cm et son 3D : l\'immersion maximale.' },
       { soundbar: 'creative-sound-blaster-katana-v2', why: 'Caisson généreux et jusqu\'à 250 W crête.' },
       { soundbar: 'razer-leviathan-v2', why: 'Caisson 14 cm efficace, THX Spatial et RGB.' },
-      { soundbar: 'creative-stage-v2', why: 'Combo barre + caisson le plus abordable.' },
+      { soundbar: 'razer-leviathan-v2-pro', why: 'Techniquement la plus impressionnante du marché PC, mais Razer ne la distribue plus en France : à ne considérer qu\'en stock résiduel.' },
+      { soundbar: 'creative-stage-v2', why: 'Creative ne la commercialise plus : conservée ici pour la comparaison, plus comme recommandation d\'achat.' },
     ],
     faq: [
       {
@@ -219,7 +219,7 @@ export const rankings: Ranking[] = [
           'Au sol, près du bureau, sans le coincer dans un meuble fermé ni contre un mur pour éviter les résonances. Son niveau se règle généralement indépendamment de la barre.',
       },
     ],
-    lastUpdated: '2026-06-14',
+    lastUpdated: '2026-09-07',
   },
 ];
 

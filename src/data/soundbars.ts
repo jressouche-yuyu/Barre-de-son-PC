@@ -79,6 +79,7 @@ const saisie: SoundbarInput[] = [
     lastUpdated: '2026-06-13',
     priceCheckedAt: '2026-09-07',
     availability: 'stock-limite',
+    alternative: 'razer-leviathan-v2',
     releaseYear: 2023,
   },
   {
@@ -402,6 +403,7 @@ const saisie: SoundbarInput[] = [
     lastUpdated: '2026-06-13',
     priceCheckedAt: '2026-09-07',
     availability: 'fin-de-commercialisation',
+    alternative: 'creative-stage-360',
     releaseYear: 2021,
   },
   {
@@ -696,6 +698,7 @@ const saisie: SoundbarInput[] = [
     lastUpdated: '2026-06-14',
     priceCheckedAt: '2026-09-07',
     availability: 'stock-limite',
+    alternative: 'creative-sound-blaster-katana-v2x',
     releaseYear: 2024,
   },
   {
@@ -826,9 +829,24 @@ export function getSoundbar(slug: string): Soundbar | undefined {
   return soundbars.find((s) => s.slug === slug);
 }
 
-/** Liste triée par note décroissante. */
+/** Liste triée par note décroissante — TOUS les produits, disponibles ou non. */
 export function soundbarsByScore(): Soundbar[] {
   return [...soundbars].sort((a, b) => b.score - a.score);
+}
+
+/**
+ * Liste triée par note décroissante, limitée aux produits encore achetables.
+ *
+ * À utiliser partout où le site RECOMMANDE (top de la page d'accueil, sélection
+ * du mois, blocs de sélection d'un guide). Mettre en avant un produit
+ * introuvable envoie le trafic le plus qualifié du site vers un cul-de-sac : la
+ * meilleure note ne sert à rien si personne ne peut acheter le produit.
+ *
+ * Les listes de COMPARAISON (comparateur, index /barres-de-son/) gardent
+ * `soundbarsByScore()` : y voir un modèle retiré est une information utile.
+ */
+export function availableSoundbarsByScore(): Soundbar[] {
+  return soundbarsByScore().filter((sb) => sb.availability === 'disponible');
 }
 
 /*

@@ -127,6 +127,30 @@ const relatedGuides = ['comment-choisir-barre-de-son-pc', 'comment-installer-bar
   .map((s) => getGuide(s))
   .filter((g): g is NonNullable<typeof g> => Boolean(g));
 
+// Alternative éditoriale à proposer quand ce produit n'est plus disponible.
+// On ne supprime JAMAIS la page d'un modèle retiré du marché : elle garde son
+// référencement acquis, et sert à rediriger l'intention du lecteur.
+const alternative = sb.availability !== 'disponible' && sb.alternative
+  ? soundbars.find((s) => s.slug === sb.alternative)
+  : undefined;
+
+// Encart affiché quand le produit n'est plus un achat recommandable. Le type
+// `Availability` compte trois valeurs, et « disponible » n'a pas d'encart :
+// d'où le `Partial<Record<…>>`, qui rend l'absence de clé explicite.
+const NOTICES: Partial<Record<typeof sb.availability, { titre: string; corps: string }>> = {
+  'stock-limite': {
+    titre: 'Modèle difficile à trouver',
+    corps:
+      "Ce modèle n'était plus distribué par les canaux français habituels au dernier relevé. Il peut rester du stock chez certains revendeurs, à un tarif qui ne reflétera pas forcément sa gamme d'origine.",
+  },
+  'fin-de-commercialisation': {
+    titre: 'Modèle en fin de commercialisation',
+    corps:
+      "Le constructeur ne commercialise plus ce modèle. Nous conservons cette fiche parce que l'information reste utile — caractéristiques, notes, comparaisons — mais ce produit n'est plus un achat recommandable en neuf.",
+  },
+};
+const availabilityNotice = NOTICES[sb.availability];
+
 const jsonLd = [
   breadcrumbSchema(crumbs),
   productReviewSchema(sb),
@@ -178,6 +202,21 @@ const jsonLd = [
 
       <div class="product-info">
         <h1>{sb.name}</h1>
+        {
+          availabilityNotice && (
+            <Callout title={availabilityNotice.titre} icon="⚠">
+              <p>{availabilityNotice.corps}</p>
+              {alternative && (
+                <p>
+                  Alternative encore disponible dans notre catalogue :{' '}
+                  <a href={url(`/barres-de-son/${alternative.slug}`)}>{alternative.name}</a>. Ce
+                  n'est pas un successeur annoncé par le constructeur, mais notre équivalent le
+                  plus proche.
+                </p>
+              )}
+            </Callout>
+          )
+        }
         <p class="lead">{sb.verdict}</p>
         <p class="badge badge-accent">🎯 Idéal pour : {sb.bestFor}</p>
 

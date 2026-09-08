@@ -1,5 +1,36 @@
 [
   {
+    "id": "2026-09",
+    "label": "Septembre 2026",
+    "publishedAt": "2026-09-07",
+    "status": "nouveautes",
+    "headline": "Deux sorties de sélection ce mois-ci : la Razer Leviathan V2 Pro n'est plus distribuée en France et la Creative Stage V2 est en fin de commercialisation. Aucune entrée.",
+    "intro": "Nous avons revérifié les treize fiches du catalogue à la source — fiches constructeur sur plusieurs locales, revendeurs français, prix relevés. Deux modèles quittent la sélection, et ce sont deux de nos trois recommandations de juin. La Razer Leviathan V2 Pro a disparu du catalogue français de Razer : la page de gamme Leviathan ne propose plus que les V2 et V2 X, et les revendeurs qui la référençaient affichent « n'est plus en vente ». Razer ne l'a pas déclarée officiellement en fin de vie — sa fiche américaine reste en ligne, en rupture — mais elle n'est plus achetable en France, donc elle n'est plus recommandable ici. La Creative Stage V2, elle, est bien en fin de commercialisation. Aucune nouveauté n'entre en remplacement : le marché de la barre de son PC n'a rien sorti cet été. Nos fiches restent en ligne, avec leur statut affiché.",
+    "picks": [
+      {
+        "soundbar": "creative-sound-blaster-katana-v2",
+        "note": "Devient notre première recommandation : la meilleure note du catalogue parmi les modèles encore distribués, et la connectique la plus complète."
+      },
+      {
+        "soundbar": "razer-leviathan-v2",
+        "note": "L'alternative gaming la plus sûre depuis le retrait de la V2 Pro : caisson dédié, THX Spatial, et toujours au catalogue Razer France."
+      },
+      {
+        "soundbar": "creative-sound-blaster-katana-v2x",
+        "note": "Corrigée ce mois-ci : elle embarque bien deux micros à formation de faisceau, ce que nous indiquions à tort comme absent. C'est la seule du catalogue à couvrir la visio sans casque."
+      },
+      {
+        "soundbar": "razer-leviathan-v2-x",
+        "note": "Reprend la tête des modèles à petit budget, la Stage V2 quittant la sélection."
+      }
+    ],
+    "newReleases": [],
+    "upcoming": [
+      "Aucune sortie confirmée pour octobre 2026 à ce jour.",
+      "Creative et Razer sont historiquement actifs en fin d'année : période à surveiller."
+    ]
+  },
+  {
     "id": "2026-06",
     "label": "Juin 2026",
     "publishedAt": "2026-06-02",
@@ -7,11 +38,22 @@
     "headline": "Aucune nouveauté majeure ce mois-ci : nos références restent les mêmes, le marché PC est stable.",
     "intro": "Pour le lancement de cette rubrique, le marché des barres de son PC est stable : pas de sortie marquante en juin. Nos valeurs sûres conservent leur place. À surveiller toutefois du côté de Creative et Razer, historiquement actifs en fin d'année.",
     "picks": [
-      { "soundbar": "razer-leviathan-v2-pro", "note": "Toujours la référence immersion, sans concurrente directe sur le son 3D." },
-      { "soundbar": "creative-sound-blaster-katana-v2", "note": "Le meilleur équilibre puissance/connectique du moment." },
-      { "soundbar": "creative-stage-v2", "note": "Notre meilleur rapport qualité-prix, stock et tarif stables." }
+      {
+        "soundbar": "razer-leviathan-v2-pro",
+        "note": "Toujours la référence immersion, sans concurrente directe sur le son 3D."
+      },
+      {
+        "soundbar": "creative-sound-blaster-katana-v2",
+        "note": "Le meilleur équilibre puissance/connectique du moment."
+      },
+      {
+        "soundbar": "creative-stage-v2",
+        "note": "Notre meilleur rapport qualité-prix, stock et tarif stables."
+      }
     ],
     "newReleases": [],
-    "upcoming": ["Aucune sortie confirmée pour juillet 2026 à ce jour."]
+    "upcoming": [
+      "Aucune sortie confirmée pour juillet 2026 à ce jour."
+    ]
   }
 ]

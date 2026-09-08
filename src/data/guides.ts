@@ -174,8 +174,8 @@ export const guides: Guide[] = [
     picksHeading: 'Nos recommandations pour le télétravail',
     picks: [
       {
-        soundbar: 'creative-stage-v2',
-        why: 'Le mode Clear Dialog renforce les voix en réunion, avec une connectique complète.',
+        soundbar: 'creative-sound-blaster-katana-v2x',
+        why: 'Deux micros à formation de faisceau intégrés à la barre : la seule du catalogue à couvrir la visio sans casque.',
       },
       {
         soundbar: 'creative-sound-blaster-gs3',

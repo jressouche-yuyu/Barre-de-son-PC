@@ -119,6 +119,18 @@ export interface Soundbar {
   priceCheckedAt: string;
   /** État commercial constaté au dernier relevé. */
   availability: Availability;
+  /**
+   * Slug d'une alternative encore disponible, à proposer quand ce produit ne
+   * l'est plus.
+   *
+   * ⚠ C'est une alternative ÉDITORIALE, choisie par nous dans notre catalogue —
+   * pas un successeur annoncé par le constructeur. La nuance compte : affirmer
+   * « X remplace Y » sans que la marque l'ait dit serait une fausse preuve.
+   *
+   * Sert le garde-fou « ne jamais supprimer la page d'un modèle retiré » : la
+   * page reste, garde son référencement, et redirige l'intention du lecteur.
+   */
+  alternative?: string;
   /** Année de sortie du produit. */
   releaseYear: number;
 }
