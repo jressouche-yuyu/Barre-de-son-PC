@@ -2,18 +2,18 @@
 title: "5 réglages Windows pour améliorer le son de votre barre de son"
 description: "Sortie par défaut, fréquence d'échantillonnage, améliorations audio, spatialisation, volume par application : 5 réglages Windows pour tirer le meilleur de votre barre de son."
 publishedAt: 2026-06-10
-updatedAt: 2026-06-14
+updatedAt: 2026-09-10
 tags: ["windows", "réglages", "tutoriel"]
 readingMinutes: 6
 cover: /images/blog/5-reglages-windows-ameliorer-son-barre.webp
 coverAlt: Curseurs et boutons d'égaliseur lumineux au-dessus d'une barre de son
 ---
 
-Une bonne barre de son mal configurée ne donne pas sa pleine mesure. Voici cinq réglages Windows simples pour gagner en clarté et en confort, sans logiciel tiers.
+Une bonne barre de son mal configurée ne donne pas sa pleine mesure. Avant d'ajuster Windows, assurez-vous d'avoir choisi un modèle adapté à votre usage — [les critères de choix](/guides/comment-choisir-barre-de-son-pc/) vous y aident. Voici ensuite cinq réglages simples pour gagner en clarté et en confort, sans logiciel tiers.
 
 ## 1. Définir la barre comme sortie par défaut
 
-Le plus évident, et pourtant souvent oublié après un branchement USB. Clic droit sur l'icône de volume → **Paramètres de son** → choisissez votre barre comme **périphérique de sortie**. Windows redirige alors tout l'audio vers elle.
+Le plus évident, et pourtant souvent oublié après un branchement USB. Si vous venez de connecter votre barre pour la première fois, [l'installation pas à pas](/guides/comment-installer-barre-de-son-pc/) détaille ce premier réglage en contexte. Clic droit sur l'icône de volume → **Paramètres de son** → choisissez votre barre comme **périphérique de sortie**. Windows redirige alors tout l'audio vers elle.
 
 ## 2. Vérifier la fréquence d'échantillonnage
 
@@ -33,4 +33,4 @@ Le **mélangeur de volume** (clic droit sur l'icône son → *Ouvrir le mélange
 
 ---
 
-Ces réglages prennent cinq minutes et valent largement le détour. Pour aller plus loin, chaque fiche produit de notre site détaille l'installation et les réglages spécifiques au modèle.
+Ces réglages prennent cinq minutes et valent largement le détour. Pour aller plus loin, [notre classement des meilleures barres de son PC](/classements/meilleures-barres-de-son-pc/) référence les modèles dont chaque fiche détaille l'installation et les réglages spécifiques.
