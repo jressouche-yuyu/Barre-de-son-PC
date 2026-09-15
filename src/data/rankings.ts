@@ -173,9 +173,9 @@ export const rankings: Ranking[] = [
     intro:
       'Le sans-fil ne remplace pas l\'USB pour le jeu (latence), mais le Bluetooth est idéal en appoint : garder le PC branché et diffuser ponctuellement depuis un smartphone, ou opter pour un modèle nomade sur batterie. Voici nos barres de son PC les plus pratiques en Bluetooth.',
     items: [
-      { soundbar: 'creative-stage-air-v2', why: 'Bluetooth 5.3 + batterie intégrée : la plus nomade et autonome.' },
+      { soundbar: 'razer-leviathan-v2-x', why: 'La mieux notée du classement sans fil : compacte gaming, USB-C et RGB.' },
       { soundbar: 'creative-sound-blaster-gs3', why: 'Bluetooth 5.4, compacte, avec prise casque pratique.' },
-      { soundbar: 'razer-leviathan-v2-x', why: 'Compacte gaming, USB-C + Bluetooth 5.0 et RGB.' },
+      { soundbar: 'creative-stage-air-v2', why: 'Bluetooth 5.3 + batterie intégrée : la plus nomade et autonome.' },
       { soundbar: 'edifier-mg300', why: 'Jamais portée sur le marché français : la série MG n\'y est pas distribuée, elle reste difficile à obtenir en France.' },
     ],
     faq: [
@@ -190,7 +190,7 @@ export const rankings: Ranking[] = [
           'La Creative Stage Air V2 intègre une batterie et le Bluetooth 5.3, ce qui permet un usage réellement sans câble pendant quelques heures — pratique avec un PC portable en déplacement.',
       },
     ],
-    lastUpdated: '2026-09-07',
+    lastUpdated: '2026-09-15',
   },
   {
     slug: 'meilleures-barres-de-son-pc-avec-caisson',
