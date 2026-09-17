@@ -2,7 +2,7 @@
 title: "Barre de son ou casque pour le télétravail ?"
 description: "Confort, intelligibilité des voix, gêne pour l'entourage : faut-il une barre de son ou un casque pour vos journées en télétravail et vos visios ?"
 publishedAt: 2026-05-28
-updatedAt: 2026-06-14
+updatedAt: 2026-09-17
 tags: ["télétravail", "visio", "conseils"]
 readingMinutes: 5
 cover: /images/blog/barre-de-son-ou-casque-teletravail.webp
@@ -32,4 +32,4 @@ Pour la visio, gardez en tête deux points :
 - **Bureau personnel, journées longues, polyvalence** → barre de son, idéalement avec micro intégré pour les appels d'appoint.
 - **Le meilleur des deux** → une barre pour le quotidien + un casque léger pour les visios importantes.
 
-Vous trouverez nos modèles adaptés au télétravail dans nos comparatifs et notre guide dédié à la visio.
+Vous trouverez nos modèles adaptés au télétravail dans [notre classement des meilleures barres de son PC](/classements/meilleures-barres-de-son-pc/), en sélectionnant parmi [les modèles compacts](/classements/meilleures-barres-de-son-pc-compactes/) ceux qui intègrent un micro — et [notre guide dédié à la visio](/guides/barre-de-son-pc-teletravail-visio/) détaille les points à surveiller pour la qualité d'appel.
