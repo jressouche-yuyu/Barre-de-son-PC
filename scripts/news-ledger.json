@@ -44,6 +44,17 @@
       "origin": "manuel",
       "sourceUrls": [],
       "topic": "connectique, conseils, technique"
+    },
+    {
+      "slug": "codecs-bluetooth-pc-sbc-aptx-ldac",
+      "title": "SBC, aptX, LDAC : les codecs Bluetooth d'une barre de son PC",
+      "date": "2026-09-22",
+      "origin": "auto",
+      "sourceUrls": [
+        "https://learn.microsoft.com/en-us/answers/questions/5560825/bluetooth-codecs-supported-in-windows-11",
+        "https://www.makeuseof.com/i-added-hi-res-audio-windows-11-my-music-finally-sounds-right/"
+      ],
+      "topic": "connectique, bluetooth, technique"
     }
   ]
 }
