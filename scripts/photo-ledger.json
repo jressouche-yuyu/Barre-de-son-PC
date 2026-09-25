@@ -5,5 +5,12 @@
     "coverAlt": "Gros plan sur une main atteignant un haut-parleur sans fil sur un bureau à côté d'un ordinateur portable.",
     "theme": "barre de son bureau connexion bluetooth sans fil",
     "assignedAt": "2026-09-22"
+  },
+  "post:windows-11-bug-audio-usb-barre-de-son": {
+    "stage": 1,
+    "image": "/images/blog/windows-11-bug-audio-usb-barre-de-son.webp",
+    "coverAlt": "Paire de câbles USB Samsung noirs soigneusement disposés sur une surface jaune vif.",
+    "theme": "barre de son bureau câble USB écran PC",
+    "assignedAt": "2026-09-25"
   }
 }
