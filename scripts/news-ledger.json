@@ -55,6 +55,18 @@
         "https://www.makeuseof.com/i-added-hi-res-audio-windows-11-my-music-finally-sounds-right/"
       ],
       "topic": "connectique, bluetooth, technique"
+    },
+    {
+      "slug": "windows-11-bug-audio-usb-barre-de-son",
+      "title": "Mise à jour Windows 11 septembre : pourquoi votre barre de son USB ne fonctionne plus",
+      "date": "2026-09-25",
+      "origin": "auto",
+      "sourceUrls": [
+        "https://www.windowslatest.com/2026/09/13/microsoft-confirms-windows-11s-update-kills-audio-on-some-pcs-and-the-bugs-keep-piling-up/",
+        "https://www.bleepingcomputer.com/news/microsoft/microsoft-september-updates-break-audio-on-some-windows-pcs/",
+        "https://www.wintips.org/windows-11-kb5124008-causes-no-sound-or-usb-audio-code-10-how-to-fix/"
+      ],
+      "topic": "windows, tutoriel, technique"
     }
   ]
 }
