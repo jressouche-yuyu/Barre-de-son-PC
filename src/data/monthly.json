@@ -1,5 +1,24 @@
 [
   {
+    "id": "2026-10",
+    "label": "Octobre 2026",
+    "publishedAt": "2026-10-01",
+    "status": "stable",
+    "headline": "Marché inchangé en octobre : la sélection de septembre reste en place, les treize fiches ont été revérifiées à la source.",
+    "intro": "Les treize fiches du catalogue ont été revérifiées à la source ce mois-ci — fiches constructeur sur plusieurs locales, pages revendeurs français, gammes de prix. Aucune nouveauté n'entre dans la sélection et aucun modèle ne la quitte : la situation est identique à septembre. La Creative Sound Blaster Katana V2 reste notre première recommandation avec la meilleure note du catalogue parmi les modèles distribués ; la Razer Leviathan V2 tient sa place en alternative gaming, la Katana V2X demeure le choix pour les setups de visioconférence grâce à ses deux micros à formation de faisceau. La Razer Leviathan V2 Pro reste en stock résiduel sans distribution active en France, et la Creative Stage V2 est toujours en fin de commercialisation — leurs fiches restent en ligne avec leur statut affiché. Côté horizon : aucune sortie n'a été confirmée pour novembre à ce jour, mais Creative et Razer sont historiquement actifs en fin d'année, période à surveiller.",
+    "picks": [
+      { "soundbar": "creative-sound-blaster-katana-v2", "note": "Meilleure note du catalogue parmi les modèles distribués et connectique la plus complète : USB-C, jack, optique, HDMI ARC et Bluetooth réunis sur un seul boîtier." },
+      { "soundbar": "razer-leviathan-v2", "note": "Caisson dédié, THX Spatial Audio et Chroma RGB sur 18 zones : la meilleure option gaming encore distribuée par Razer France." },
+      { "soundbar": "creative-sound-blaster-katana-v2x", "note": "Deux micros à formation de faisceau pour la visioconférence, Super X-Fi et caisson compact : la seule du catalogue taillée pour les réunions sans casque." },
+      { "soundbar": "razer-leviathan-v2-x", "note": "Un seul câble USB-C assure alimentation et audio, 40 cm de large, RGB 14 zones : le choix sans compromis pour un setup compact ou un ordinateur portable." }
+    ],
+    "newReleases": [],
+    "upcoming": [
+      "Aucune sortie confirmée pour novembre 2026 à ce jour.",
+      "Creative et Razer sont historiquement actifs en fin d'année : la période d'octobre à décembre est à surveiller."
+    ]
+  },
+  {
     "id": "2026-09",
     "label": "Septembre 2026",
     "publishedAt": "2026-09-07",
