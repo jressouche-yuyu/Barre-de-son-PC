@@ -2,7 +2,7 @@
 title: "Le son spatial sur PC : THX Spatial vs Super X-Fi"
 description: "THX Spatial Audio chez Razer, Super X-Fi chez Creative : on explique ce que valent ces technologies de son spatial sur PC et quand elles font la différence."
 publishedAt: 2026-06-14
-updatedAt: 2026-06-14
+updatedAt: 2026-10-01
 tags: ["son spatial", "gaming", "technique"]
 readingMinutes: 6
 cover: /images/blog/son-spatial-pc-thx-super-x-fi.webp
@@ -17,7 +17,7 @@ Le son spatial cherche à recréer une scène sonore en trois dimensions à part
 
 ## THX Spatial Audio (Razer)
 
-Le THX Spatial Audio équipe les barres Razer Leviathan (V2, V2 Pro) et leur logiciel Synapse. Il élargit la scène et améliore le repérage directionnel, particulièrement utile en jeu solo. La Leviathan V2 Pro pousse le concept plus loin avec un **suivi de tête** par caméra infrarouge qui recentre la bulle sonore sur le joueur.
+Le THX Spatial Audio équipe les barres Razer Leviathan (V2, V2 Pro) et leur logiciel Synapse. Il élargit la scène et améliore le repérage directionnel, particulièrement utile en jeu solo. La Leviathan V2 Pro pousse le concept plus loin avec un **suivi de tête** par caméra infrarouge qui recentre la bulle sonore sur le joueur. Si le gaming est votre usage principal, [le classement gaming](/classements/meilleures-barres-de-son-pc-gaming/) détaille les modèles taillés pour cet usage.
 
 ## Super X-Fi (Creative)
 
@@ -31,4 +31,4 @@ Les deux améliorent réellement l'immersion en jeu et au cinéma, mais restent 
 - **Écoute au casque sur la barre** → Super X-Fi (Creative), bluffant une fois calibré.
 - **Musique** → désactivez le spatial : le stéréo pur reste plus fidèle.
 
-Dans tous les cas, le son spatial est un bonus, pas le critère n°1 : la qualité des haut-parleurs et la présence d'un caisson pèsent davantage sur le rendu global.
+Dans tous les cas, le son spatial est un bonus, pas le critère n°1 : la qualité des haut-parleurs et [la présence d'un caisson de basses](/classements/meilleures-barres-de-son-pc-avec-caisson/) pèsent davantage sur le rendu global. Pour trouver le modèle adapté à votre bureau, [notre classement des meilleures barres de son PC](/classements/meilleures-barres-de-son-pc/) liste les options avec et sans son spatial, et [les critères de choix](/guides/comment-choisir-barre-de-son-pc/) vous aident à prioriser ce qui compte vraiment.
