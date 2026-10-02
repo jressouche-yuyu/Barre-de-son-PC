@@ -12,5 +12,12 @@
     "coverAlt": "Paire de câbles USB Samsung noirs soigneusement disposés sur une surface jaune vif.",
     "theme": "barre de son bureau câble USB écran PC",
     "assignedAt": "2026-09-25"
+  },
+  "post:sonos-beam-ultra-barre-de-son-pc": {
+    "stage": 1,
+    "image": "/images/blog/sonos-beam-ultra-barre-de-son-pc.webp",
+    "coverAlt": "Salon minimaliste élégant avec un téléviseur à écran plat fixé au mur et une console en bois.",
+    "theme": "barre de son bureau écran salon connectique",
+    "assignedAt": "2026-10-02"
   }
 }
