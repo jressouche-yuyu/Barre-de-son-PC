@@ -19,5 +19,12 @@
     "coverAlt": "Salon minimaliste élégant avec un téléviseur à écran plat fixé au mur et une console en bois.",
     "theme": "barre de son bureau écran salon connectique",
     "assignedAt": "2026-10-02"
+  },
+  "post:dolby-atmos-pc-bureau": {
+    "stage": 1,
+    "image": "/images/blog/dolby-atmos-pc-bureau.webp",
+    "coverAlt": "Bureau à domicile élégant avec ordinateur, haut-parleur et récepteur audio pour un travail de design créatif.",
+    "theme": "barre de son écran bureau Dolby audio",
+    "assignedAt": "2026-10-13"
   }
 }

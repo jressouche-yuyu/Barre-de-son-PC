@@ -78,6 +78,17 @@
         "https://www.soundguys.com/product/sonos-beam-ultra/"
       ],
       "topic": "connectique, conseils, technique"
+    },
+    {
+      "slug": "dolby-atmos-pc-bureau",
+      "title": "Dolby Atmos sur PC : réalité, limites et ce qui change à un bureau",
+      "date": "2026-10-13",
+      "origin": "auto",
+      "sourceUrls": [
+        "https://www.dolby.com/technologies/dolby-atmos/",
+        "https://windowsreport.com/?p=1481068"
+      ],
+      "topic": "son spatial, technique, connectique"
     }
   ]
 }
