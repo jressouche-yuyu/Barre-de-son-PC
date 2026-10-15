@@ -28,7 +28,7 @@ export const rankings: Ranking[] = [
       {
         question: `Quelle est la meilleure barre de son pour PC en ${annee()} ?`,
         answer:
-          'Pour l\'immersion gaming, la Razer Leviathan V2 Pro arrive en tête grâce à son audio 3D à suivi de tête. Pour la polyvalence et la connectique (PC, console, TV), la Creative Sound Blaster Katana V2 est notre référence. À budget contenu, la Razer Leviathan V2 et la Creative Stage V2 offrent le meilleur compromis.',
+          'Pour la polyvalence et la connectique (PC, console, TV), la Creative Sound Blaster Katana V2 est notre référence avec la meilleure note du catalogue parmi les modèles disponibles. Pour l\'immersion gaming, la Razer Leviathan V2 offre caisson dédié, THX Spatial Audio et Chroma RGB sur 18 zones. La Creative Sound Blaster Katana V2X est notre recommandation polyvalente à budget maîtrisé, avec la même connectique en plus compact.',
       },
       {
         question: 'Faut-il un caisson de basses pour une barre de son PC ?',
@@ -41,7 +41,7 @@ export const rankings: Ranking[] = [
           'La plupart des modèles récents se branchent en USB-C : un seul câble gère l\'audio numérique et, sur les modèles compacts, l\'alimentation. Le Bluetooth dépanne pour le smartphone, et certaines barres ajoutent jack, optique ou HDMI ARC pour la TV et les consoles.',
       },
     ],
-    lastUpdated: '2026-09-07',
+    lastUpdated: '2026-10-15',
   },
   {
     slug: 'meilleures-barres-de-son-pc-gaming',
@@ -93,7 +93,7 @@ export const rankings: Ranking[] = [
       {
         question: 'Quelle barre de son PC à moins de 120 € choisir ?',
         answer:
-          'La Creative Stage V2 est notre meilleur choix global sous 120 € : elle inclut un caisson de basses et une connectique complète (USB-C, HDMI ARC, optique, jack, Bluetooth). Pour le gaming compact, la Razer Leviathan V2 X est l\'alternative idéale.',
+          'La Razer Leviathan V2 X est notre meilleur choix gaming compact dans ce segment : un seul câble USB-C, RGB sur 14 zones et seulement 40 cm de large. La Creative Sound Blaster GS3 ajoute une prise casque pratique et SuperWide pour la musique et la bureautique. La Creative Stage Air V2 se distingue par sa batterie intégrée pour les petits espaces.',
       },
       {
         question: 'Une barre de son à petit prix en vaut-elle la peine ?',
@@ -101,7 +101,7 @@ export const rankings: Ranking[] = [
           'Oui : face aux haut-parleurs intégrés d\'un moniteur ou d\'un PC portable, un modèle comme la Creative Stage V2 ou la Razer Leviathan V2 X apporte un gain de clarté et de basses immédiatement perceptible.',
       },
     ],
-    lastUpdated: '2026-09-07',
+    lastUpdated: '2026-10-15',
   },
   {
     slug: 'meilleures-barres-de-son-pc-compactes',
@@ -117,7 +117,7 @@ export const rankings: Ranking[] = [
       { soundbar: 'razer-leviathan-v2-x', why: 'La plus aboutie : USB-C unique, RGB et 40 cm seulement.' },
       { soundbar: 'creative-sound-blaster-gs3', why: 'SuperWide, prise casque en façade et RGB en 41 cm.' },
       { soundbar: 'creative-stage-air-v2', why: 'La plus petite, avec batterie intégrée pour la mobilité.' },
-      { soundbar: 'creative-sound-blaster-katana-v2x', why: 'Pour qui veut un caisson sans sacrifier la compacité.' },
+      { soundbar: 'creative-sound-blaster-katana-v2x', why: 'La mieux notée du classement — mais avec son caisson, elle reste parmi les plus encombrantes. Rang dicté par l\'encombrement, pas par la note.' },
     ],
     faq: [
       {
@@ -131,7 +131,7 @@ export const rankings: Ranking[] = [
           'Sans caisson, les basses restent limitées mais les radiateurs passifs (Leviathan V2 X, GS3, Stage Air V2) apportent un grave honnête. Pour un vrai impact, optez pour une compacte avec caisson comme la Katana V2X.',
       },
     ],
-    lastUpdated: '2026-09-07',
+    lastUpdated: '2026-10-15',
   },
   {
     slug: 'meilleures-barres-de-son-pc-polyvalentes',
