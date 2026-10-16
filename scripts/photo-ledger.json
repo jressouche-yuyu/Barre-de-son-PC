@@ -26,5 +26,12 @@
     "coverAlt": "Bureau à domicile élégant avec ordinateur, haut-parleur et récepteur audio pour un travail de design créatif.",
     "theme": "barre de son écran bureau Dolby audio",
     "assignedAt": "2026-10-13"
+  },
+  "post:barre-de-son-gaming-micro-integre": {
+    "stage": 1,
+    "image": "/images/blog/barre-de-son-gaming-micro-integre.webp",
+    "coverAlt": "Un bureau moderne faiblement éclairé avec un ordinateur présentant deux moniteurs, un clavier et des accessoires de jeu.",
+    "theme": "barre de son gaming micro bureau jeu",
+    "assignedAt": "2026-10-16"
   }
 }
