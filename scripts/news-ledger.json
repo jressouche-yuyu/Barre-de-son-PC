@@ -101,6 +101,18 @@
         "https://www.homecrux.com/edifier-hecate-g2000-bar-desktop-soundbar/424177/"
       ],
       "topic": "gaming, technique, conseils"
+    },
+    {
+      "slug": "windows-11-patch-octobre-dolby-ac3-barre-de-son",
+      "title": "KB5127648 : Windows 11 corrige les crashs audio Dolby AC-3 — ce qui change pour une barre de son",
+      "date": "2026-10-23",
+      "origin": "auto",
+      "sourceUrls": [
+        "https://support.microsoft.com/en-us/servicing/os/windows-11/2026/10/kb5127648-windows-11-24h2-25h2-26h2-security-update",
+        "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-game-app-crashes-caused-by-windows-kb5124010-preview-update/",
+        "https://www.pcworld.com/article/3265051/windows-11s-audio-bug-thats-crashing-games-and-apps-is-now-fixed.html"
+      ],
+      "topic": "windows, connectique, technique"
     }
   ]
 }

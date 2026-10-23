@@ -33,5 +33,12 @@
     "coverAlt": "Un bureau moderne faiblement éclairé avec un ordinateur présentant deux moniteurs, un clavier et des accessoires de jeu.",
     "theme": "barre de son gaming micro bureau jeu",
     "assignedAt": "2026-10-16"
+  },
+  "post:windows-11-patch-octobre-dolby-ac3-barre-de-son": {
+    "stage": 1,
+    "image": "/images/blog/windows-11-patch-octobre-dolby-ac3-barre-de-son.webp",
+    "coverAlt": "Vue détaillée des ports de l'ordinateur portable, y compris HDMI, USB et Ethernet, montrant les options de connectivité.",
+    "theme": "barre de son bureau câble HDMI optique Windows",
+    "assignedAt": "2026-10-23"
   }
 }
