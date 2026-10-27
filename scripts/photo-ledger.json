@@ -40,5 +40,12 @@
     "coverAlt": "Vue détaillée des ports de l'ordinateur portable, y compris HDMI, USB et Ethernet, montrant les options de connectivité.",
     "theme": "barre de son bureau câble HDMI optique Windows",
     "assignedAt": "2026-10-23"
+  },
+  "post:wiim-bar-bureau-pc": {
+    "stage": 1,
+    "image": "/images/blog/wiim-bar-bureau-pc.webp",
+    "coverAlt": "Salon minimaliste élégant avec un téléviseur à écran plat fixé au mur et une console en bois.",
+    "theme": "barre de son salon bureau écran nuit",
+    "assignedAt": "2026-10-27"
   }
 }
