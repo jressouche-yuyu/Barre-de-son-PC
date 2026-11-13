@@ -47,5 +47,12 @@
     "coverAlt": "Salon minimaliste élégant avec un téléviseur à écran plat fixé au mur et une console en bois.",
     "theme": "barre de son salon bureau écran nuit",
     "assignedAt": "2026-10-27"
+  },
+  "post:yamaha-b200a-bureau-pc": {
+    "stage": 1,
+    "image": "/images/blog/yamaha-b200a-bureau-pc.webp",
+    "coverAlt": "Un bureau vintage confortable avec des haut-parleurs, des plantes et du matériel audio, créant une ambiance chaleureuse.",
+    "theme": "barre de son compacte bureau moniteur yamaha",
+    "assignedAt": "2026-11-13"
   }
 }
