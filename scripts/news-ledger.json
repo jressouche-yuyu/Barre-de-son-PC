@@ -137,6 +137,18 @@
         "https://www.intothehifi.com/blogs/news-desk/yamahas-249-95-b200a-is-its-most-compact-dolby-atmos-soundbar-and-a-sealed-one"
       ],
       "topic": "connectique, technique, conseils"
+    },
+    {
+      "slug": "windows-11-kb5132061-correctif-usb-audio",
+      "title": "KB5132061 : Windows 11 corrige enfin les pannes audio USB — ce que ça change pour une barre de son PC",
+      "date": "2026-11-17",
+      "origin": "auto",
+      "sourceUrls": [
+        "https://support.microsoft.com/en-us/servicing/os/windows-11/2026/11/kb5132061-windows-11-24h2-25h2-26h2-security-update",
+        "https://bleepingcomputer.com/news/microsoft/microsoft-fixes-usb-audio-issues-caused-by-september-security-updates",
+        "https://windowsreport.com/windows-11-kb5132061-november-2026-patch-finally-fixes-usb-audio-issues/"
+      ],
+      "topic": "windows, tutoriel, technique"
     }
   ]
 }

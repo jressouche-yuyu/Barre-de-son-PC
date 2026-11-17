@@ -54,5 +54,12 @@
     "coverAlt": "Un bureau vintage confortable avec des haut-parleurs, des plantes et du matériel audio, créant une ambiance chaleureuse.",
     "theme": "barre de son compacte bureau moniteur yamaha",
     "assignedAt": "2026-11-13"
+  },
+  "post:windows-11-kb5132061-correctif-usb-audio": {
+    "stage": 1,
+    "image": "/images/blog/windows-11-kb5132061-correctif-usb-audio.webp",
+    "coverAlt": "Câble USB-C de haute qualité avec connecteur présenté sur un élégant fond en marbre pour les passionnés de technologie.",
+    "theme": "câble USB barre de son bureau Windows",
+    "assignedAt": "2026-11-17"
   }
 }
